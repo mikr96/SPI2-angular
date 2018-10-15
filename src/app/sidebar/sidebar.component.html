@@ -1,0 +1,24 @@
+<nav>
+  <ul>
+    <li>
+      <a routerLink="" [class.activated]="currentUrl == '/'">
+        <i class="material-icons">navigation</i>
+      </a>
+    </li>
+    <li>
+      <a routerLink="posts" [class.activated]="currentUrl == '/posts'">
+        <i class="material-icons">message</i>
+      </a>
+    </li>
+    <li>
+      <a routerLink="data" [class.activated]="currentUrl == '/data'">
+        <i class="material-icons">date_range</i>
+      </a>
+    </li>
+    <li>
+      <a routerLink="table" [class.activated]="currentUrl == '/table'">
+        <i class="material-icons">table_chart</i>
+      </a>
+    </li>
+  </ul>
+</nav>
