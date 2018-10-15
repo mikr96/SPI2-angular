@@ -4,13 +4,16 @@ import { LayoutComponent } from './layout/layout.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { IndoorMapComponent } from '../pages/indoor-map/indoor-map.component';
+import { OutdoorMapComponent } from '../pages/outdoor-map/outdoor-map.component';
+import { ViewTableComponent } from '../pages/view-table/view-table.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
-  declarations: [LayoutComponent, HeaderComponent, FooterComponent],
+  declarations: [LayoutComponent, HeaderComponent, FooterComponent, IndoorMapComponent, OutdoorMapComponent, ViewTableComponent],
   exports: [LayoutComponent]
 })
 export class UiModule { }

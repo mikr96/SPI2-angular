@@ -7,23 +7,13 @@
       </a>
     </li>
     <li>
-      <a routerLink="" [class.activated]="currentUrl == '/'">
-        <i class="material-icons">date_range</i>
+      <a routerLink="outdoorMap" [class.activated]="currentUrl == '../pages/outdoor-map/outdoorMap'">
+        <i class="material-icons">map</i>
       </a>
     </li>
     <li>
-      <a routerLink="posts" [class.activated]="currentUrl == '/posts'">
-        <i class="material-icons">message</i>
-      </a>
-    </li>
-    <li>
-      <a routerLink="table" [class.activated]="currentUrl == '/table'">
+      <a routerLink="viewTable" [class.activated]="currentUrl == '../pages/view-table/viewTable'">
         <i class="material-icons">table_chart</i>
-      </a>
-    </li>
-    <li>
-      <a routerLink="maps" [class.activated]="currentUrl == '/maps'">
-        <i class="material-icons">navigation</i>
       </a>
     </li>
   </ul>

@@ -7,21 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { UiModule } from './ui/ui.module';
-import { DataComponent } from './data/data.component';
-import { MapsComponent } from './maps/maps.component';
-import { PostsComponent } from './posts/posts.component';
-import { DetailsComponent } from './details/details.component';
-import { TableComponent } from './table/table.component';
-
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PostsComponent,
-    DetailsComponent,
-    DataComponent,
-    TableComponent,
-    MapsComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -34,4 +25,5 @@ import { TableComponent } from './table/table.component';
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

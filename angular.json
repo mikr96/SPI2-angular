@@ -27,12 +27,14 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/libs/leaflet/dist/leaflet.css",
               "src/styles.scss"
             ],
             "scripts": [
               "src/assets/libs/jquery/dist/jquery.min.js",
               "src/assets/libs/bootstrap-sass/assets/javascripts/bootstrap.min.js",
-              "src/assets/libs/google-maps/lib/Google.min.js"
+              "src/assets/libs/leaflet/dist/leaflet.js",
+              "src/assets/libs/Leaflet.heat/dist/leaflet-heat.js"
             ]
           },
           "configurations": {

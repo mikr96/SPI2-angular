@@ -1,27 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PostsComponent } from './posts/posts.component';
-import { DetailsComponent } from './details/details.component';
-import { DataComponent } from './data/data.component';
-import { TableComponent } from './table/table.component';
-import { MapsComponent } from './maps/maps.component';
+import { OutdoorMapComponent } from './pages/outdoor-map/outdoor-map.component';
+import { ViewTableComponent } from './pages/view-table/view-table.component';
 
 const routes: Routes = [
+  // {
+  //   path: 'Login',
+  //   component: LoginComponent
+  // },
   {
-    path: '',
-    component: DataComponent
+    path: 'outdoorMap',
+    component: OutdoorMapComponent
   },
   {
-    path: 'posts',
-    component: PostsComponent
-  },
-  {
-    path: 'table',
-    component: TableComponent
-  },
-  {
-    path: 'maps',
-    component: MapsComponent
+    path: 'viewTable',
+    component: ViewTableComponent
   }
 ];
 
