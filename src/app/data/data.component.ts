@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {DataService } from '../data.service';
-import { Observable } from 'rxjs';
+import { DataService } from '../data.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-data',
@@ -9,14 +10,19 @@ import { Observable } from 'rxjs';
 })
 export class DataComponent implements OnInit {
 
-  data$ : Object
+  sensorList: any = [];
 
-  constructor(private data: DataService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.data.getData().subscribe(
-      data => this.data$ = data
-    )
+
+    this.dataService.getSensorList().subscribe(res => {
+      this.sensorList = res.data;
+      console.log(res);
+    }, err => {
+      console.log(err);
+    });
+
   }
 
 }

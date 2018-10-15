@@ -1,0 +1,17 @@
+#content{
+ 
+  width: 100%;
+  @media (min-width: 768px){
+    width: calc(100% - 70px);
+    margin-left: 70px;
+    height: 100vh;
+  }
+  transition: margin-left .5s;
+
+  &.draw-in{
+    width: calc(100% - 300px);
+    margin-left: 300px;
+    transition: margin-left .5s;
+  }
+
+}

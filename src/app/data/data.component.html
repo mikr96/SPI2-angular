@@ -1,7 +1,19 @@
-<h1>Data</h1>
-
-<ul [@listStagger] = "data$">
-  <li *ngFor="let data of data$">
-    <a routerLink=""> {{ data.data.id }}</a>
-  </li>
-</ul>
+<section>
+  <h2>Sensor Data</h2>
+  <div class="table-responsive">
+    <table id="sensorList">
+      <thead>
+        <tr>
+          <th>Latitude (deg)</th>
+          <th>Longitude (deg)</th>
+          <th>Temperature (degC)</th>
+        </tr>
+        <tr *ngFor="let user of sensorList">
+          <td>{{user.latitude}}</td>
+          <td>{{user.longitude}}</td>
+          <td>{{user.temperature}}</td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</section>

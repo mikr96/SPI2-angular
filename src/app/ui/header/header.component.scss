@@ -1,0 +1,35 @@
+.side-menu {
+  background: #2D2E2E;
+  height: 100%;
+  position: fixed;
+  width: 70px;
+  transition-timing-function: ease-in-out;
+  transition: width 0.5s;
+
+  &.draw-in{
+    width: 300px;
+    transition-timing-function: ease-in-out;
+    transition: width 0.5s;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+
+      a {
+          color: #fff;
+          padding: 20px;
+          display: block;
+          text-align: center;
+      }
+
+      .activated {
+          background-color: #00a8ff;
+      }
+    }
+  }
+    
+}
