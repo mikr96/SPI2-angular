@@ -30,8 +30,9 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "src/assets/libs/jquery/dist/jquery.min.js",
+              "src/assets/libs/bootstrap-sass/assets/javascripts/bootstrap.min.js",
+              "src/assets/libs/google-maps/lib/Google.min.js"
             ]
           },
           "configurations": {

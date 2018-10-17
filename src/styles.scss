@@ -1,5 +1,8 @@
-@import "~bootstrap/dist/css/bootstrap.css";
-@import "~font-awesome/css/font-awesome.css";
+$fa-font-path: "../src/assets/libs/font-awesome/fonts/" !default;
+$icon-font-path: "../src/assets/libs/bootstrap-sass/assets/fonts/bootstrap/" !default;
+
+@import "../src/assets/libs/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../src/assets/libs/font-awesome/scss/font-awesome.scss";
 
 body {
     margin: 0;
@@ -10,4 +13,4 @@ body {
 section{
     height: 100%;
     padding: 20px;
-}
+}   
