@@ -2,14 +2,10 @@
   "name": "angular6",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "start": "node server.js"
   },
-  "private": true,
+  "main": "server.js",
+  "license": "ISC",
   "dependencies": {
     "@angular/animations": "^6.1.10",
     "@angular/common": "^6.1.0",
@@ -22,8 +18,10 @@
     "@angular/router": "^6.1.0",
     "@types/jquery": "^3.3.17",
     "core-js": "^2.5.4",
-    "ol": "^5.2.0",
-    "openlayers": "^4.6.5",
+    "cors": "^2.8.4",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "morgan": "^1.7.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

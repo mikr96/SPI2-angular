@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/data.service';
 
 @Component({
   selector: 'app-view-table',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewTableComponent implements OnInit {
 
-  constructor() {  }
+  dummy: any;
+
+
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+
+    this.dataService.dummyTest().subscribe(res => {
+      this.dummy = res;
+      console.log(res);
+    });
+
+
+
   }
 
 }

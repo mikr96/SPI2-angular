@@ -16,4 +16,10 @@ export class DataService {
     return this.http.get('http://10.44.11.80:1880/spi2/sensor_list')
       .pipe(map((response: Response) => response));
   }
+
+  dummyTest(): any {
+    return this.http.get('http://jsonplaceholder.typicode.com/todos/1')
+      .pipe(map((response: Response) => response));
+  }
+
 }

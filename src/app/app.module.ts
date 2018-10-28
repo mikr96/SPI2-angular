@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 
 import { UiModule } from './ui/ui.module';
 import { LoginComponent } from './pages/login/login.component';
+import { InterceptorModule } from './interceptor.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { LoginComponent } from './pages/login/login.component';
     HttpModule,
     AppRoutingModule,
     HttpClientModule,
+    InterceptorModule,
     BrowserAnimationsModule,
     UiModule
   ],
