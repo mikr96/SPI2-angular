@@ -5,26 +5,30 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { UiModule } from './ui/ui.module';
-import { LoginComponent } from './pages/login/login.component';
+import { LoginModule } from './login/login.module';
+import { PagesModule } from './pages/pages.module';
+import { NeedAuthGuard } from './auth.guard';
+import { APP_BASE_HREF } from '@angular/common';
 import { InterceptorModule } from './interceptor.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     AppRoutingModule,
     HttpClientModule,
-    InterceptorModule,
     BrowserAnimationsModule,
-    UiModule
+    LoginModule,
+    PagesModule,
+    InterceptorModule
   ],
-  providers: [],
+  providers: [
+    NeedAuthGuard,
+    { provide: APP_BASE_HREF, useValue: '/' }
+  ],
   bootstrap: [AppComponent]
 })
 

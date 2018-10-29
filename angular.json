@@ -28,13 +28,15 @@
             ],
             "styles": [
               "src/assets/libs/leaflet/dist/leaflet.css",
+              "src/assets/libs/datatables/media/css/jquery.dataTables.min.css",
               "src/styles.scss"
             ],
             "scripts": [
-              "src/assets/libs/jquery/dist/jquery.min.js",
+              "src/assets/plugins/js/jquery.min.js",
               "src/assets/libs/bootstrap-sass/assets/javascripts/bootstrap.min.js",
               "src/assets/libs/leaflet/dist/leaflet.js",
-              "src/assets/libs/Leaflet.heat/dist/leaflet-heat.js"
+              "src/assets/plugins/js/leaflet-heat.js",
+              "src/assets/libs/datatables/media/js/jquery.dataTables.min.js"
             ]
           },
           "configurations": {

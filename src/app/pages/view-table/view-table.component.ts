@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from 'src/app/data.service';
 
 @Component({
@@ -9,17 +10,13 @@ import { DataService } from 'src/app/data.service';
 export class ViewTableComponent implements OnInit {
 
   dummy: any;
+  currentUrl: string;
 
-
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private router: Router) {
+    router.events.subscribe((_: NavigationEnd) => this.currentUrl = _.url)
+  }
 
   ngOnInit() {
-
-    this.dataService.dummyTest().subscribe(res => {
-      this.dummy = res;
-      console.log(res);
-    });
-
 
 
   }

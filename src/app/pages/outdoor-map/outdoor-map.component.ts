@@ -15,8 +15,11 @@ export class OutdoorMapComponent implements OnInit {
   sensorList: any = [];
   addressPoints: any = [];
   map: any;
-  status: boolean = false;
+  statusHeatmap: boolean = false;
+  statusSensorList: boolean = false;
   heat: any;
+  sensorpath: any = [];
+  path: any = [];
 
   constructor(private dataService: DataService) { }
 
@@ -31,15 +34,14 @@ export class OutdoorMapComponent implements OnInit {
 
   genHeatmap() {
 
-    this.status = !this.status;
-
-    console.log(this.status);
+    this.statusHeatmap = !this.statusHeatmap;
+    console.log(this.statusHeatmap);
 
     var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    if (this.status) {
+    if (this.statusHeatmap) {
 
       this.dataService.getSensorList().subscribe(res => {
         this.sensorList = res.data;
@@ -65,5 +67,50 @@ export class OutdoorMapComponent implements OnInit {
     }
 
   }
+
+  genPath() {
+    this.statusSensorList = !this.statusSensorList;
+
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+
+    if (this.statusSensorList) {
+      this.dataService.getSensorList().subscribe(
+        res => {
+
+          this.sensorList = res.data;
+          var e = this.sensorList;
+
+          this.path = e.map(function (x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return [pf(x.latitude), pf(x.longitude)];
+          });
+
+          var greenIcon = L.icon({
+            iconUrl: 'src/assets/images/sensor_icon.png',
+
+            iconSize: [15, 15], // size of the icon
+            iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+          });
+
+          for (let i = 0; i < this.path.length; i++) {
+            this.sensorpath[i] = L.marker(this.path[i], { icon: greenIcon }).addTo(this.map);
+          }
+
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      //this.map.removeLayer(this.path);
+      for (let i = 0; i < this.path.length; i++) {
+        this.map.removeLayer(this.sensorpath[i]);
+      }
+    }
+  }
+
 
 }

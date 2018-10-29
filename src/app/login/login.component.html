@@ -1,0 +1,19 @@
+<div id="fullBg">
+  <div class="container">
+    <form class="form-signin">
+      <img src="assets/images/spi_ms_title3.png" alt="">
+      <input type="text" class="form-control text-center" name="username" placeholder="Staff ID" required="" autofocus=""
+        [(ngModel)]="credentials.username" />
+      <input type="password" class="form-control text-center" name="password" placeholder="Password" required=""
+        [(ngModel)]="credentials.password" />
+      <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="tryLoginOip()">Log in</button>
+    </form>
+    <p class="text-center sign-up">Log in using your <strong>GEMS</strong> account</p>
+    <div class="err-msg"></div>
+  </div>
+</div>
+
+<div class="footer navbar-fixed-bottom text-center text-white pd-20">
+  <span>© 2018 Smart Passive Infrastructure 2.0 by <a href="http://www.tmrnd.com.my">TM R&D Sdn.
+      Bhd.</a></span>
+</div>
