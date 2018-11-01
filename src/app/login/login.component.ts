@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   credentials: any = {};
   out: any;
 
-  constructor(private api: DataService, private customer: CustomerService, private router: Router) {
+  constructor(private dataservice: DataService, private customer: CustomerService, private router: Router) {
   }
 
   ngOnInit() {
@@ -27,24 +27,35 @@ export class LoginComponent implements OnInit {
 
   tryLoginOip() {
 
-    this.api.loginOip(this.credentials)
-      .subscribe(res => {
+    console.log(JSON.stringify(this.credentials));
 
-        this.out = res;
-        console.log(this.out.result);
+    if (JSON.stringify(this.credentials) == '{"username":"admin","password":"123"}') {
+      // Bypass for development purposes
+      console.log('correct');
+      this.customer.setToken('token');
+      this.router.navigateByUrl('');
 
-        if (this.out.result == 'AUTH_SUCCESS') {
+    } else {
 
-          this.customer.setToken('token');
-          this.router.navigateByUrl('');
+      this.dataservice.loginOip(this.credentials)
+        .subscribe(res => {
 
-        } else {
-          //alert('error');
-          $('.err-msg').html('');
-          $('.err-msg').append('<p class="text-center" style="color: red;">Authentication Failed</p>');
-        }
+          this.out = res;
+          console.log(this.out.result);
 
-      });
+          if (this.out.result == 'AUTH_SUCCESS') {
+
+            this.customer.setToken('token');
+            this.router.navigateByUrl('');
+
+          } else {
+            //alert('error');
+            $('.err-msg').html('');
+            $('.err-msg').append('<p class="text-center" style="color: red;">Authentication Failed</p>');
+          }
+
+        });
+    }
   }
 
 }
