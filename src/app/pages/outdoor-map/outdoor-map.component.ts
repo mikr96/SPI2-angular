@@ -89,7 +89,7 @@ export class OutdoorMapComponent implements OnInit {
           });
 
           var greenIcon = L.icon({
-            iconUrl: 'src/assets/images/sensor_icon.png',
+            iconUrl: '../assets/images/sensor_icon.png',
 
             iconSize: [15, 15], // size of the icon
             iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
