@@ -1,0 +1,68 @@
+$fa-font-path: "../src/assets/libs/font-awesome/fonts/" !default;
+$icon-font-path: "../src/assets/libs/bootstrap-sass/assets/fonts/bootstrap/" !default;
+
+@import "../src/assets/libs/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../src/assets/libs/font-awesome/scss/font-awesome.scss";
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  height: 100vh;
+}
+
+.main-section{
+ 
+  width: 100%;
+  @media (min-width: 767px){
+    width: calc(100% - 70px);
+    margin-left: 70px;
+    padding: 35px 20px;
+    height: 100vh;
+  }
+  transition: margin-left .5s;
+
+  &.draw-in{
+    width: calc(100% - 300px);
+    margin-left: 300px;
+    transition: margin-left .5s;
+  }
+
+}
+
+// Text color
+
+.text{
+  &-white{
+    color: #fff;
+  }
+}
+
+// Padding and Margins
+
+.pd{
+  &-20{
+    padding: 20px;
+  }
+}
+
+// Media Query
+
+@media(max-width: 767px){
+  [class*="col-sm"] {
+    margin-bottom: 20px;
+  }
+}
+
+// Animation
+
+@keyframes delay-2s {
+  0% { opacity: 0; }
+  99% { opacity: 0; }
+  100% {  opacity: 1; }
+}
+
+@keyframes delay-invert-2s {
+  0% { opacity: 1; }
+  99% { opacity: 1; }
+  100% {  opacity: 0; }
+}

@@ -1,0 +1,78 @@
+<!-- Desktop Navbar (Side)-->
+<nav class="side-menu hidden-xs" role="navigation">
+  <ul>
+    <li>
+      <!-- Collapse button -->
+      <a id="menu-toggle" href="javascript:void(0);">
+        <i class="fa fa-bars fa-1x"></i>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/dashboard']" title="Dashboard">
+        <span class="hidden">Dashboard</span>
+        <i class="material-icons">map</i>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/indoor-map']" title="Indoor Map">
+        <span class="hidden">Indoor Map</span>
+        <i class="material-icons">local_library</i>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/path-management']" title="Path Management">
+        <span class="hidden">Path Management</span>
+        <i class="material-icons">table_chart</i>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/alert-management']" title="Alert Management">
+        <span class="hidden">Alert Management</span>
+        <i class="material-icons">notification_important</i>
+      </a>
+    </li>
+    <li style="margin-top: 250px;">
+      <a (click)="logout()">
+        <span class="hidden">Logout</span>
+        <i class="material-icons">power_settings_new</i>
+      </a>
+    </li>
+  </ul>
+  <div class="footer text-white pd-20 text-center">
+    <span>© 2018 Smart Passive Infrastructure 2.0 by <a href="http://www.tmrnd.com.my">TM R&D Sdn.
+        Bhd.</a></span>
+  </div>
+</nav>
+
+<!-- Mobile Navbar (Top)-->
+<nav class="navbar navbar-default visible-xs" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-primary-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a [routerLink]="['/dashboard']" class="mob-Logo"><img id="logo-navbar-middle" src="src/assets/images/spi_ms_title3.png"
+          width="180" alt="Logo here"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-primary-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <a [routerLink]="['/dashboard']">Dashboard</a>
+        </li>
+        <li>
+          <a [routerLink]="['/indoor-map']">Indoor Map</a>
+        </li>
+        <li>
+          <a [routerLink]="['/path-management']">Path Management</a>
+        </li>
+        <li>
+          <a [routerLink]="['/alert-management']" title="Alert Management">Alert Management</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
