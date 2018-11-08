@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Response } from "@angular/http";
 import { PagesService } from "../pages.service";
-import { map } from "rxjs/operators";
+import * as Plotly from "plotly.js/dist/plotly.js";
 
 @Component({
   selector: "app-indoor-map",
@@ -10,13 +8,11 @@ import { map } from "rxjs/operators";
   styleUrls: ["./indoor-map.component.scss"]
 })
 export class IndoorMapComponent implements OnInit {
-  //csvUrl = "src/assets/data.json";
   graph: any;
   HEATMAP_MAX: number = 40;
   HEATMAP_MIN: number = 12;
   x: any = [];
   y: any = [];
-  // value: any = [];
   cood: any = [];
   temp$: Object;
   tempData: any = [];
@@ -28,12 +24,7 @@ export class IndoorMapComponent implements OnInit {
   constructor(private data: PagesService) { }
 
   ngOnInit() {
-    // this.temp$ = this.data.getTemp();
-    // console.log(this.temp$);
-    // this.temp = this.showData();
-    // console.log(this.temp);
-    this.data.getTemp().then(data => {
-      //console.log(data.data);
+    this.data.getTemp("src/assets/data.json").then(data => {
       this.tempData = data.data;
       var e = this.tempData;
       this.temp$ = e.map(function (x) {
@@ -42,115 +33,98 @@ export class IndoorMapComponent implements OnInit {
       });
 
       this.dataTransfer(this.temp$);
-      console.log(this.temp);
-      console.log(this.coorx);
-      console.log(this.coory);
-      //debugger;
-      // this.graph = {
-      //   data: [
-      //     {
-      //       z: [[8, 3, 24.930437]],
-      //       type: "heatmap",
-      //       colorscale: "Jet",
-      //       zsmooth: "best",
-      //       zmin: this.HEATMAP_MIN,
-      //       zmax: this.HEATMAP_MAX,
-      //       visible: true,
-      //       opacity: 0.9
-      //     }
-      //   ]
-      // };
 
-      var colorscaleValue = [
-        [0, '#3D9970'],
-        [1, '#001f3f']
-      ];
+      var cs = [[0, 'rgba(255,255,255,0)'], [0.125, 'rgb(0,60,170)'],
+      [0.375, 'rgb(5,255,255)'], [0.625, 'rgb(255,255,0)'],
+      [0.875, 'rgb(250,0,0)'], [1, 'rgb(128,0,0)']];
 
-      this.graph = {
-        data: [{
-          x: this.coorx,
-          y: this.coory,
-          z: this.temp,
-          zmin: this.HEATMAP_MIN,
-          zmax: this.HEATMAP_MAX,
-          type: 'heatmap',
-          colorscale: "Jet",
-          showscale: true,
-          opacity: 0.9
+      var data: any = {
+        x: this.coorx,
+        y: this.coory,
+        z: this.temp,
+        zmin: this.HEATMAP_MIN,
+        zmax: this.HEATMAP_MAX,
+        zsmooth: "fast",
+        type: "heatmap",
+        colorscale: cs,
+        showscale: true,
+        opacity: 0.9
+      };
+
+      var layout: any = {
+        height: 800,
+        images: [
+          {
+            source: "https://image.ibb.co/hSTLrV/server-room-layout-spi2.jpg",
+            sizing: "stretch",
+            layer: "below",
+            xref: "x",
+            yref: "y",
+            x: -1.5,
+            y: 13.3,
+            sizex: 13.5,
+            sizey: 14
+          }
+        ],
+        xaxis: {
+          range: [-1.5, 12],
+          visible: false
+        },
+        yaxis: {
+          range: [-1.5, 13.5],
+          visible: false,
+          scaleanchor: "x",
+          scaleratio: 1
+        },
+        titlefont: { size: 35 },
+        margin: { l: 10, r: 10, b: 10 },
+        sliders: [{
+          pad: { t: 30 },
+          steps: [{
+            label: 'January',
+            method: 'restyle',
+            args: ['line.color', 'red']
+          }, {
+            label: 'February',
+            method: 'restyle',
+            args: ['line.color', 'green']
+          }, {
+            label: 'March',
+            method: 'restyle',
+            args: ['line.color', 'blue']
+          }]
         }]
-      }
+      };
+      Plotly.newPlot('map', [data], layout);
 
     });
-
-    // this.data.getTemp().then(data => {
-    //   //console.log(data.data);
-    //   this.tempData = data.data;
-    //   var e = this.tempData;
-    //   this.temp = e.map(function(x) {
-    //     const pf = n => Number(parseFloat(n).toFixed(6));
-    //     return pf(x.temp);
-    //   });
-    //   this.dataTransfer(this.temp);
-    // });
   }
 
-  // showData(): any {
-  //   this.data.getTemp().then(data => {
-  //     //console.log(data.data);
-  //     this.tempData = data.data;
-  //     var e = this.tempData;
-  //     this.temp = e.map(function(x) {
-  //       const pf = n => Number(parseFloat(n).toFixed(6));
-  //       return pf(x.temp);
-  //     });
-  //     this.dataTransfer(this.temp);
-  //     return this.temp;
-  //   });
-  // }
-
   dataTransfer(value) {
-
-
     var z = 0;
     for (this.x = 0; this.x < 12; this.x++) {
       for (this.y = 0; this.y < 12; this.y++) {
-        //console.log(value[1]);
-        //this.test = [this.x, this.y, value[z]];
-        // this.temp[z] = this.test;
-        //if (z < 142) {
-        //debugger;
-
+        // debugger;
+        // if (
+        //   (this.x == 0 && this.y == 9) ||
+        //   (this.x == 0 && this.y == 10) ||
+        //   (this.x == 0 && this.y == 11) ||
+        //   (this.x == 1 && this.y == 9) ||
+        //   (this.x == 1 && this.y == 10) ||
+        //   (this.x == 1 && this.y == 11) ||
+        //   (this.x == 2 && this.y == 9) ||
+        //   (this.x == 2 && this.y == 10) ||
+        //   (this.x == 2 && this.y == 11)
+        // ) {
+        //   z++;
+        // } else {
         this.coorx.push(this.x);
         this.coory.push(this.y);
         this.temp.push(value[z]);
         z++;
-        //}
-        // this.temp.map(function(){
-
-
-
-        // });
-        //console.log(value[0]);
+        // }
       }
     }
     return this.temp, this.coorx, this.coory;
   }
-
-  // showGraph(e) {
-  //   console.log(e);
-  //   this.graph = {
-  //     data: [
-  //       {
-  //         z: [[e]],
-  //         type: "heatmap",
-  //         colorscale: "Jet",
-  //         zsmooth: "best",
-  //         zmin: this.HEATMAP_MIN,
-  //         zmax: this.HEATMAP_MAX,
-  //         visible: true,
-  //         opacity: 0.9
-  //       }
-  //     ]
-  //   };
-  // }
 }

@@ -13,9 +13,9 @@ export class PagesService {
   data$: Object;
   //indoor data
 
-  getTemp(): any {
+  getTemp(url: string): any {
     return new Promise((resolve, reject) => {
-      this.http.get(this.csvUrl).subscribe(
+      this.http.get(url).subscribe(
         data => {
           resolve(data);
         },
