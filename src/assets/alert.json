@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "deviceType": "Water Level",
+    "mapType": "Outdoor",
+    "name": "TMRND",
+    "lat": "2.907732",
+    "lng": "101.32635",
+    "result": "L2",
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 1,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "Path A",
+    "lat": "2.907732",
+    "lng": "101.32635",
+    "result": "35°",
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 1,
+    "deviceType": "Sensor",
+    "mapType": "Indoor",
+    "name": "asdfg",
+    "lat": "0",
+    "lng": "5",
+    "result": "30.1963°",
+    "lastUpdate": "30/10/2018 16:40"
+  }
+]

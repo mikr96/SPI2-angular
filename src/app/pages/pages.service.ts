@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Http, Headers, Response } from "@angular/http";
-import { map, filter, switchMap, catchError, observeOn } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { catchError, map, tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
 })
 export class PagesService {
   csvUrl = "src/assets/data.json";
+  alertUrl = "src/assets/alert.json";
+  pathUrl = "src/assets/path.json";
   constructor(private http: HttpClient) {}
   data$: Object;
   //indoor data
@@ -24,37 +24,64 @@ export class PagesService {
         }
       );
     });
-    // this.data$ = this.http
-    //   .get(this.csvUrl)
-    //   .pipe(map((response: any) => response.json()));
-    // console.log(this.data$);
   }
+
+  getAlert(): any {
+    return this.http.get(this.alertUrl);
+  }
+
+  getPath(): any {
+    return this.http.get(this.pathUrl);
+  }
+
+  // createDb() {
+  //   const paths = [
+  //     {
+  //       id: 2,
+  //       lat: "2.931179",
+  //       lng: "101.659292",
+  //       temp: "35.7",
+  //       lastUpdate: "15/10/2018 04:08:53 PM",
+  //       pic: "Mira"
+  //     },
+  //     {
+  //       id: 3,
+  //       lat: "2.931179",
+  //       lng: "101.659292",
+  //       temp: "35.7",
+  //       lastUpdate: "15/10/2018 04:08:53 PM",
+  //       pic: "Fara"
+  //     },
+  //     {
+  //       id: 4,
+  //       lat: "2.931179",
+  //       lng: "101.659292",
+  //       temp: "35.7",
+  //       lastUpdate: "15/10/2018 04:08:53 PM",
+  //       pic: "Syahirah"
+  //     },
+  //     {
+  //       id: 5,
+  //       lat: "2.931179",
+  //       lng: "101.659292",
+  //       temp: "35.7",
+  //       lastUpdate: "15/10/2018 04:08:53 PM",
+  //       pic: "Amy"
+  //     },
+  //     {
+  //       id: 6,
+  //       lat: "2.931179",
+  //       lng: "101.659292",
+  //       temp: "35.7",
+  //       lastUpdate: "15/10/2018 04:08:53 PM",
+  //       pic: "Aliya"
+  //     }
+  //   ];
+
+  //   return { paths };
+  // }
+
+  // genId(paths: Path[]): number {
+  //   return paths.length > 0 ? Math.max(...paths.map(path => path.id)) + 1 : 11;
+  // }
 }
-// .pipe(map(res => res.json()))
-// .subscribe(data => (data = data))
-
-// {
-//   return new Promise(resolve => {
-//     this.http
-//       .get("src/assets/demo-Results.csv", { responseType: "text" })
-//       .subscribe((data: any) => {
-//         resolve(data);
-//         console.log("data dah amik");
-//       });
-//   });
-// }
-
-// {
-//   this.http
-//     .get("src/assets/demo-Results.csv", { responseType: "text" })
-//     .subscribe(
-//       data => {
-//         console.log(data);
-//         console.log("data dah amik");
-//       },
-//       err => {
-//         console.log("tak maik");
-//         console.log(err);
-//       }
-//     );
-// }

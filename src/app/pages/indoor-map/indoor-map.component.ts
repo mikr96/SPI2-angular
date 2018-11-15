@@ -105,19 +105,7 @@ export class IndoorMapComponent implements OnInit {
     for (this.x = 0; this.x < 12; this.x++) {
       for (this.y = 0; this.y < 12; this.y++) {
         // debugger;
-        // if (
-        //   (this.x == 0 && this.y == 9) ||
-        //   (this.x == 0 && this.y == 10) ||
-        //   (this.x == 0 && this.y == 11) ||
-        //   (this.x == 1 && this.y == 9) ||
-        //   (this.x == 1 && this.y == 10) ||
-        //   (this.x == 1 && this.y == 11) ||
-        //   (this.x == 2 && this.y == 9) ||
-        //   (this.x == 2 && this.y == 10) ||
-        //   (this.x == 2 && this.y == 11)
-        // ) {
-        //   z++;
-        // } else {
+
         this.coorx.push(this.x);
         this.coory.push(this.y);
         this.temp.push(value[z]);
