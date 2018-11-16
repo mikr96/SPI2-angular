@@ -16,29 +16,40 @@ export class OutdoorMapComponent implements OnInit {
   statusHeatmap: boolean = false;
   statusSensorList: boolean = false;
   heat: any;
+  featureGroup: any;
   sensorpath: any = [];
   path: any = [];
   lat: any = [];
+  lng: any = [];
   firstpolyline: any;
+  markers: any = [];
+  coordinates: any = [];
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
     this.map = L.map("map").setView([2.920282, 101.641747], 12);
-    var tiles = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
+    var tiles = L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      {
+        maxZoom: 18,
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
   }
 
   genHeatmap() {
     this.statusHeatmap = !this.statusHeatmap;
     console.log(this.statusHeatmap);
 
-    var tiles = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
+    var tiles = L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png ",
+      {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
 
     if (this.statusHeatmap) {
       this.dataService.getSensorList().subscribe(
@@ -69,10 +80,13 @@ export class OutdoorMapComponent implements OnInit {
   genPath() {
     this.statusSensorList = !this.statusSensorList;
 
-    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
 
     if (this.statusSensorList) {
       this.dataService.getSensorList().subscribe(
@@ -91,13 +105,6 @@ export class OutdoorMapComponent implements OnInit {
           });
 
           //console.log(this.lat);
-
-          var greenIcon = L.icon({
-            iconUrl: "src/assets/images/sensor_icon.png",
-
-            iconSize: [15, 15], // size of the icon
-            iconAnchor: [0, 0] // point of the icon which will correspond to marker's location
-          });
 
           this.firstpolyline = new L.polyline(this.path, {
             color: "red",
@@ -120,12 +127,15 @@ export class OutdoorMapComponent implements OnInit {
   }
 
   genSensor() {
-    this.statusSensorList = !this.statusSensorList;
+     this.statusSensorList = !this.statusSensorList;
 
-    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
 
     if (this.statusSensorList) {
       this.dataService.getSensorList().subscribe(
@@ -133,9 +143,16 @@ export class OutdoorMapComponent implements OnInit {
           this.sensorList = res.data;
           var e = this.sensorList;
 
-          this.path = e.map(function(x) {
-            const pf = n => Number(parseFloat(n).toFixed(6));
-            return [pf(x.latitude), pf(x.longitude)];
+          var greenIcon = L.icon({
+            iconUrl: "src/assets/images/greenIcon.svg",
+            iconSize: [24, 24], // size of the icon
+            iconAnchor: [0, 0] // point of the icon which will correspond to marker's location
+          });
+
+          var redIcon = L.icon({
+            iconUrl: "src/assets/images/redIcon.svg",
+            iconSize: [24, 24], // size of the icon
+            iconAnchor: [0, 0] // point of the icon which will correspond to marker's location
           });
 
           this.lat = e.map(function(x) {
@@ -143,28 +160,37 @@ export class OutdoorMapComponent implements OnInit {
             return pf(x.latitude);
           });
 
-          var greenIcon = L.icon({
-            iconUrl: "src/assets/images/sensor_icon.png",
-
-            iconSize: [15, 15], // size of the icon
-            iconAnchor: [0, 0] // point of the icon which will correspond to marker's location
+          this.lng = e.map(function(x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.longitude);
           });
-          var j = 1;
-          for (let i = 0; i < this.path.length; i++) {
-            this.sensorpath[i] = L.marker(this.path[i], {
-              icon: greenIcon,
-              title: j
-            }).addTo(this.map);
-            j++;
+
+          for (let i = 0; i < this.lat.length; i++) {
+            this.coordinates.push([this.lat[i], this.lng[i]]);
           }
+
+          for (let i = 0; i < this.lat.length; i++) {
+            var marker = L.marker(this.coordinates[i], {
+              icon: greenIcon
+            }).on('mousemove', function(e){
+              e.target.setIcon(redIcon);
+            }).on('mouseout', function(e){
+              e.target.setIcon(greenIcon);
+            });
+            this.markers.push(marker);
+          }
+
+          this.featureGroup = L.featureGroup(this.markers).addTo(this.map);
+          this.map.fitBounds(this.featureGroup.getBounds(), {
+            padding: [50, 50]
+          });
         },
         err => {
           console.log(err);
         }
       );
     } else {
-      for (let i = 0; i < this.path.length; i++)
-        this.map.removeLayer(this.sensorpath[i]);
+      this.map.removeLayer(this.featureGroup);
     }
   }
 }
