@@ -1,8 +1,19 @@
-<div class="col-sm-4">
-  <button id="toggleSensor" (click)="genSensor()" class="btn btn-block btn-primary">SENSORS</button>
-  <button (click)="genHeatmap()" class="btn btn-block btn-primary">HEATMAP</button>
+<div id="overlay">
+  <h3>MAP</h3>
+  <button
+    id="toggleSensor"
+    (click)="genSensor()"
+    class="btn btn-block btn-primary"
+  >
+    SENSORS
+  </button>
+  <button (click)="genHeatmap()" class="btn btn-block btn-primary">
+    HEATMAP
+  </button>
   <button (click)="genPath()" class="btn btn-block btn-primary">PATH</button>
+  <button (click)="genWaterLevel()" class="btn btn-block btn-primary">
+    WATER LEVEL
+  </button>
 </div>
-<div class="col-sm-8">
-  <div id="map"></div>
-</div>
+
+<div id="map"></div>

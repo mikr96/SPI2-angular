@@ -13,9 +13,9 @@ export class PagesService {
   data$: Object;
   //indoor data
 
-  getTemp(url: string): any {
+  getTemp(): any {
     return new Promise((resolve, reject) => {
-      this.http.get(url).subscribe(
+      this.http.get(this.csvUrl).subscribe(
         data => {
           resolve(data);
         },
@@ -34,54 +34,16 @@ export class PagesService {
     return this.http.get(this.pathUrl);
   }
 
-  // createDb() {
-  //   const paths = [
-  //     {
-  //       id: 2,
-  //       lat: "2.931179",
-  //       lng: "101.659292",
-  //       temp: "35.7",
-  //       lastUpdate: "15/10/2018 04:08:53 PM",
-  //       pic: "Mira"
-  //     },
-  //     {
-  //       id: 3,
-  //       lat: "2.931179",
-  //       lng: "101.659292",
-  //       temp: "35.7",
-  //       lastUpdate: "15/10/2018 04:08:53 PM",
-  //       pic: "Fara"
-  //     },
-  //     {
-  //       id: 4,
-  //       lat: "2.931179",
-  //       lng: "101.659292",
-  //       temp: "35.7",
-  //       lastUpdate: "15/10/2018 04:08:53 PM",
-  //       pic: "Syahirah"
-  //     },
-  //     {
-  //       id: 5,
-  //       lat: "2.931179",
-  //       lng: "101.659292",
-  //       temp: "35.7",
-  //       lastUpdate: "15/10/2018 04:08:53 PM",
-  //       pic: "Amy"
-  //     },
-  //     {
-  //       id: 6,
-  //       lat: "2.931179",
-  //       lng: "101.659292",
-  //       temp: "35.7",
-  //       lastUpdate: "15/10/2018 04:08:53 PM",
-  //       pic: "Aliya"
-  //     }
-  //   ];
-
-  //   return { paths };
-  // }
-
-  // genId(paths: Path[]): number {
-  //   return paths.length > 0 ? Math.max(...paths.map(path => path.id)) + 1 : 11;
-  // }
+  getSensorList(): any {
+    return new Promise((resolve, reject) => {
+      this.http.get("src/assets/outdoor.json").subscribe(
+        data => {
+          resolve(data);
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
+  }
 }

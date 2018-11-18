@@ -34,7 +34,7 @@ export class DataService {
       );
   }
 
-  // Heatmap data
+  //Heatmap data
   getSensorList(): any {
     return this.http.get(this.DB_ENDPOINT + "spi2/sensor_list").pipe(
       map((response: Response) => response),
@@ -43,4 +43,14 @@ export class DataService {
       })
     );
   }
+
+  // getSensorList(): any {
+  //   return this.http.get("src/assets/outdoor.json").pipe(
+  //     map((response: Response) => response),
+
+  //     catchError(error => {
+  //       return Observable.throw(error);
+  //     })
+  //   );
+  // }
 }

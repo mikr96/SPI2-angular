@@ -1,4 +1,23 @@
-#map { 
-  height: 100%; 
+// #map {
+//   height: 100%;
+// }
+
+#overlay {
+  position: absolute;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 1);
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  left: auto;
+  box-shadow: 1px 1px 1px grey;
+  min-height: 200px;
+  min-width: 200px;
 }
 
+h3 {
+  margin-top: 7px;
+  margin-bottom: 11px;
+  text-align: center;
+  font-weight: bold;
+}

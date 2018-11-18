@@ -21,22 +21,27 @@ export class IndoorMapComponent implements OnInit {
   coorx: any = [];
   coory: any = [];
 
-  constructor(private data: PagesService) { }
+  constructor(private data: PagesService) {}
 
   ngOnInit() {
-    this.data.getTemp("src/assets/data.json").then(data => {
+    this.data.getTemp().then(data => {
       this.tempData = data.data;
       var e = this.tempData;
-      this.temp$ = e.map(function (x) {
+      this.temp$ = e.map(function(x) {
         const pf = n => Number(parseFloat(n).toFixed(6));
         return pf(x.temp);
       });
 
       this.dataTransfer(this.temp$);
 
-      var cs = [[0, 'rgba(255,255,255,0)'], [0.125, 'rgb(0,60,170)'],
-      [0.375, 'rgb(5,255,255)'], [0.625, 'rgb(255,255,0)'],
-      [0.875, 'rgb(250,0,0)'], [1, 'rgb(128,0,0)']];
+      var cs = [
+        [0, "rgba(255,255,255,0)"],
+        [0.125, "rgb(0,60,170)"],
+        [0.375, "rgb(5,255,255)"],
+        [0.625, "rgb(255,255,0)"],
+        [0.875, "rgb(250,0,0)"],
+        [1, "rgb(128,0,0)"]
+      ];
 
       var data: any = {
         x: this.coorx,
@@ -78,25 +83,30 @@ export class IndoorMapComponent implements OnInit {
         },
         titlefont: { size: 35 },
         margin: { l: 10, r: 10, b: 10 },
-        sliders: [{
-          pad: { t: 30 },
-          steps: [{
-            label: 'January',
-            method: 'restyle',
-            args: ['line.color', 'red']
-          }, {
-            label: 'February',
-            method: 'restyle',
-            args: ['line.color', 'green']
-          }, {
-            label: 'March',
-            method: 'restyle',
-            args: ['line.color', 'blue']
-          }]
-        }]
+        sliders: [
+          {
+            pad: { t: 30 },
+            steps: [
+              {
+                label: "January",
+                method: "restyle",
+                args: ["line.color", "red"]
+              },
+              {
+                label: "February",
+                method: "restyle",
+                args: ["line.color", "green"]
+              },
+              {
+                label: "March",
+                method: "restyle",
+                args: ["line.color", "blue"]
+              }
+            ]
+          }
+        ]
       };
-      Plotly.newPlot('map', [data], layout);
-
+      Plotly.newPlot("map", [data], layout);
     });
   }
 

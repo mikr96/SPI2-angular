@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { DataService } from "src/app/data.service";
 
 declare var $: any;
@@ -28,8 +28,11 @@ export class OutdoorMapComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    this.map = L.map("map").setView([2.920282, 101.641747], 12);
-    var tiles = L.tileLayer(
+    $("#map").height(window.innerHeight);
+    this.map = L.map("map", {
+      zoomControl: false
+    }).setView([2.920282, 101.641747], 12);
+    L.tileLayer(
       "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
       {
         maxZoom: 18,
@@ -127,7 +130,7 @@ export class OutdoorMapComponent implements OnInit {
   }
 
   genSensor() {
-     this.statusSensorList = !this.statusSensorList;
+    this.statusSensorList = !this.statusSensorList;
 
     L.tileLayer(
       "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
@@ -146,15 +149,18 @@ export class OutdoorMapComponent implements OnInit {
           var greenIcon = L.icon({
             iconUrl: "src/assets/images/greenIcon.svg",
             iconSize: [24, 24], // size of the icon
-            iconAnchor: [0, 0] // point of the icon which will correspond to marker's location
+            iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+            popupAnchor: [12, 0]
           });
 
           var redIcon = L.icon({
             iconUrl: "src/assets/images/redIcon.svg",
             iconSize: [24, 24], // size of the icon
-            iconAnchor: [0, 0] // point of the icon which will correspond to marker's location
+            iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+            popupAnchor: [12, 0]
           });
 
+          console.log(e);
           this.lat = e.map(function(x) {
             const pf = n => Number(parseFloat(n).toFixed(6));
             return pf(x.latitude);
@@ -169,14 +175,25 @@ export class OutdoorMapComponent implements OnInit {
             this.coordinates.push([this.lat[i], this.lng[i]]);
           }
 
+          var html = "";
+
           for (let i = 0; i < this.lat.length; i++) {
+            html =
+              "<strong> Latitude:" +
+              this.lat[i] +
+              "</strong><br/><strong> Longitude:" +
+              this.lng[i] +
+              "</strong><br/>";
             var marker = L.marker(this.coordinates[i], {
               icon: greenIcon
-            }).on('mousemove', function(e){
-              e.target.setIcon(redIcon);
-            }).on('mouseout', function(e){
-              e.target.setIcon(greenIcon);
-            });
+            })
+              .on("mousemove", function(e) {
+                e.target.setIcon(redIcon);
+              })
+              .on("mouseout", function(e) {
+                e.target.setIcon(greenIcon);
+              })
+              .bindPopup(html);
             this.markers.push(marker);
           }
 
@@ -191,6 +208,51 @@ export class OutdoorMapComponent implements OnInit {
       );
     } else {
       this.map.removeLayer(this.featureGroup);
+    }
+  }
+
+  genWaterLevel() {
+    this.statusHeatmap = !this.statusHeatmap;
+    console.log(this.statusHeatmap);
+
+    var tiles = L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png ",
+      {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
+
+    if (this.statusHeatmap) {
+      this.dataService.getSensorList().subscribe(
+        res => {
+          this.sensorList = res.data;
+
+          var e = this.sensorList;
+          console.log(e);
+
+          this.addressPoints = e.map(function(x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return [pf(x.latitude), pf(x.longitude), pf(x.temperature / 5)];
+          });
+          console.log(this.addressPoints);
+          this.heat = L.heatLayer(this.addressPoints, {
+            radius: 25,
+            gradient: {
+              "0.0": "rgb(0, 0, 0)",
+              "0.6": "rgb(24, 53, 103)",
+              "0.75": "rgb(46, 100, 158)",
+              "0.9": "rgb(23, 173, 203)",
+              "1.0": "rgb(0, 250, 250)"
+            }
+          }).addTo(this.map);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.map.removeLayer(this.heat);
     }
   }
 }
