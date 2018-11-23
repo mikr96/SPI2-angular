@@ -11,6 +11,7 @@ import { NeedAuthGuard } from "./auth.guard";
 import { APP_BASE_HREF } from "@angular/common";
 import { InterceptorModule } from "./interceptor.module";
 import { PlotlyModule } from "angular-plotly.js";
+import { MatSliderModule } from "@angular/material/slider";
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,8 @@ import { PlotlyModule } from "angular-plotly.js";
     LoginModule,
     PagesModule,
     InterceptorModule,
-    PlotlyModule
+    PlotlyModule,
+    MatSliderModule
   ],
   providers: [NeedAuthGuard, { provide: APP_BASE_HREF, useValue: "/" }],
   bootstrap: [AppComponent]

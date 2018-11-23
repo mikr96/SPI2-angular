@@ -2,8 +2,24 @@
   <h1>Server Room Temperature Dashboard</h1>
   <div style="font-size:20px; text-align:center;width:100%;height:100%;">
     <p>''' Data collected from 19th Oct to 22nd Oct 2018 '''</p>
-
-    <!-- <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot> -->
     <div id="map"></div>
+
+    <mat-slider
+      class="example-margin"
+      [disabled]="disabled"
+      [invert]="invert"
+      [max]="max"
+      [min]="min"
+      [step]="step"
+      [thumbLabel]="thumbLabel"
+      [tickInterval]="tickInterval"
+      [(ngModel)]="value"
+      [vertical]="vertical"
+      (input)="update($event.value)"
+    >
+    </mat-slider>
+    <div>{{ test }}</div>
+
+    <!-- <span>{{ dates[slider.value] }}</span> -->
   </div>
 </div>

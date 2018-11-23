@@ -3,6 +3,7 @@ $icon-font-path: "../src/assets/libs/bootstrap-sass/assets/fonts/bootstrap/" !de
 
 @import "../src/assets/libs/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "../src/assets/libs/font-awesome/scss/font-awesome.scss";
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 body {
   margin: 0;

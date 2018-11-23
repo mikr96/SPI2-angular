@@ -10,11 +10,20 @@ import { PagesRoutingModule } from "./pages-routing.module";
 import { NeedAuthGuard } from "../auth.guard";
 import { AlertComponent } from "./alert/alert.component";
 import { PlotlyModule } from "angular-plotly.js";
+import { MatSliderModule } from "@angular/material/slider";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 const PAGES_COMPONENTS = [PagesComponent];
 
 @NgModule({
-  imports: [CommonModule, PagesRoutingModule, PlotlyModule],
+  imports: [
+    CommonModule,
+    PagesRoutingModule,
+    PlotlyModule,
+    MatSliderModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   declarations: [
     ViewTableComponent,
     OutdoorMapComponent,

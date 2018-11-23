@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { PagesService } from "../pages.service";
+import { DataService } from "src/app/data.service";
 import * as Plotly from "plotly.js/dist/plotly.js";
+import { coerceNumberProperty } from "@angular/cdk/coercion";
+
+declare let $;
 
 @Component({
   selector: "app-indoor-map",
@@ -8,33 +11,54 @@ import * as Plotly from "plotly.js/dist/plotly.js";
   styleUrls: ["./indoor-map.component.scss"]
 })
 export class IndoorMapComponent implements OnInit {
-  graph: any;
   HEATMAP_MAX: number = 40;
   HEATMAP_MIN: number = 12;
-  x: any = [];
-  y: any = [];
-  cood: any = [];
-  temp$: Object;
-  tempData: any = [];
+  coordinates: any = [];
   temp: any = [];
-  test: any = [];
   coorx: any = [];
   coory: any = [];
+  dates: any = [];
+  cs: any;
+  layout: any;
+  kord: any;
+  test: any;
 
-  constructor(private data: PagesService) {}
+  autoTicks = false;
+  disabled = false;
+  invert = false;
+  max: any;
+  min = 0;
+  showTicks = true;
+  step = 1;
+  thumbLabel = false;
+  value = 0;
+  vertical = false;
+
+  get tickInterval(): number | "auto" {
+    return this.showTicks ? (this.autoTicks ? "auto" : this._tickInterval) : 0;
+  }
+  set tickInterval(value) {
+    this._tickInterval = coerceNumberProperty(value);
+  }
+  private _tickInterval = 1;
+
+  constructor(private data: DataService) {}
 
   ngOnInit() {
-    this.data.getTemp().then(data => {
-      this.tempData = data.data;
-      var e = this.tempData;
-      this.temp$ = e.map(function(x) {
-        const pf = n => Number(parseFloat(n).toFixed(6));
-        return pf(x.temp);
-      });
+    this.data.getDataIndoor().subscribe(data => {
+      var size = Object.keys(data).length;
+      this.max = size;
+      this.test = data.data[0].date_updated;
+      data = data.data[0];
+      this.coordinates = data.sensor_list;
 
-      this.dataTransfer(this.temp$);
+      for (let i = 0; i <= 143; i++) {
+        this.coorx.push(this.coordinates[i].x_pos);
+        this.coory.push(this.coordinates[i].y_pos);
+        this.temp.push(this.coordinates[i].temp);
+      }
 
-      var cs = [
+      this.cs = [
         [0, "rgba(255,255,255,0)"],
         [0.125, "rgb(0,60,170)"],
         [0.375, "rgb(5,255,255)"],
@@ -43,7 +67,7 @@ export class IndoorMapComponent implements OnInit {
         [1, "rgb(128,0,0)"]
       ];
 
-      var data: any = {
+      this.kord = {
         x: this.coorx,
         y: this.coory,
         z: this.temp,
@@ -51,12 +75,12 @@ export class IndoorMapComponent implements OnInit {
         zmax: this.HEATMAP_MAX,
         zsmooth: "fast",
         type: "heatmap",
-        colorscale: cs,
+        colorscale: this.cs,
         showscale: true,
         opacity: 0.9
       };
 
-      var layout: any = {
+      this.layout = {
         height: 800,
         images: [
           {
@@ -82,47 +106,41 @@ export class IndoorMapComponent implements OnInit {
           scaleratio: 1
         },
         titlefont: { size: 35 },
-        margin: { l: 10, r: 10, b: 10 },
-        sliders: [
-          {
-            pad: { t: 30 },
-            steps: [
-              {
-                label: "January",
-                method: "restyle",
-                args: ["line.color", "red"]
-              },
-              {
-                label: "February",
-                method: "restyle",
-                args: ["line.color", "green"]
-              },
-              {
-                label: "March",
-                method: "restyle",
-                args: ["line.color", "blue"]
-              }
-            ]
-          }
-        ]
+        margin: { l: 10, r: 10, b: 10 }
       };
-      Plotly.newPlot("map", [data], layout);
+      Plotly.plot("map", [this.kord], this.layout);
     });
   }
 
-  dataTransfer(value) {
-    var z = 0;
-    for (this.x = 0; this.x < 12; this.x++) {
-      for (this.y = 0; this.y < 12; this.y++) {
-        // debugger;
-
-        this.coorx.push(this.x);
-        this.coory.push(this.y);
-        this.temp.push(value[z]);
-        z++;
-        // }
+  update(value) {
+    this.data.getDataIndoor().subscribe(data => {
+      var size = Object.keys(data).length;
+      for (let i = 0; i <= size; i++) {
+        this.dates[i] = data.data[i].date_updated;
       }
-    }
-    return this.temp, this.coorx, this.coory;
+      this.test = this.dates[value];
+
+      data = data.data[value];
+      this.coordinates = data.sensor_list;
+      for (let i = 0; i <= 143; i++) {
+        this.coorx.push(this.coordinates[i].x_pos);
+        this.coory.push(this.coordinates[i].y_pos);
+        this.temp.push(this.coordinates[i].temp);
+      }
+
+      this.kord = {
+        x: this.coorx,
+        y: this.coory,
+        z: this.temp,
+        zmin: this.HEATMAP_MIN,
+        zmax: this.HEATMAP_MAX,
+        zsmooth: "fast",
+        type: "heatmap",
+        colorscale: this.cs,
+        showscale: true,
+        opacity: 0.9
+      };
+      Plotly.redraw("map", [this.kord], [0]);
+    });
   }
 }

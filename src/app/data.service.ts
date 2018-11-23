@@ -44,6 +44,16 @@ export class DataService {
     );
   }
 
+  //Heatmap data
+  getDataIndoor(): any {
+    return this.http.get(this.DB_ENDPOINT + "spi2/sensor_list_indoor_all").pipe(
+      map((response: Response) => response),
+      catchError(error => {
+        return Observable.throw(error);
+      })
+    );
+  }
+
   // getSensorList(): any {
   //   return this.http.get("src/assets/outdoor.json").pipe(
   //     map((response: Response) => response),
