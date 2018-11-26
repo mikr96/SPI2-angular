@@ -21,9 +21,22 @@ export class OutdoorMapComponent implements OnInit {
   path: any = [];
   lat: any = [];
   lng: any = [];
+  temp: any = [];
   firstpolyline: any;
   markers: any = [];
   coordinates: any = [];
+  sensors: any = [];
+
+  autoTicks = false;
+  disabled = false;
+  invert = false;
+  max = 3;
+  min = 0;
+  showTicks = true;
+  step = 1;
+  thumbLabel = false;
+  value = 0;
+  vertical = false;
 
   constructor(private dataService: DataService) {}
 
@@ -208,6 +221,13 @@ export class OutdoorMapComponent implements OnInit {
       );
     } else {
       this.map.removeLayer(this.featureGroup);
+      L.tileLayer(
+        "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png ",
+        {
+          attribution:
+            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }
+      ).addTo(this.map);
     }
   }
 
@@ -253,6 +273,165 @@ export class OutdoorMapComponent implements OnInit {
       );
     } else {
       this.map.removeLayer(this.heat);
+    }
+  }
+
+  genHeatmap1() {
+    document.getElementById("overlay2").style.display = "block";
+    this.statusHeatmap = !this.statusHeatmap;
+    console.log(this.statusHeatmap);
+
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png ",
+      {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
+
+    if (this.statusHeatmap) {
+      this.dataService.getHeatmap1().subscribe(
+        res => {
+          this.sensorList = res.data;
+
+          var e = this.sensorList;
+          console.log(e[0].sensor_list);
+
+          this.lat = e[0].sensor_list.map(function(x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.Latitude);
+          });
+
+          this.lng = e[0].sensor_list.map(function(x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.Longitude);
+          });
+
+          this.temp = e[0].sensor_list.map(function(x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.Temperature);
+          });
+
+          for (let i = 0; i < this.lat.length; i++) {
+            this.coordinates.push([this.lat[i], this.lng[i]]);
+          }
+
+          for (let i = 0; i < this.lat.length; i++) {
+            if (this.temp[i] > 26.7) {
+              var sensor = L.circle(this.coordinates[i], 50, {
+                weight: 0,
+                fillColor: "#B22222",
+                fillOpacity: 0.3
+              });
+              this.sensors.push(sensor);
+            } else if (this.temp[i] < 26.7) {
+              var sensor = L.circle(this.coordinates[i], 50, {
+                weight: 0,
+                fillColor: "#40E0D0",
+                fillOpacity: 0.3
+              });
+              this.sensors.push(sensor);
+            }
+          }
+
+          sensor = [];
+
+          this.featureGroup = L.featureGroup(this.sensors).addTo(this.map);
+          this.map.fitBounds(this.featureGroup.getBounds(), {
+            padding: [50, 50]
+          });
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.map.removeLayer(this.featureGroup);
+      document.getElementById("overlay2").style.display = "none";
+      this.lat = [];
+      this.lng = [];
+      this.temp = [];
+      this.coordinates = [];
+      this.sensors = [];
+      this.featureGroup = [];
+    }
+  }
+
+  genHeatmap2() {
+    document.getElementById("overlay2").style.display = "block";
+    this.statusHeatmap = !this.statusHeatmap;
+    console.log(this.statusHeatmap);
+
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png ",
+      {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
+
+    if (this.statusHeatmap) {
+      this.dataService.getHeatmap2().subscribe(
+        res => {
+          this.sensorList = res.data;
+
+          var e = this.sensorList;
+
+          this.lat = e[0].sensor_list.map(function(x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.latitude);
+          });
+
+          this.lng = e[0].sensor_list.map(function(x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.longitude);
+          });
+
+          this.temp = e[0].sensor_list.map(function(x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.temperature);
+          });
+
+          for (let i = 0; i < this.lat.length; i++) {
+            this.coordinates.push([this.lat[i], this.lng[i]]);
+          }
+
+          for (let i = 0; i < this.lat.length; i++) {
+            if (this.temp[i] > 26.7) {
+              var sensor = L.circle(this.coordinates[i], 50, {
+                weight: 0,
+                fillColor: "#B22222",
+                fillOpacity: 0.3
+              });
+              this.sensors.push(sensor);
+            } else if (this.temp[i] < 26.7) {
+              var sensor = L.circle(this.coordinates[i], 50, {
+                weight: 0,
+                fillColor: "#40E0D0",
+                fillOpacity: 0.3
+              });
+              this.sensors.push(sensor);
+            }
+          }
+
+          this.featureGroup = L.featureGroup(this.sensors).addTo(this.map);
+          this.map.fitBounds(this.featureGroup.getBounds(), {
+            padding: [50, 50]
+          });
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.map.removeLayer(this.featureGroup);
+      document.getElementById("overlay2").style.display = "none";
+      this.lat = [];
+      this.lng = [];
+      this.temp = [];
+      this.coordinates = [];
+      this.sensors = [];
+      this.featureGroup = [];
     }
   }
 }

@@ -54,13 +54,23 @@ export class DataService {
     );
   }
 
-  // getSensorList(): any {
-  //   return this.http.get("src/assets/outdoor.json").pipe(
-  //     map((response: Response) => response),
+  getHeatmap1(): any {
+    return this.http.get("src/assets/outdoor_c026.json").pipe(
+      map((response: Response) => response),
 
-  //     catchError(error => {
-  //       return Observable.throw(error);
-  //     })
-  //   );
-  // }
+      catchError(error => {
+        return Observable.throw(error);
+      })
+    );
+  }
+
+  getHeatmap2(): any {
+    return this.http.get("src/assets/outdoor_cbj2.json").pipe(
+      map((response: Response) => response),
+
+      catchError(error => {
+        return Observable.throw(error);
+      })
+    );
+  }
 }

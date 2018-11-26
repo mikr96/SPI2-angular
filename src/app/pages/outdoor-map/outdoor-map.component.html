@@ -7,13 +7,54 @@
   >
     SENSORS
   </button>
-  <button (click)="genHeatmap()" class="btn btn-block btn-primary">
+  <!--
+    <button (click)="genHeatmap()" class="btn btn-block btn-primary"> HEATMAP</button>
+  -->
+  <button
+    class="btn btn-block btn-primary"
+    type="button"
+    data-toggle="collapse"
+    data-target="#collapseExample"
+    aria-expanded="false"
+    aria-controls="collapseExample"
+  >
     HEATMAP
   </button>
-  <button (click)="genPath()" class="btn btn-block btn-primary">PATH</button>
+  <div class="collapse" id="collapseExample">
+    <button (click)="genHeatmap1()" id="button" class="btn btn-secondary">
+      TMRND to CBJ2
+    </button>
+    <button (click)="genHeatmap2()" id="button1" class="btn btn-secondary">
+      CBJ2 to FDC
+    </button>
+  </div>
+
+  <button
+    (click)="genPath()"
+    id="button_path"
+    class="btn btn-block btn-primary"
+  >
+    PATH
+  </button>
   <button (click)="genWaterLevel()" class="btn btn-block btn-primary">
     WATER LEVEL
   </button>
 </div>
 
+<div id="overlay2" style="display: none;">
+  <mat-slider
+    class="example-margin"
+    [disabled]="disabled"
+    [invert]="invert"
+    [max]="max"
+    [min]="min"
+    [step]="step"
+    [thumbLabel]="thumbLabel"
+    [tickInterval]="tickInterval"
+    [(ngModel)]="value"
+    [vertical]="vertical"
+    (input)="update($event.value)"
+  >
+  </mat-slider>
+</div>
 <div id="map"></div>
