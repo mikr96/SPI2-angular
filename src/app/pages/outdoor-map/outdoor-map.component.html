@@ -21,11 +21,14 @@
     HEATMAP
   </button>
   <div class="collapse" id="collapseExample">
-    <button (click)="genHeatmap1()" id="button" class="btn btn-secondary">
-      TMRND to CBJ2
+    <button (click)="path1()" id="button" class="btn btn-block btn-secondary">
+      C026
     </button>
-    <button (click)="genHeatmap2()" id="button1" class="btn btn-secondary">
+    <button (click)="path2()" id="button" class="btn btn-block btn-secondary">
       CBJ2 to FDC
+    </button>
+    <button (click)="path3()" id="button" class="btn btn-block btn-secondary">
+      TMRND to CBJ2
     </button>
   </div>
 
@@ -41,7 +44,7 @@
   </button>
 </div>
 
-<div id="overlay2" style="display: none;">
+<div id="slider1" style="display: none;">
   <mat-slider
     class="example-margin"
     [disabled]="disabled"
@@ -53,7 +56,39 @@
     [tickInterval]="tickInterval"
     [(ngModel)]="value"
     [vertical]="vertical"
-    (input)="update($event.value)"
+    (input)="update1($event.value)"
+  >
+  </mat-slider>
+</div>
+<div id="slider2" style="display: none;">
+  <mat-slider
+    class="example-margin"
+    [disabled]="disabled"
+    [invert]="invert"
+    [max]="max"
+    [min]="min"
+    [step]="step"
+    [thumbLabel]="thumbLabel"
+    [tickInterval]="tickInterval"
+    [(ngModel)]="value"
+    [vertical]="vertical"
+    (input)="update2($event.value)"
+  >
+  </mat-slider>
+</div>
+<div id="slider3" style="display: none;">
+  <mat-slider
+    class="example-margin"
+    [disabled]="disabled"
+    [invert]="invert"
+    [max]="max"
+    [min]="min"
+    [step]="step"
+    [thumbLabel]="thumbLabel"
+    [tickInterval]="tickInterval"
+    [(ngModel)]="value"
+    [vertical]="vertical"
+    (input)="update3($event.value)"
   >
   </mat-slider>
 </div>

@@ -15,7 +15,33 @@
   min-width: 300px;
 }
 
-#overlay2 {
+#slider1 {
+  position: absolute;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 1);
+  bottom: 0;
+  margin-left: 440px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 1px grey;
+  min-height: 50px;
+  min-width: 350px;
+}
+
+#slider2 {
+  position: absolute;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 1);
+  bottom: 0;
+  margin-left: 440px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 1px grey;
+  min-height: 50px;
+  min-width: 350px;
+}
+
+#slider3 {
   position: absolute;
   z-index: 1000;
   background: rgba(255, 255, 255, 1);
@@ -40,15 +66,15 @@ h3 {
   margin-top: 5px;
 }
 
-#button {
-  margin-right: 5px;
-  width: 49%;
-}
+// #button {
+//   margin-right: 5px;
+//   width: 49%;
+// }
 
-#button1 {
-  // margin-right: 5px;
-  width: 49%;
-}
+// #button1 {
+//   // margin-right: 5px;
+//   width: 49%;
+// }
 
 #button_path {
   margin-top: 5px;

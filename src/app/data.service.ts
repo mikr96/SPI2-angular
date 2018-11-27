@@ -73,4 +73,14 @@ export class DataService {
       })
     );
   }
+
+  getHeatmap3(): any {
+    return this.http.get("src/assets/outdoor_cbj2.json").pipe(
+      map((response: Response) => response),
+
+      catchError(error => {
+        return Observable.throw(error);
+      })
+    );
+  }
 }
