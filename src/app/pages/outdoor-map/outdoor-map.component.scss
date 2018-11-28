@@ -1,26 +1,9 @@
-// #map {
-//   height: 100%;
-// }
-
-#overlay {
-  position: absolute;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 1);
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
-  left: auto;
-  box-shadow: 1px 1px 1px grey;
-  min-height: 200px;
-  min-width: 300px;
-}
-
 #slider1 {
   position: absolute;
   z-index: 1000;
   background: rgba(255, 255, 255, 1);
   bottom: 0;
-  margin-left: 440px;
+  margin-left: 650px;
   margin-bottom: 30px;
   border-radius: 10px;
   box-shadow: 1px 1px 1px grey;
@@ -33,7 +16,7 @@
   z-index: 1000;
   background: rgba(255, 255, 255, 1);
   bottom: 0;
-  margin-left: 440px;
+  margin-left: 650px;
   margin-bottom: 30px;
   border-radius: 10px;
   box-shadow: 1px 1px 1px grey;
@@ -46,7 +29,7 @@
   z-index: 1000;
   background: rgba(255, 255, 255, 1);
   bottom: 0;
-  margin-left: 440px;
+  margin-left: 650px;
   margin-bottom: 30px;
   border-radius: 10px;
   box-shadow: 1px 1px 1px grey;
@@ -66,16 +49,6 @@ h3 {
   margin-top: 5px;
 }
 
-// #button {
-//   margin-right: 5px;
-//   width: 49%;
-// }
-
-// #button1 {
-//   // margin-right: 5px;
-//   width: 49%;
-// }
-
 #button_path {
   margin-top: 5px;
 }
@@ -90,4 +63,15 @@ mat-slider {
   margin-left: 10px;
   margin-right: 10px;
   width: 330px;
+}
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
 }

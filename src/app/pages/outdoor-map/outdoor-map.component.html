@@ -1,47 +1,47 @@
-<div id="overlay">
-  <h3>MAP</h3>
-  <button
-    id="toggleSensor"
-    (click)="genSensor()"
-    class="btn btn-block btn-primary"
-  >
-    SENSORS
-  </button>
-  <!--
-    <button (click)="genHeatmap()" class="btn btn-block btn-primary"> HEATMAP</button>
-  -->
-  <button
-    class="btn btn-block btn-primary"
-    type="button"
-    data-toggle="collapse"
-    data-target="#collapseExample"
-    aria-expanded="false"
-    aria-controls="collapseExample"
-  >
-    HEATMAP
-  </button>
-  <div class="collapse" id="collapseExample">
-    <button (click)="path1()" id="button" class="btn btn-block btn-secondary">
-      C026
+<div class="row no-gutters">
+  <div class="col-sm-4">
+    <h3>MAP</h3>
+    <button
+      id="toggleSensor"
+      (click)="genSensor()"
+      class="btn btn-block btn-primary"
+    >
+      SENSORS
     </button>
-    <button (click)="path2()" id="button" class="btn btn-block btn-secondary">
-      CBJ2 to FDC
+    <button
+      class="btn btn-block btn-primary"
+      type="button"
+      data-toggle="collapse"
+      data-target="#collapseExample"
+      aria-expanded="false"
+      aria-controls="collapseExample"
+    >
+      HEATMAP
     </button>
-    <button (click)="path3()" id="button" class="btn btn-block btn-secondary">
-      TMRND to CBJ2
+    <div class="collapse" id="collapseExample">
+      <button (click)="path1()" id="button" class="btn btn-block btn-secondary">
+        C026
+      </button>
+      <button (click)="path2()" id="button" class="btn btn-block btn-secondary">
+        CBJ2 to FDC
+      </button>
+      <button (click)="path3()" id="button" class="btn btn-block btn-secondary">
+        TMRND to CBJ2
+      </button>
+    </div>
+    <button
+      (click)="genPath()"
+      id="button_path"
+      class="btn btn-block btn-primary"
+    >
+      PATH
+    </button>
+    <button (click)="genWaterLevel()" class="btn btn-block btn-primary">
+      WATER LEVEL
     </button>
   </div>
 
-  <button
-    (click)="genPath()"
-    id="button_path"
-    class="btn btn-block btn-primary"
-  >
-    PATH
-  </button>
-  <button (click)="genWaterLevel()" class="btn btn-block btn-primary">
-    WATER LEVEL
-  </button>
+  <div class="col-sm-8"><div id="map"></div></div>
 </div>
 
 <div id="slider1" style="display: none;">
@@ -92,4 +92,3 @@
   >
   </mat-slider>
 </div>
-<div id="map"></div>
