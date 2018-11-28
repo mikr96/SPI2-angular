@@ -12,6 +12,7 @@ import { AlertComponent } from "./alert/alert.component";
 import { PlotlyModule } from "angular-plotly.js";
 import { MatSliderModule } from "@angular/material/slider";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { DataTablesModule } from "angular-datatables";
 
 const PAGES_COMPONENTS = [PagesComponent];
 
@@ -22,7 +23,8 @@ const PAGES_COMPONENTS = [PagesComponent];
     PlotlyModule,
     MatSliderModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataTablesModule
   ],
   declarations: [
     ViewTableComponent,

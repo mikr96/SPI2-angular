@@ -22,6 +22,6 @@ export class ViewTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.data.getPath().subscribe(data => (this.data$ = data));
+    // this.data.getPath().subscribe(data => (this.data$ = data));
   }
 }

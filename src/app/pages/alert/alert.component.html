@@ -1,31 +1,34 @@
 <h2>Alert Management</h2>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Id</th>
-      <th scope="col">Device Type</th>
-      <th scope="col">Map Type</th>
-      <th scope="col">Name</th>
-      <th scope="col">Latitude</th>
-      <th scope="col">Longitude</th>
-      <th scope="col">Result</th>
-      <th scope="col">Last Update</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
-    </tr>
-  </thead>
-  <tbody *ngFor="let data of data$">
-    <tr>
-      <td>{{ data.id }}</td>
-      <td>{{ data.deviceType }}</td>
-      <td>{{ data.mapType }}</td>
-      <td>{{ data.name }}</td>
-      <td>{{ data.lat }}</td>
-      <td>{{ data.lng }}</td>
-      <td>{{ data.result }}</td>
-      <td>{{ data.lastUpdate }}</td>
-      <td><button class="btn btn-block btn-primary">Acknowledge</button></td>
-      <td><button class="btn btn-block btn-primary">View</button></td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <table datatable class="row-border hover">
+    <thead id="TblHead">
+      <tr>
+        <th>ID</th>
+        <th>Device Type</th>
+        <th>Map Type</th>
+        <th>Name</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Result</th>
+        <th>Last Update</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let alert of alerts">
+        <td>{{ alert.id }}</td>
+        <td>{{ alert.deviceType }}</td>
+        <td>{{ alert.mapType }}</td>
+        <td>{{ alert.name }}</td>
+        <td>{{ alert.lat }}</td>
+        <td>{{ alert.lng }}</td>
+        <td>{{ alert.result }}</td>
+        <td>{{ alert.lastUpdate }}</td>
+        <td><button (click)="acknowledge(alert)" class="btn btn-block btn-primary">Acknowledge</button>
+        <span *ngIf="alert.acknowledge">By: {{alert.acknowledge}}</span></td>
+        <td><button class="btn btn-block btn-primary">View</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

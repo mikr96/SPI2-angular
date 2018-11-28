@@ -1,7 +1,19 @@
 import { Component, OnInit } from "@angular/core";
-import { PagesService } from "../pages.service";
+import { Http } from "@angular/http";
 
 declare var $: any;
+
+interface Alert {
+  id: number;
+  deviceType: string;
+  mapType: string;
+  name: string;
+  lat: number;
+  lng: number;
+  result: string;
+  lastUpdate: any;
+  acknowledge: string;
+}
 
 @Component({
   selector: "app-alert",
@@ -9,21 +21,19 @@ declare var $: any;
   styleUrls: ["./alert.component.scss"]
 })
 export class AlertComponent implements OnInit {
-  data$: Object;
+  alerts: Alert[];
+  done: boolean = false;
 
-  constructor(private data: PagesService) {}
+  constructor(private http: Http) {
+    this.http.get("assets/alert.json").subscribe(data => {
+      this.alerts = data.json();
+    });
+  }
 
-  ngOnInit() {
-    // $('#example').DataTable({
-    //   "pagingType": "full_numbers",
-    //   "scrollX": true
-    // });
+  ngOnInit() {}
 
-    // $('#example').find('button').click(function () {
-    //   console.log($(this).after());
-    //   $(this).next().remove();
-    //   $('<p>By ABC</p>').insertAfter($(this));
-    // });
-    this.data.getAlert().subscribe(data => (this.data$ = data));
+  acknowledge(alert) {
+    const found = this.alerts.find(data => data == alert);
+    found.acknowledge = "PIC";
   }
 }

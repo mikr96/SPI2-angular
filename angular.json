@@ -25,16 +25,16 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/assets/libs/leaflet/dist/leaflet.css",
-              "src/assets/libs/datatables/media/css/jquery.dataTables.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/datatables.net-dt/css/jquery.dataTables.css"
             ],
             "scripts": [
               "src/assets/plugins/js/jquery.min.js",
               "src/assets/libs/bootstrap-sass/assets/javascripts/bootstrap.min.js",
               "src/assets/libs/leaflet/dist/leaflet.js",
               "src/assets/plugins/js/leaflet-heat.js",
-              "src/assets/libs/datatables/media/js/jquery.dataTables.min.js",
-              "node_modules/plotly.js/dist/plotly-basic.min.js"
+              "node_modules/plotly.js/dist/plotly-basic.min.js",
+              "./node_modules/datatables.net/js/jquery.dataTables.js"
             ]
           },
           "configurations": {

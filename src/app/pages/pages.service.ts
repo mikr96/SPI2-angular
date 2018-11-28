@@ -37,13 +37,9 @@ export class PagesService {
     );
   }
 
-  getAlert(): any {
-    return this.http.get(this.alertUrl);
-  }
-
-  getPath(): any {
-    return this.http.get(this.pathUrl);
-  }
+  // getAlert(): any {
+  //   return this.http.get(this.alertUrl);
+  // }
 
   // getSensorList(): any {
   //   return new Promise((resolve, reject) => {

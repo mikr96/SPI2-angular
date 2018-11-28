@@ -12,6 +12,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { InterceptorModule } from "./interceptor.module";
 import { PlotlyModule } from "angular-plotly.js";
 import { MatSliderModule } from "@angular/material/slider";
+import { DataTablesModule } from "angular-datatables";
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +26,8 @@ import { MatSliderModule } from "@angular/material/slider";
     PagesModule,
     InterceptorModule,
     PlotlyModule,
-    MatSliderModule
+    MatSliderModule,
+    DataTablesModule
   ],
   providers: [NeedAuthGuard, { provide: APP_BASE_HREF, useValue: "/" }],
   bootstrap: [AppComponent]
