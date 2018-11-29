@@ -1,0 +1,395 @@
+{
+  "status": true,
+  "data": [
+    {
+      "id": 1,
+      "sensor_list": [
+        {
+          "latitude": 2.931104,
+          "longitude": 101.65881,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.930174,
+          "longitude": 101.658459,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.930498,
+          "longitude": 101.657691,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.92981,
+          "longitude": 101.65734,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.929365,
+          "longitude": 101.657084,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.929972,
+          "longitude": 101.656315,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.930444,
+          "longitude": 101.655398,
+          "temperature": 0.07575757576
+        },
+        {
+          "latitude": 2.930646,
+          "longitude": 101.653915,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.930659,
+          "longitude": 101.652594,
+          "temperature": 0.07575757576
+        },
+        {
+          "latitude": 2.930632,
+          "longitude": 101.651825,
+          "temperature": 0.07575757576
+        },
+        {
+          "latitude": 2.930592,
+          "longitude": 101.650369,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.930538,
+          "longitude": 101.648872,
+          "temperature": 0.07575757576
+        },
+        {
+          "latitude": 2.930484,
+          "longitude": 101.647457,
+          "temperature": 0.07575757576
+        },
+        {
+          "latitude": 2.930646,
+          "longitude": 101.645569,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.931765,
+          "longitude": 101.644059,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.933154,
+          "longitude": 101.642859,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.933795,
+          "longitude": 101.641169,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.933902,
+          "longitude": 101.639182,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.932756,
+          "longitude": 101.638764,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.931219,
+          "longitude": 101.638305,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.929763,
+          "longitude": 101.637982,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.928617,
+          "longitude": 101.637725,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.927161,
+          "longitude": 101.637523,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.925799,
+          "longitude": 101.63751,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.924423,
+          "longitude": 101.63755,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.923075,
+          "longitude": 101.637537,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.92174,
+          "longitude": 101.637577,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.920411,
+          "longitude": 101.637594,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.919624,
+          "longitude": 101.637574,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.918993,
+          "longitude": 101.637621,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.917837,
+          "longitude": 101.637849,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.91662,
+          "longitude": 101.638487,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.917548,
+          "longitude": 101.639516,
+          "temperature": 0.08838383838
+        },
+        {
+          "latitude": 2.918993,
+          "longitude": 101.64004,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.919806,
+          "longitude": 101.640228,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.920552,
+          "longitude": 101.640725,
+          "temperature": 0.101010101
+        },
+        {
+          "latitude": 2.920128,
+          "longitude": 101.641108,
+          "temperature": 0.07575757576
+        },
+        {
+          "latitude": 2.920122,
+          "longitude": 101.641673,
+          "temperature": 0.1136363636
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "sensor_list": [
+        {
+          "latitude": 2.931104,
+          "longitude": 101.65881,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.930174,
+          "longitude": 101.658459,
+          "temperature": 0.1136363636
+        },
+        {
+          "latitude": 2.930498,
+          "longitude": 101.657691,
+          "temperature": 0.1136363636
+        },
+        {
+          "latitude": 2.92981,
+          "longitude": 101.65734,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.929365,
+          "longitude": 101.657084,
+          "temperature": 0.1818181818
+        },
+        {
+          "latitude": 2.929972,
+          "longitude": 101.656315,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.930444,
+          "longitude": 101.655398,
+          "temperature": 0.1136363636
+        },
+        {
+          "latitude": 2.930646,
+          "longitude": 101.653915,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.930659,
+          "longitude": 101.652594,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.930632,
+          "longitude": 101.651825,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.930592,
+          "longitude": 101.650369,
+          "temperature": 0.1136363636
+        },
+        {
+          "latitude": 2.930538,
+          "longitude": 101.648872,
+          "temperature": 0.1136363636
+        },
+        {
+          "latitude": 2.930484,
+          "longitude": 101.647457,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.930646,
+          "longitude": 101.645569,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.931765,
+          "longitude": 101.644059,
+          "temperature": 0.1818181818
+        },
+        {
+          "latitude": 2.933154,
+          "longitude": 101.642859,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.933795,
+          "longitude": 101.641169,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.933902,
+          "longitude": 101.639182,
+          "temperature": 0.1818181818
+        },
+        {
+          "latitude": 2.932756,
+          "longitude": 101.638764,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.931219,
+          "longitude": 101.638305,
+          "temperature": 0.1136363636
+        },
+        {
+          "latitude": 2.929763,
+          "longitude": 101.637982,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.928617,
+          "longitude": 101.637725,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.927161,
+          "longitude": 101.637523,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.925799,
+          "longitude": 101.63751,
+          "temperature": 0.09090909091
+        },
+        {
+          "latitude": 2.924423,
+          "longitude": 101.63755,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.923075,
+          "longitude": 101.637537,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.92174,
+          "longitude": 101.637577,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.920411,
+          "longitude": 101.637594,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.919624,
+          "longitude": 101.637574,
+          "temperature": 0.1818181818
+        },
+        {
+          "latitude": 2.918993,
+          "longitude": 101.637621,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.917837,
+          "longitude": 101.637849,
+          "temperature": 0.1136363636
+        },
+        {
+          "latitude": 2.91662,
+          "longitude": 101.638487,
+          "temperature": 0.1136363636
+        },
+        {
+          "latitude": 2.917548,
+          "longitude": 101.639516,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.918993,
+          "longitude": 101.64004,
+          "temperature": 0.1363636364
+        },
+        {
+          "latitude": 2.919806,
+          "longitude": 101.640228,
+          "temperature": 0.1590909091
+        },
+        {
+          "latitude": 2.920552,
+          "longitude": 101.640725,
+          "temperature": 0.1136363636
+        },
+        {
+          "latitude": 2.920128,
+          "longitude": 101.641108,
+          "temperature": 0.09090909091
+        },
+        {
+          "latitude": 2.920122,
+          "longitude": 101.641673,
+          "temperature": 0.2045454545
+        }
+      ]
+    }
+  ]
+}

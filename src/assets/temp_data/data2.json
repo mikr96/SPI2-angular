@@ -1,0 +1,96 @@
+{
+  "status": true,
+  "data_found": true,
+  "data": [
+    {
+      "latitude": 2.915467,
+      "longitude": 101.62854,
+      "temperature": 26.64966714
+    },
+    {
+      "latitude": 2.915409,
+      "longitude": 101.628688,
+      "temperature": 26.75052095
+    },
+    {
+      "latitude": 2.915408,
+      "longitude": 101.628852,
+      "temperature": 26.64966714
+    },
+    {
+      "latitude": 2.915406,
+      "longitude": 101.629096,
+      "temperature": 26.64540571
+    },
+    {
+      "latitude": 2.915403,
+      "longitude": 101.629342,
+      "temperature": 26.47068714
+    },
+    {
+      "latitude": 2.915403,
+      "longitude": 101.62956,
+      "temperature": 26.64824667
+    },
+    {
+      "latitude": 2.915399,
+      "longitude": 101.629752,
+      "temperature": 26.50761952
+    },
+    {
+      "latitude": 2.915398,
+      "longitude": 101.630052,
+      "temperature": 26.49483524
+    },
+    {
+      "latitude": 2.915394,
+      "longitude": 101.630272,
+      "temperature": 26.59710952
+    },
+    {
+      "latitude": 2.915399,
+      "longitude": 101.630482,
+      "temperature": 26.5928481
+    },
+    {
+      "latitude": 2.915017,
+      "longitude": 101.630505,
+      "temperature": 26.65961048
+    },
+    {
+      "latitude": 2.914747,
+      "longitude": 101.630523,
+      "temperature": 26.64540571
+    },
+    {
+      "latitude": 2.914503,
+      "longitude": 101.630538,
+      "temperature": 26.62836
+    },
+    {
+      "latitude": 2.914287,
+      "longitude": 101.630551,
+      "temperature": 26.68944048
+    },
+    {
+      "latitude": 2.914012,
+      "longitude": 101.630567,
+      "temperature": 26.62551905
+    },
+    {
+      "latitude": 2.913782,
+      "longitude": 101.630582,
+      "temperature": 26.54029048
+    },
+    {
+      "latitude": 2.913519,
+      "longitude": 101.630598,
+      "temperature": 26.62693952
+    },
+    {
+      "latitude": 2.913354,
+      "longitude": 101.630609,
+      "temperature": 26.66955381
+    }
+  ]
+}

@@ -10,6 +10,8 @@ import { PagesModule } from './pages/pages.module';
 import { NeedAuthGuard } from './auth.guard';
 import { APP_BASE_HREF } from '@angular/common';
 import { InterceptorModule } from './interceptor.module';
+import { MatSliderModule } from '@angular/material/slider';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { InterceptorModule } from './interceptor.module';
     BrowserAnimationsModule,
     LoginModule,
     PagesModule,
-    InterceptorModule
+    InterceptorModule,
+    MatSliderModule,
+    FormsModule
   ],
   providers: [
     NeedAuthGuard,

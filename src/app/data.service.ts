@@ -33,7 +33,19 @@ export class DataService {
 
   // Heatmap data
   getSensorList(): any {
-    return this.http.get(this.DB_ENDPOINT + 'spi2/sensor_list')
+    // return this.http.get(this.DB_ENDPOINT + 'spi2/sensor_list')
+    return this.http.get('../assets/temp_data/data1.json')
+      .pipe(
+        map((response: Response) => response),
+        catchError(error => {
+          return Observable.throw(error);
+        })
+      );
+  }
+
+  getSensorList_2(): any {
+    // return this.http.get(this.DB_ENDPOINT + 'spi2/sensor_list')
+    return this.http.get('../assets/temp_data/data2.json')
       .pipe(
         map((response: Response) => response),
         catchError(error => {

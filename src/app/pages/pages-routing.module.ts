@@ -18,10 +18,10 @@ const routes: Routes = [{
       path: 'path-management',
       component: ViewTableComponent
     },
-    {
-      path: 'alert-management',
-      component: AlertComponent
-    }
+    // {
+    //   path: 'alert-management',
+    //   component: AlertComponent
+    // }
   ],
   canActivate: [NeedAuthGuard]
 },

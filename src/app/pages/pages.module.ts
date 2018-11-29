@@ -8,7 +8,8 @@ import { AppRoutingModule } from '../app-routing.module';
 import { PagesComponent } from './pages.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { NeedAuthGuard } from '../auth.guard';
-import { AlertComponent } from './alert/alert.component';
+import { MatSliderModule } from "@angular/material/slider";
+import { FormsModule } from '@angular/forms';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -17,15 +18,16 @@ const PAGES_COMPONENTS = [
 @NgModule({
   imports: [
     CommonModule,
-    PagesRoutingModule
+    PagesRoutingModule,
+    MatSliderModule,
+    FormsModule
   ],
   declarations: [
     ViewTableComponent,
     OutdoorMapComponent,
     IndoorMapComponent,
     SidebarComponent,
-    ...PAGES_COMPONENTS,
-    AlertComponent
+    ...PAGES_COMPONENTS
   ],
   providers: [NeedAuthGuard],
 })
