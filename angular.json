@@ -36,7 +36,8 @@
               "src/assets/libs/bootstrap-sass/assets/javascripts/bootstrap.min.js",
               "src/assets/libs/leaflet/dist/leaflet.js",
               "src/assets/plugins/js/leaflet-heat.js",
-              "src/assets/libs/datatables/media/js/jquery.dataTables.min.js"
+              "src/assets/libs/datatables/media/js/jquery.dataTables.min.js",
+              "src/assets/libs/plotly.js/dist/plotly.min.js"
             ]
           },
           "configurations": {

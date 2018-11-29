@@ -13,104 +13,377 @@ declare let L;
 export class OutdoorMapComponent implements OnInit {
 
   sensorList: any = [];
+  dataDateArr: any = [];
+  dataDate: any = [];
+  dateSelect: any;
+  dataDateTime: any = [];
+  dataTimeArr: any = [];
   addressPoints: any = [];
   map: any;
   statusHeatmap: boolean = false;
+  statusHeatmap2: boolean = false;
   statusSensorList: boolean = false;
   heat: any;
+  featureGroup: any;
   sensorpath: any = [];
   path: any = [];
+  lat: any = [];
+  lng: any = [];
+  firstpolyline: any;
+  markers: any = [];
+  coordinates: any = [];
 
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
 
     this.map = L.map('map').setView([2.920282, 101.641747], 12);
-    var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
+    var tiles = L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      {
+        maxZoom: 18,
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
+
+    $('.col-sm-6 button').click(function () {
+      if ($(this).hasClass('active')) {
+
+        $(this).removeClass('active');
+
+      } else {
+
+        $('.col-sm-6 button').removeClass('active');
+        $(this).addClass('active');
+
+      }
+    });
+
+    $('#sensorSelect').change(function () {
+      console.log('hello');
+    });
+
+    // init date selection data
+    this.dataService.getDataDate().subscribe(res => {
+      this.dataDate = res.data;
+
+      this.dataDateArr = this.dataDate;
+      console.log(this.dataDateArr[0].str_date_updated);
+
+      this.dataService.getTimeDate(this.dataDateArr[0].str_date_updated).subscribe(res => {
+        this.dataDateTime = res.data;
+
+        this.dataTimeArr = this.dataDateTime;
+        console.log(this.dataTimeArr);
+
+      });
+
+    });
 
   }
 
-  genHeatmap() {
+  onDateChange(value) {
 
-    this.statusHeatmap = !this.statusHeatmap;
-    console.log(this.statusHeatmap);
-
-    var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
-
-    if (this.statusHeatmap) {
-
-      this.dataService.getSensorList().subscribe(res => {
-        this.sensorList = res.data;
-
-        var e = this.sensorList;
-        console.log(e);
-
-        this.addressPoints = e.map(function (x) {
-
-          const pf = (n) => Number(parseFloat(n).toFixed(6));
-          return [pf(x.latitude), pf(x.longitude), pf(x.temperature / 5)];
-
-        });
-        console.log(this.addressPoints);
-        this.heat = L.heatLayer(this.addressPoints, { radius: 25 }).addTo(this.map);
-
-      }, err => {
-        console.log(err);
-      });
-
-    } else {
+    if ($('.leaflet-overlay-pane').children().hasClass('leaflet-heatmap-layer')) {
       this.map.removeLayer(this.heat);
     }
+
+    console.log('date' + value);
+    this.dateSelect = value;
+    this.dataService.getTimeDate(value).subscribe(res => {
+      this.dataDateTime = res.data;
+
+      this.dataTimeArr = this.dataDateTime;
+      console.log(this.dataTimeArr);
+
+    });
+  }
+
+  onTimeChange(value) {
+    console.log('time' + value);
+    console.log('date' + this.dateSelect);
+
+    // var arg;
+    // if (value == '04:35:00') {
+    //   arg = 1;
+    // } else {
+    //   arg = 2;
+    // }
+
+    this.genHeatmap(this.dateSelect, value);
+  }
+
+  genHeatmap(val1, val2) {
+
+    this.statusHeatmap = !this.statusHeatmap;
+    var valuedate = val1;
+    var valuetime = val2;
+
+    var tiles = L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      {
+        maxZoom: 18,
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
+
+    if ($('.leaflet-overlay-pane').children().hasClass('leaflet-heatmap-layer')) {
+      this.map.removeLayer(this.heat);
+    }
+
+    var colorGrad;
+
+    this.dataService.getSensorList(valuedate, valuetime).subscribe(res => {
+      this.sensorList = res.data;
+
+      console.log(res.data);
+      var g = this.sensorList;
+      var e = g[0].sensor_list;
+      console.log(g);
+
+      this.addressPoints = e.map(function (x) {
+
+        const pf = (n) => Number(parseFloat(n).toFixed(6));
+        return [pf(x.latitude), pf(x.longitude), pf(x.temperature / 100)];
+
+      });
+
+      const avgIntensity = e.map(x => x.temperature).reduce((a, c) => a + c, 0) / (e.length * 100);
+      console.log(avgIntensity);
+
+      if (avgIntensity >= 0.20 && avgIntensity < 0.21) {
+        colorGrad = '#48d1cc';
+      } else if (avgIntensity >= 0.21 && avgIntensity < 0.22) {
+        colorGrad = '#6fd6be';
+      } else if (avgIntensity >= 0.22 && avgIntensity < 0.23) {
+        colorGrad = '#89dab0';
+      } else if (avgIntensity >= 0.23 && avgIntensity < 0.24) {
+        colorGrad = '#9fdfa1';
+      } else if (avgIntensity >= 0.24 && avgIntensity < 0.25) {
+        colorGrad = '#b1e492';
+      } else if (avgIntensity >= 0.25 && avgIntensity < 0.26) {
+        colorGrad = '#c2e982';
+      } else if (avgIntensity >= 0.26 && avgIntensity < 0.27) {
+        colorGrad = '#d1ee71';
+      } else if (avgIntensity >= 0.27 && avgIntensity < 0.28) {
+        colorGrad = '#dff25e';
+      } else if (avgIntensity >= 0.28 && avgIntensity < 0.29) {
+        colorGrad = '#ecf747';
+      } else if (avgIntensity >= 0.29 && avgIntensity < 0.30) {
+        colorGrad = '#f9fc27';
+      } else if (avgIntensity >= 0.30 && avgIntensity < 0.31) {
+        colorGrad = '#fff510';
+      } else if (avgIntensity >= 0.31 && avgIntensity < 0.32) {
+        colorGrad = '#fde021';
+      } else if (avgIntensity >= 0.32 && avgIntensity < 0.33) {
+        colorGrad = '#fccc2a';
+      } else if (avgIntensity >= 0.33 && avgIntensity < 0.34) {
+        colorGrad = '#f9b730';
+      } else if (avgIntensity >= 0.34 && avgIntensity < 0.35) {
+        colorGrad = '#f6a235';
+      } else if (avgIntensity >= 0.35 && avgIntensity < 0.36) {
+        colorGrad = '#f28d38';
+      } else if (avgIntensity >= 0.36 && avgIntensity < 0.37) {
+        colorGrad = '#ed773a';
+      } else if (avgIntensity >= 0.37 && avgIntensity < 0.38) {
+        colorGrad = '#e85e3b';
+      } else if (avgIntensity >= 0.38 && avgIntensity < 0.39) {
+        colorGrad = '#e2423c';
+      } else if (avgIntensity >= 0.39 && avgIntensity < 0.40) {
+        colorGrad = '#dc143c';
+      }
+
+
+      this.heat = L.heatLayer(this.addressPoints, {
+        radius: 40,
+        gradient: {
+          '0': colorGrad,
+          '1': colorGrad
+        }
+      }).addTo(this.map);
+
+      $('.leaflet-heatmap-layer').css('opacity', '0.8');
+
+    }, err => {
+      console.log(err);
+    });
 
   }
 
   genPath() {
     this.statusSensorList = !this.statusSensorList;
 
-    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
 
     if (this.statusSensorList) {
-      this.dataService.getSensorList().subscribe(
+      this.dataService.getSensorList('08/11/2018', '04:35:00').subscribe(
         res => {
-
           this.sensorList = res.data;
-          var e = this.sensorList;
+          var e = this.sensorList[0].sensor_list;
+          console.log(e);
 
           this.path = e.map(function (x) {
             const pf = n => Number(parseFloat(n).toFixed(6));
             return [pf(x.latitude), pf(x.longitude)];
           });
 
-          var greenIcon = L.icon({
-            iconUrl: '../assets/images/sensor_icon.png',
-
-            iconSize: [15, 15], // size of the icon
-            iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+          this.lat = e.map(function (x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.latitude);
           });
 
-          for (let i = 0; i < this.path.length; i++) {
-            this.sensorpath[i] = L.marker(this.path[i], { icon: greenIcon }).addTo(this.map);
-          }
+          this.firstpolyline = new L.polyline(this.path, {
+            color: "red",
+            weight: 7,
+            opacity: 0.7,
+            lineCap: "square",
+            lineJoin: "round"
+          });
 
+          this.firstpolyline.addTo(this.map);
         },
         err => {
           console.log(err);
         }
       );
     } else {
-      //this.map.removeLayer(this.path);
-      for (let i = 0; i < this.path.length; i++) {
-        this.map.removeLayer(this.sensorpath[i]);
-      }
+      this.map.removeLayer(this.firstpolyline);
     }
   }
 
+  genSensor() {
 
+    this.statusSensorList = !this.statusSensorList;
+
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
+
+    if (this.statusSensorList) {
+      this.dataService.getSensorList('08/11/2018', '04:35:00').subscribe(
+        res => {
+          this.sensorList = res.data;
+          var e = this.sensorList[0].sensor_list;
+
+          var greenIcon = L.icon({
+            iconUrl: "../assets/images/sensor_icon.png",
+            iconSize: [24, 24], // size of the icon
+            iconAnchor: [12.5, 12.5], // point of the icon which will correspond to marker's location
+            //popupAnchor: [12, 0]
+          });
+
+          var redIcon = L.icon({
+            iconUrl: "../assets/images/sensor_icon.png",
+            iconSize: [24, 24], // size of the icon
+            iconAnchor: [12.5, 12.5], // point of the icon which will correspond to marker's location
+            //popupAnchor: [12, 0]
+          });
+
+          console.log(e);
+          this.lat = e.map(function (x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.latitude);
+          });
+
+          this.lng = e.map(function (x) {
+            const pf = n => Number(parseFloat(n).toFixed(6));
+            return pf(x.longitude);
+          });
+
+          for (let i = 0; i < this.lat.length; i++) {
+            this.coordinates.push([this.lat[i], this.lng[i]]);
+          }
+
+          var html = "";
+
+          for (let i = 0; i < this.lat.length; i++) {
+            html =
+              "<strong> Latitude:" +
+              this.lat[i] +
+              "</strong><br/><strong> Longitude:" +
+              this.lng[i] +
+              "</strong><br/>";
+            var marker = L.marker(this.coordinates[i], {
+              icon: greenIcon
+            })
+              .on("mousemove", function (e) {
+                e.target.setIcon(redIcon);
+              })
+              .on("mouseout", function (e) {
+                e.target.setIcon(greenIcon);
+              })
+              .bindPopup(html);
+            this.markers.push(marker);
+          }
+
+          this.featureGroup = L.featureGroup(this.markers).addTo(this.map);
+          this.map.fitBounds(this.featureGroup.getBounds(), {
+            padding: [50, 50]
+          });
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.map.removeLayer(this.featureGroup);
+    }
+  }
+
+  // genWaterLevel() {
+  //   this.statusHeatmap = !this.statusHeatmap;
+  //   console.log(this.statusHeatmap);
+
+  //   var tiles = L.tileLayer(
+  //     "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png ",
+  //     {
+  //       attribution:
+  //         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  //     }
+  //   ).addTo(this.map);
+
+  //   if (this.statusHeatmap) {
+  //     this.dataService.getSensorList().subscribe(
+  //       res => {
+  //         this.sensorList = res.data;
+
+  //         var e = this.sensorList;
+  //         console.log(e);
+
+  //         this.addressPoints = e.map(function (x) {
+  //           const pf = n => Number(parseFloat(n).toFixed(6));
+  //           return [pf(x.latitude), pf(x.longitude), pf(x.temperature / 5)];
+  //         });
+  //         console.log(this.addressPoints);
+  //         this.heat = L.heatLayer(this.addressPoints, {
+  //           radius: 25,
+  //           gradient: {
+  //             "0.0": "rgb(0, 0, 0)",
+  //             "0.6": "rgb(24, 53, 103)",
+  //             "0.75": "rgb(46, 100, 158)",
+  //             "0.9": "rgb(23, 173, 203)",
+  //             "1.0": "rgb(0, 250, 250)"
+  //           }
+  //         }).addTo(this.map);
+  //       },
+  //       err => {
+  //         console.log(err);
+  //       }
+  //     );
+  //   } else {
+  //     this.map.removeLayer(this.heat);
+  //   }
+  // }
 }

@@ -41,7 +41,7 @@ app.get('/dashboard', function (req, res, next) {
   res.render('../dist/angular6/index.html');
 });
 
-app.get('/path-management', function (req, res, next) {
+app.get('/indoor-heatmap', function (req, res, next) {
   res.render('../dist/angular6/index.html');
 });
 

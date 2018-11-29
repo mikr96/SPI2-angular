@@ -5,6 +5,7 @@ import { OutdoorMapComponent } from './outdoor-map/outdoor-map.component';
 import { ViewTableComponent } from './view-table/view-table.component';
 import { NeedAuthGuard } from '../auth.guard';
 import { AlertComponent } from './alert/alert.component';
+import { IndoorMapComponent } from './indoor-map/indoor-map.component';
 
 const routes: Routes = [{
   path: '',
@@ -15,13 +16,13 @@ const routes: Routes = [{
       component: OutdoorMapComponent
     },
     {
-      path: 'path-management',
-      component: ViewTableComponent
+      path: 'indoor-heatmap',
+      component: IndoorMapComponent
     },
-    {
-      path: 'alert-management',
-      component: AlertComponent
-    }
+    // {
+    //   path: 'alert-management',
+    //   component: AlertComponent
+    // }
   ],
   canActivate: [NeedAuthGuard]
 },
