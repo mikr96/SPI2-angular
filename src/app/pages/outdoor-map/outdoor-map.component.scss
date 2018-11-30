@@ -2,6 +2,85 @@
   height: 100%; 
 }
 
-// .leaflet-heatmap-layer {
-//   opacity: .5 !important;
-// }
+#tempScale{
+  border: 1px solid black;
+  width: 100%;
+  // max-width: 300px;
+  height: 20px;
+  font-size: 12px;
+  position: relative;
+  background: linear-gradient(
+    to right, 
+   #48d1cc 0%,
+   #6fd6be 5%,
+   #89dab0 10%,
+   #9fdfa1 15%,
+   #b1e492 20%,
+   #c2e982 25%,
+   #d1ee71 30%,
+   #dff25e 35%,
+   #ecf747 40%,
+   #f9fc27 45%,
+   #fff510 50%,
+   #fde021 55%,
+   #fccc2a 60%,
+   #f9b730 65%,
+   #f6a235 70%,
+   #f28d38 75%,
+   #ed773a 80%,
+   #e85e3b 85%,
+   #e2423c 90%,
+   #dc143c 100%
+   );
+
+   &:before{
+     content: '20degC';
+     position: absolute;
+     bottom: -25px;
+     left: 0;
+   }
+
+   &:after{
+    content: '40degC';
+    position: absolute;
+    bottom: -25px;
+    right: 0;
+  }
+}
+
+#tempScale,
+#tempPointer{
+  display: none;
+}
+
+.arrow{
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  position: relative;
+
+  &:after,
+  &:before{
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    // content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  &::before {
+    border-bottom-color: black;
+    border-width: 10px;
+    margin-left: -10px;
+  }
+
+  &:after{
+    border-bottom-color: black;
+    border-width: 10px;
+    margin-left: -10px;
+  }
+}

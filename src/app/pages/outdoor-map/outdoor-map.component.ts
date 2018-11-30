@@ -87,6 +87,8 @@ export class OutdoorMapComponent implements OnInit {
 
     if ($('.leaflet-overlay-pane').children().hasClass('leaflet-heatmap-layer')) {
       this.map.removeLayer(this.heat);
+      $('#tempScale').hide();
+      $('#tempPointer').hide();
     }
 
     console.log('date' + value);
@@ -153,48 +155,77 @@ export class OutdoorMapComponent implements OnInit {
       const avgIntensity = e.map(x => x.temperature).reduce((a, c) => a + c, 0) / (e.length * 100);
       console.log(avgIntensity);
 
+      let arrowPosition;
+
       if (avgIntensity >= 0.20 && avgIntensity < 0.21) {
         colorGrad = '#48d1cc';
+        arrowPosition = 0;
       } else if (avgIntensity >= 0.21 && avgIntensity < 0.22) {
         colorGrad = '#6fd6be';
+        arrowPosition = 5;
       } else if (avgIntensity >= 0.22 && avgIntensity < 0.23) {
         colorGrad = '#89dab0';
+        arrowPosition = 10;
       } else if (avgIntensity >= 0.23 && avgIntensity < 0.24) {
         colorGrad = '#9fdfa1';
+        arrowPosition = 15;
       } else if (avgIntensity >= 0.24 && avgIntensity < 0.25) {
         colorGrad = '#b1e492';
+        arrowPosition = 20;
       } else if (avgIntensity >= 0.25 && avgIntensity < 0.26) {
         colorGrad = '#c2e982';
+        arrowPosition = 25;
       } else if (avgIntensity >= 0.26 && avgIntensity < 0.27) {
         colorGrad = '#d1ee71';
+        arrowPosition = 30;
       } else if (avgIntensity >= 0.27 && avgIntensity < 0.28) {
         colorGrad = '#dff25e';
+        arrowPosition = 35;
       } else if (avgIntensity >= 0.28 && avgIntensity < 0.29) {
         colorGrad = '#ecf747';
+        arrowPosition = 40;
       } else if (avgIntensity >= 0.29 && avgIntensity < 0.30) {
         colorGrad = '#f9fc27';
+        arrowPosition = 45;
       } else if (avgIntensity >= 0.30 && avgIntensity < 0.31) {
         colorGrad = '#fff510';
+        arrowPosition = 50;
       } else if (avgIntensity >= 0.31 && avgIntensity < 0.32) {
         colorGrad = '#fde021';
+        arrowPosition = 55;
       } else if (avgIntensity >= 0.32 && avgIntensity < 0.33) {
         colorGrad = '#fccc2a';
+        arrowPosition = 60;
       } else if (avgIntensity >= 0.33 && avgIntensity < 0.34) {
         colorGrad = '#f9b730';
+        arrowPosition = 65;
       } else if (avgIntensity >= 0.34 && avgIntensity < 0.35) {
         colorGrad = '#f6a235';
+        arrowPosition = 70;
       } else if (avgIntensity >= 0.35 && avgIntensity < 0.36) {
         colorGrad = '#f28d38';
+        arrowPosition = 75;
       } else if (avgIntensity >= 0.36 && avgIntensity < 0.37) {
         colorGrad = '#ed773a';
+        arrowPosition = 80;
       } else if (avgIntensity >= 0.37 && avgIntensity < 0.38) {
         colorGrad = '#e85e3b';
+        arrowPosition = 85;
       } else if (avgIntensity >= 0.38 && avgIntensity < 0.39) {
         colorGrad = '#e2423c';
+        arrowPosition = 90;
       } else if (avgIntensity >= 0.39 && avgIntensity < 0.40) {
         colorGrad = '#dc143c';
+        arrowPosition = 100;
       }
 
+      $('#tempScale').show();
+      $('#tempPointer').show();
+
+      $("<style>.arrow:after { left: " + (arrowPosition) + "% !important; content: ' '; }</style>").appendTo("#tempPointer");
+
+      $('#tempPointer p').children().remove();
+      $('#tempPointer p').append('<span> ' + (avgIntensity * 100).toFixed(2) + ' degC</span>');
 
       this.heat = L.heatLayer(this.addressPoints, {
         radius: 40,

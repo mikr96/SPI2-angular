@@ -803,7 +803,7 @@ var IndoorMapComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-sm-4\">\r\n  <button (click)=\"genSensor()\" class=\"btn btn-block btn-primary\">SENSORS</button>\r\n  <button (click)=\"genPath()\" class=\"btn btn-block btn-primary\">PATH</button>\r\n  <button class=\"btn btn-block btn-primary mt-20\">HEATMAP</button>\r\n  <div class=\"row pd-20\">\r\n\r\n    <div class=\"col-xs-12\">\r\n      <select style=\"width: 100%;\" (change)=\"onDateChange($event.target.value)\">\r\n        <option disabled selected value> -- Select Date -- </option>\r\n        <option *ngFor=\"let data of dataDateArr\" [value]=\"data.str_date_updated\">{{data.str_date_updated}}</option>\r\n      </select>\r\n\r\n      <select style=\"width: 100%;\" (change)=\"onTimeChange($event.target.value)\" class=\"mt-20\">\r\n        <option disabled selected value> -- Select Time -- </option>\r\n        <option *ngFor=\"let data of dataTimeArr\" [value]=\"data.str_date_updated\">{{data.strfull_date_updated}}</option>\r\n      </select>\r\n    </div>\r\n\r\n  </div>\r\n</div>\r\n\r\n<div class=\"col-sm-8\">\r\n  <div id=\"map\"></div>\r\n</div>\r\n"
+module.exports = "<div class=\"col-sm-4\">\r\n  <button (click)=\"genSensor()\" class=\"btn btn-block btn-primary\">SENSORS</button>\r\n  <button (click)=\"genPath()\" class=\"btn btn-block btn-primary\">PATH</button>\r\n  <button class=\"btn btn-block btn-primary mt-20\">HEATMAP</button>\r\n  <div class=\"row pd-20\">\r\n\r\n    <div class=\"col-xs-12\">\r\n      <select style=\"width: 100%;\" (change)=\"onDateChange($event.target.value)\">\r\n        <option disabled selected value> -- Select Date -- </option>\r\n        <option *ngFor=\"let data of dataDateArr\" [value]=\"data.str_date_updated\">{{data.str_date_updated}}</option>\r\n      </select>\r\n\r\n      <select style=\"width: 100%;\" (change)=\"onTimeChange($event.target.value)\" class=\"mt-20\">\r\n        <option disabled selected value> -- Select Time -- </option>\r\n        <option *ngFor=\"let data of dataTimeArr\" [value]=\"data.str_date_updated\">{{data.strfull_date_updated}}</option>\r\n      </select>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div id=\"tempScale\"></div>\r\n  <div id=\"tempPointer\" class=\"arrow\">\r\n    <p>Average Temperature:</p>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"col-sm-8\">\r\n  <div id=\"map\"></div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -814,7 +814,7 @@ module.exports = "<div class=\"col-sm-4\">\r\n  <button (click)=\"genSensor()\" 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#map {\n  height: 100%; }\n"
+module.exports = "#map {\n  height: 100%; }\n\n#tempScale {\n  border: 1px solid black;\n  width: 100%;\n  height: 20px;\n  font-size: 12px;\n  position: relative;\n  background: linear-gradient(to right, #48d1cc 0%, #6fd6be 5%, #89dab0 10%, #9fdfa1 15%, #b1e492 20%, #c2e982 25%, #d1ee71 30%, #dff25e 35%, #ecf747 40%, #f9fc27 45%, #fff510 50%, #fde021 55%, #fccc2a 60%, #f9b730 65%, #f6a235 70%, #f28d38 75%, #ed773a 80%, #e85e3b 85%, #e2423c 90%, #dc143c 100%); }\n\n#tempScale:before {\n    content: '20degC';\n    position: absolute;\n    bottom: -25px;\n    left: 0; }\n\n#tempScale:after {\n    content: '40degC';\n    position: absolute;\n    bottom: -25px;\n    right: 0; }\n\n#tempScale,\n#tempPointer {\n  display: none; }\n\n.arrow {\n  margin-top: 30px;\n  padding: 20px;\n  border: 1px solid black;\n  border-radius: 10px;\n  position: relative; }\n\n.arrow:after, .arrow:before {\n    bottom: 100%;\n    left: 50%;\n    border: solid transparent;\n    height: 0;\n    width: 0;\n    position: absolute;\n    pointer-events: none; }\n\n.arrow::before {\n    border-bottom-color: black;\n    border-width: 10px;\n    margin-left: -10px; }\n\n.arrow:after {\n    border-bottom-color: black;\n    border-width: 10px;\n    margin-left: -10px; }\n"
 
 /***/ }),
 
@@ -895,6 +895,8 @@ var OutdoorMapComponent = /** @class */ (function () {
         var _this = this;
         if ($('.leaflet-overlay-pane').children().hasClass('leaflet-heatmap-layer')) {
             this.map.removeLayer(this.heat);
+            $('#tempScale').hide();
+            $('#tempPointer').hide();
         }
         console.log('date' + value);
         this.dateSelect = value;
@@ -940,66 +942,92 @@ var OutdoorMapComponent = /** @class */ (function () {
             });
             var avgIntensity = e.map(function (x) { return x.temperature; }).reduce(function (a, c) { return a + c; }, 0) / (e.length * 100);
             console.log(avgIntensity);
+            var arrowPosition;
             if (avgIntensity >= 0.20 && avgIntensity < 0.21) {
                 colorGrad = '#48d1cc';
+                arrowPosition = 0;
             }
             else if (avgIntensity >= 0.21 && avgIntensity < 0.22) {
                 colorGrad = '#6fd6be';
+                arrowPosition = 5;
             }
             else if (avgIntensity >= 0.22 && avgIntensity < 0.23) {
                 colorGrad = '#89dab0';
+                arrowPosition = 10;
             }
             else if (avgIntensity >= 0.23 && avgIntensity < 0.24) {
                 colorGrad = '#9fdfa1';
+                arrowPosition = 15;
             }
             else if (avgIntensity >= 0.24 && avgIntensity < 0.25) {
                 colorGrad = '#b1e492';
+                arrowPosition = 20;
             }
             else if (avgIntensity >= 0.25 && avgIntensity < 0.26) {
                 colorGrad = '#c2e982';
+                arrowPosition = 25;
             }
             else if (avgIntensity >= 0.26 && avgIntensity < 0.27) {
                 colorGrad = '#d1ee71';
+                arrowPosition = 30;
             }
             else if (avgIntensity >= 0.27 && avgIntensity < 0.28) {
                 colorGrad = '#dff25e';
+                arrowPosition = 35;
             }
             else if (avgIntensity >= 0.28 && avgIntensity < 0.29) {
                 colorGrad = '#ecf747';
+                arrowPosition = 40;
             }
             else if (avgIntensity >= 0.29 && avgIntensity < 0.30) {
                 colorGrad = '#f9fc27';
+                arrowPosition = 45;
             }
             else if (avgIntensity >= 0.30 && avgIntensity < 0.31) {
                 colorGrad = '#fff510';
+                arrowPosition = 50;
             }
             else if (avgIntensity >= 0.31 && avgIntensity < 0.32) {
                 colorGrad = '#fde021';
+                arrowPosition = 55;
             }
             else if (avgIntensity >= 0.32 && avgIntensity < 0.33) {
                 colorGrad = '#fccc2a';
+                arrowPosition = 60;
             }
             else if (avgIntensity >= 0.33 && avgIntensity < 0.34) {
                 colorGrad = '#f9b730';
+                arrowPosition = 65;
             }
             else if (avgIntensity >= 0.34 && avgIntensity < 0.35) {
                 colorGrad = '#f6a235';
+                arrowPosition = 70;
             }
             else if (avgIntensity >= 0.35 && avgIntensity < 0.36) {
                 colorGrad = '#f28d38';
+                arrowPosition = 75;
             }
             else if (avgIntensity >= 0.36 && avgIntensity < 0.37) {
                 colorGrad = '#ed773a';
+                arrowPosition = 80;
             }
             else if (avgIntensity >= 0.37 && avgIntensity < 0.38) {
                 colorGrad = '#e85e3b';
+                arrowPosition = 85;
             }
             else if (avgIntensity >= 0.38 && avgIntensity < 0.39) {
                 colorGrad = '#e2423c';
+                arrowPosition = 90;
             }
             else if (avgIntensity >= 0.39 && avgIntensity < 0.40) {
                 colorGrad = '#dc143c';
+                arrowPosition = 100;
             }
+            $('#tempScale').show();
+            $('#tempPointer').show();
+            $("<style>.arrow:after { left: " + (arrowPosition) + "% !important; content: ' '; }</style>").appendTo("#tempPointer");
+            $('#tempPointer p').children().remove();
+            $('#tempPointer p').append('<span> ' + (avgIntensity * 100).toFixed(2) + ' degC</span>');
             _this.heat = L.heatLayer(_this.addressPoints, {
                 radius: 40,
                 gradient: {
