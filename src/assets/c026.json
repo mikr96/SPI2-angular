@@ -1,0 +1,195 @@
+{
+  "status": true,
+  "data": [
+    {
+      "id": 1,
+      "sensor_list": [
+        {
+          "latitude": 2.915467,
+          "longitude": 101.62854,
+          "temperature": 26.83770268
+        },
+        {
+          "latitude": 2.915409,
+          "longitude": 101.628688,
+          "temperature": 26.82704911
+        },
+        {
+          "latitude": 2.915408,
+          "longitude": 101.628852,
+          "temperature": 26.72051339
+        },
+        {
+          "latitude": 2.915406,
+          "longitude": 101.629096,
+          "temperature": 26.78443482
+        },
+        {
+          "latitude": 2.915403,
+          "longitude": 101.629342,
+          "temperature": 26.65126518
+        },
+        {
+          "latitude": 2.915403,
+          "longitude": 101.62956,
+          "temperature": 26.77644464
+        },
+        {
+          "latitude": 2.915399,
+          "longitude": 101.629752,
+          "temperature": 26.65659196
+        },
+        {
+          "latitude": 2.915398,
+          "longitude": 101.630052,
+          "temperature": 26.69654286
+        },
+        {
+          "latitude": 2.915394,
+          "longitude": 101.630272,
+          "temperature": 26.73915714
+        },
+        {
+          "latitude": 2.915399,
+          "longitude": 101.630482,
+          "temperature": 26.6805625
+        },
+        {
+          "latitude": 2.915017,
+          "longitude": 101.630505,
+          "temperature": 26.78976161
+        },
+        {
+          "latitude": 2.914747,
+          "longitude": 101.630523,
+          "temperature": 26.60332411
+        },
+        {
+          "latitude": 2.914503,
+          "longitude": 101.630538,
+          "temperature": 26.65392857
+        },
+        {
+          "latitude": 2.914287,
+          "longitude": 101.630551,
+          "temperature": 26.69654286
+        },
+        {
+          "latitude": 2.914012,
+          "longitude": 101.630567,
+          "temperature": 26.65659196
+        },
+        {
+          "latitude": 2.913782,
+          "longitude": 101.630582,
+          "temperature": 26.69654286
+        },
+        {
+          "latitude": 2.913519,
+          "longitude": 101.630598,
+          "temperature": 26.69920625
+        },
+        {
+          "latitude": 2.913354,
+          "longitude": 101.630609,
+          "temperature": 26.67789911
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "sensor_list": [
+        {
+          "latitude": 2.915467,
+          "longitude": 101.62854,
+          "temperature": 26.71785
+        },
+        {
+          "latitude": 2.915409,
+          "longitude": 101.628688,
+          "temperature": 26.71548254
+        },
+        {
+          "latitude": 2.915408,
+          "longitude": 101.628852,
+          "temperature": 26.67050079
+        },
+        {
+          "latitude": 2.915406,
+          "longitude": 101.629096,
+          "temperature": 26.66576587
+        },
+        {
+          "latitude": 2.915403,
+          "longitude": 101.629342,
+          "temperature": 26.54265794
+        },
+        {
+          "latitude": 2.915403,
+          "longitude": 101.62956,
+          "temperature": 26.65392857
+        },
+        {
+          "latitude": 2.915399,
+          "longitude": 101.629752,
+          "temperature": 26.54739286
+        },
+        {
+          "latitude": 2.915398,
+          "longitude": 101.630052,
+          "temperature": 26.58290476
+        },
+        {
+          "latitude": 2.915394,
+          "longitude": 101.630272,
+          "temperature": 26.63262143
+        },
+        {
+          "latitude": 2.915399,
+          "longitude": 101.630482,
+          "temperature": 26.5687
+        },
+        {
+          "latitude": 2.915017,
+          "longitude": 101.630505,
+          "temperature": 26.67760317
+        },
+        {
+          "latitude": 2.914747,
+          "longitude": 101.630523,
+          "temperature": 26.51661587
+        },
+        {
+          "latitude": 2.914503,
+          "longitude": 101.630538,
+          "temperature": 26.5687
+        },
+        {
+          "latitude": 2.914287,
+          "longitude": 101.630551,
+          "temperature": 26.58290476
+        },
+        {
+          "latitude": 2.914012,
+          "longitude": 101.630567,
+          "temperature": 26.54739286
+        },
+        {
+          "latitude": 2.913782,
+          "longitude": 101.630582,
+          "temperature": 26.58527222
+        },
+        {
+          "latitude": 2.913519,
+          "longitude": 101.630598,
+          "temperature": 26.6042119
+        },
+        {
+          "latitude": 2.913354,
+          "longitude": 101.630609,
+          "temperature": 26.57816984
+        }
+      ]
+    }
+  ]
+}

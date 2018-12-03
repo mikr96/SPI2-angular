@@ -46,8 +46,9 @@ export class IndoorMapComponent implements OnInit {
 
   ngOnInit() {
     this.data.getDataIndoor().subscribe(data => {
-      var size = Object.keys(data).length;
-      this.max = size;
+      var size = Object.keys(data.data).length;
+      console.log(size);
+      this.max = size - 1;
       this.test = data.data[0].date_updated;
       data = data.data[0];
       this.coordinates = data.sensor_list;

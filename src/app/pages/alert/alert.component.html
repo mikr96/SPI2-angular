@@ -1,34 +1,35 @@
+
 <h2>Alert Management</h2>
 <div class="container">
-  <table datatable class="row-border hover">
+<table datatable class="row-border hover">
     <thead id="TblHead">
-      <tr>
-        <th>ID</th>
-        <th>Device Type</th>
-        <th>Map Type</th>
-        <th>Name</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>Result</th>
-        <th>Last Update</th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let alert of alerts">
-        <td>{{ alert.id }}</td>
-        <td>{{ alert.deviceType }}</td>
-        <td>{{ alert.mapType }}</td>
-        <td>{{ alert.name }}</td>
-        <td>{{ alert.lat }}</td>
-        <td>{{ alert.lng }}</td>
-        <td>{{ alert.result }}</td>
-        <td>{{ alert.lastUpdate }}</td>
-        <td><button (click)="acknowledge(alert)" class="btn btn-block btn-primary">Acknowledge</button>
-        <span *ngIf="alert.acknowledge">By: {{alert.acknowledge}}</span></td>
+        <tr>
+          <!-- <th>ID</th> -->
+          <th>Device Type</th>
+          <th>Map Type</th>
+          <th>Name</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+          <th>Temperature</th>
+          <th>Last Update</th>
+          <th></th>
+          <th></th> 
+        </tr>
+      </thead>
+      <tbody>
+    <tr *ngFor="let data of merged">
+      <!-- <td>{{ data.id }}</td> -->
+      <td>{{ data.deviceType }}</td>
+      <td>{{ data.mapType }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.lat }}</td>
+      <td>{{ data.lng }}</td>
+      <td>{{ data.temp }}</td>
+      <td>{{ data.lastUpdate }}</td>
+      <td><button (click)="acknowledge(data)" class="btn btn-block btn-primary">Acknowledge</button>
+        <span *ngIf="data.acknowledge">By: {{data.acknowledge}}</span></td>
         <td><button class="btn btn-block btn-primary">View</button></td>
-      </tr>
-    </tbody>
+    </tr> 
+  </tbody>
   </table>
 </div>

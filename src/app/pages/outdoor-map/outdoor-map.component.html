@@ -2,12 +2,41 @@
   <div class="col-sm-4">
     <h3>MAP</h3>
     <button
-      id="toggleSensor"
-      (click)="genSensor()"
       class="btn btn-block btn-primary"
+      type="button"
+      data-toggle="collapse"
+      data-target="#collapseExample"
+      aria-expanded="false"
+      aria-controls="collapseExample"
     >
       SENSORS
     </button>
+    <div class="collapse" id="collapseExample">
+      <button
+        value="1"
+        (click)="genSensor()"
+        id="icad"
+        class="btn btn-block btn-secondary"
+      >
+        C026
+      </button>
+      <button
+        value="2"
+        (click)="genSensor($value)"
+        id="icad"
+        class="btn btn-block btn-secondary"
+      >
+        CBJ2 to FDC
+      </button>
+      <button
+        value="3"
+        (click)="genSensor($event.value)"
+        id="icad"
+        class="btn btn-block btn-secondary"
+      >
+        TMRND to CBJ2
+      </button>
+    </div>
     <button
       class="btn btn-block btn-primary"
       type="button"

@@ -30,7 +30,6 @@ export class OutdoorMapComponent implements OnInit {
   coordinates: any = [];
   coordinates_sensor: any = [];
   sensors: any = [];
-  val = 0;
 
   autoTicks = false;
   disabled = false;
@@ -108,24 +107,21 @@ export class OutdoorMapComponent implements OnInit {
         var size = Object.keys(e).length;
         this.max = size - 1;
         if (value != "delete") {
-          this.sensorList = res.data;
-
-          var e = this.sensorList;
           //console.log(e[0].sensor_list);
 
           this.lat = e[value].sensor_list.map(function(x) {
             const pf = n => Number(parseFloat(n).toFixed(6));
-            return pf(x.Latitude);
+            return pf(x.latitude);
           });
 
           this.lng = e[value].sensor_list.map(function(x) {
             const pf = n => Number(parseFloat(n).toFixed(6));
-            return pf(x.Longitude);
+            return pf(x.longitude);
           });
 
           this.temp = e[value].sensor_list.map(function(x) {
             const pf = n => Number(parseFloat(n).toFixed(6));
-            return pf(x.Temperature);
+            return pf(x.temperature);
           });
 
           for (let i = 0; i < this.lat.length; i++) {
@@ -134,17 +130,17 @@ export class OutdoorMapComponent implements OnInit {
 
           for (let i = 0; i < this.lat.length; i++) {
             if (this.temp[i] > 26.7) {
-              var sensor = L.circle(this.coordinates[i], 50, {
+              var sensor = L.circle(this.coordinates[i], 25, {
                 weight: 0,
-                fillColor: "#B22222",
-                fillOpacity: 0.3
+                fillColor: "red",
+                fillOpacity: 1
               });
               this.sensors.push(sensor);
             } else if (this.temp[i] < 26.7) {
-              var sensor = L.circle(this.coordinates[i], 50, {
+              var sensor = L.circle(this.coordinates[i], 25, {
                 weight: 0,
-                fillColor: "#40E0D0",
-                fillOpacity: 0.3
+                fillColor: "orange",
+                fillOpacity: 1
               });
               this.sensors.push(sensor);
             }
@@ -410,6 +406,8 @@ export class OutdoorMapComponent implements OnInit {
   }
 
   genSensor() {
+    var inputValue = (<HTMLInputElement>document.getElementById("icad")).value;
+    console.log(inputValue);
     this.statusSensorList = !this.statusSensorList;
 
     L.tileLayer(
@@ -419,87 +417,195 @@ export class OutdoorMapComponent implements OnInit {
           '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       }
     ).addTo(this.map);
+    if (inputValue == "1") {
+      if (this.statusSensorList) {
+        this.dataService.getHeatmap2().subscribe(
+          res => {
+            this.sensorList = res.data;
+            var e = this.sensorList;
 
-    if (this.statusSensorList) {
-      this.dataService.getSensorList().subscribe(
-        res => {
-          this.sensorList = res.data;
-          var e = this.sensorList;
+            var greenIcon = L.icon({
+              iconUrl: "src/assets/images/greenIcon.svg",
+              iconSize: [24, 24], // size of the icon
+              iconAnchor: [15, 23], // point of the icon which will correspond to marker's location
+              popupAnchor: [12, 0]
+            });
 
-          var greenIcon = L.icon({
-            iconUrl: "src/assets/images/greenIcon.svg",
-            iconSize: [24, 24], // size of the icon
-            iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
-            popupAnchor: [12, 0]
-          });
+            console.log(e);
+            // var redIcon = L.icon({
+            //   iconUrl: "src/assets/images/redIcon.svg",
+            //   iconSize: [24, 24], // size of the icon
+            //   iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+            //   popupAnchor: [12, 0]
+            // });
 
-          var redIcon = L.icon({
-            iconUrl: "src/assets/images/redIcon.svg",
-            iconSize: [24, 24], // size of the icon
-            iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
-            popupAnchor: [12, 0]
-          });
+            //console.log(e);
+            this.lat_sensor = e[0].sensor_list.map(function(x) {
+              const pf = n => Number(parseFloat(n).toFixed(6));
+              return pf(x.latitude);
+            });
 
-          //console.log(e);
-          this.lat_sensor = e.map(function(x) {
-            const pf = n => Number(parseFloat(n).toFixed(6));
-            return pf(x.latitude);
-          });
+            this.lng_sensor = e[0].sensor_list.map(function(x) {
+              const pf = n => Number(parseFloat(n).toFixed(6));
+              return pf(x.longitude);
+            });
 
-          this.lng_sensor = e.map(function(x) {
-            const pf = n => Number(parseFloat(n).toFixed(6));
-            return pf(x.longitude);
-          });
+            this.path = e[0].sensor_list.map(function(x) {
+              const pf = n => Number(parseFloat(n).toFixed(6));
+              return [pf(x.latitude), pf(x.longitude)];
+            });
 
-          for (let i = 0; i < this.lat_sensor.length; i++) {
-            this.coordinates_sensor.push([
-              this.lat_sensor[i],
-              this.lng_sensor[i]
-            ]);
-          }
+            for (let i = 0; i < this.lat_sensor.length; i++) {
+              this.coordinates_sensor.push([
+                this.lat_sensor[i],
+                this.lng_sensor[i]
+              ]);
+            }
 
-          var html = "";
+            var html = "";
 
-          for (let i = 0; i < this.lat_sensor.length; i++) {
-            html =
-              "<strong> Latitude:" +
-              this.lat_sensor[i] +
-              "</strong><br/><strong> Longitude:" +
-              this.lng_sensor[i] +
-              "</strong><br/>";
-            var marker = L.marker(this.coordinates_sensor[i], {
-              icon: greenIcon
-            })
-              .on("mousemove", function(e) {
-                e.target.setIcon(redIcon);
+            for (let i = 0; i < this.lat_sensor.length; i++) {
+              html =
+                "<strong> Latitude:" +
+                this.lat_sensor[i] +
+                "</strong><br/><strong> Longitude:" +
+                this.lng_sensor[i] +
+                "</strong><br/>";
+              var marker = L.marker(this.coordinates_sensor[i], {
+                icon: greenIcon
               })
-              .on("mouseout", function(e) {
-                e.target.setIcon(greenIcon);
-              })
-              .bindPopup(html);
-            this.markers.push(marker);
-          }
+                // .on("mousemove", function(e) {
+                //   e.target.setIcon(redIcon);
+                // })
+                // .on("mouseout", function(e) {
+                //   e.target.setIcon(greenIcon);
+                // })
+                .bindPopup(html);
+              this.markers.push(marker);
+            }
 
-          this.featureGroup_sensor = L.featureGroup(this.markers).addTo(
-            this.map
-          );
-          this.map.fitBounds(this.featureGroup_sensor.getBounds(), {
-            padding: [50, 50]
-          });
-        },
-        err => {
-          console.log(err);
-        }
-      );
+            this.featureGroup_sensor = L.featureGroup(this.markers).addTo(
+              this.map
+            );
+
+            this.firstpolyline = new L.polyline(this.path, {
+              color: "red",
+              weight: 7,
+              opacity: 0.7,
+              // dashArray: '9,30',
+              lineCap: "square",
+              lineJoin: "round"
+            });
+
+            this.firstpolyline.addTo(this.map);
+
+            this.map.fitBounds(this.featureGroup_sensor.getBounds(), {
+              padding: [50, 50]
+            });
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      } else {
+        this.map.removeLayer(this.featureGroup_sensor);
+        this.map.removeLayer(this.firstpolyline);
+      }
+    } else if (inputValue == "2") {
+      if (this.statusSensorList) {
+        this.dataService.getHeatmap3().subscribe(
+          res => {
+            this.sensorList = res.data;
+            var e = this.sensorList;
+
+            // var greenIcon = L.icon({
+            //   iconUrl: "src/assets/images/greenIcon.svg",
+            //   iconSize: [24, 24], // size of the icon
+            //   iconAnchor: [15, 23], // point of the icon which will correspond to marker's location
+            //   popupAnchor: [12, 0]
+            // });
+
+            console.log(e);
+            var redIcon = L.icon({
+              iconUrl: "src/assets/images/redIcon.svg",
+              iconSize: [24, 24], // size of the icon
+              iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+              popupAnchor: [12, 0]
+            });
+
+            //console.log(e);
+            this.lat_sensor = e[0].sensor_list.map(function(x) {
+              const pf = n => Number(parseFloat(n).toFixed(6));
+              return pf(x.latitude);
+            });
+
+            this.lng_sensor = e[0].sensor_list.map(function(x) {
+              const pf = n => Number(parseFloat(n).toFixed(6));
+              return pf(x.longitude);
+            });
+
+            this.path = e[0].sensor_list.map(function(x) {
+              const pf = n => Number(parseFloat(n).toFixed(6));
+              return [pf(x.latitude), pf(x.longitude)];
+            });
+
+            for (let i = 0; i < this.lat_sensor.length; i++) {
+              this.coordinates_sensor.push([
+                this.lat_sensor[i],
+                this.lng_sensor[i]
+              ]);
+            }
+
+            var html = "";
+
+            for (let i = 0; i < this.lat_sensor.length; i++) {
+              html =
+                "<strong> Latitude:" +
+                this.lat_sensor[i] +
+                "</strong><br/><strong> Longitude:" +
+                this.lng_sensor[i] +
+                "</strong><br/>";
+              var marker = L.marker(this.coordinates_sensor[i], {
+                icon: redIcon
+              })
+                // .on("mousemove", function(e) {
+                //   e.target.setIcon(redIcon);
+                // })
+                // .on("mouseout", function(e) {
+                //   e.target.setIcon(greenIcon);
+                // })
+                .bindPopup(html);
+              this.markers.push(marker);
+            }
+
+            this.featureGroup_sensor = L.featureGroup(this.markers).addTo(
+              this.map
+            );
+
+            this.firstpolyline = new L.polyline(this.path, {
+              color: "red",
+              weight: 7,
+              opacity: 0.7,
+              // dashArray: '9,30',
+              lineCap: "square",
+              lineJoin: "round"
+            });
+
+            this.firstpolyline.addTo(this.map);
+
+            this.map.fitBounds(this.featureGroup_sensor.getBounds(), {
+              padding: [50, 50]
+            });
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      } else {
+        this.map.removeLayer(this.featureGroup_sensor);
+        this.map.removeLayer(this.firstpolyline);
+      }
     } else {
-      this.map.removeLayer(this.featureGroup_sensor);
-      L.tileLayer(
-        "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png ",
-        {
-          attribution:
-            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }
-      ).addTo(this.map);
     }
   }
 

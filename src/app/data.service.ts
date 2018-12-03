@@ -55,7 +55,7 @@ export class DataService {
   }
 
   getHeatmap1(): any {
-    return this.http.get("src/assets/outdoor_c026.json").pipe(
+    return this.http.get("src/assets/c026.json").pipe(
       map((response: Response) => response),
 
       catchError(error => {
@@ -65,7 +65,7 @@ export class DataService {
   }
 
   getHeatmap2(): any {
-    return this.http.get("src/assets/outdoor_cbj2.json").pipe(
+    return this.http.get("src/assets/tmrnd_cbj2.json").pipe(
       map((response: Response) => response),
 
       catchError(error => {
@@ -75,7 +75,7 @@ export class DataService {
   }
 
   getHeatmap3(): any {
-    return this.http.get("src/assets/outdoor_cbj2.json").pipe(
+    return this.http.get("src/assets/cbj2_fdc.json").pipe(
       map((response: Response) => response),
 
       catchError(error => {

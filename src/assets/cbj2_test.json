@@ -1,0 +1,372 @@
+[
+  {
+    "id": 1,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.931104,
+    "lng": 101.65881,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 2,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930174,
+    "lng": 101.658459,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 3,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930498,
+    "lng": 101.657691,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 5,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.929365,
+    "lng": 101.657084,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 6,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.929972,
+    "lng": 101.656315,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 7,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930444,
+    "lng": 101.655398,
+    "temp": 0.07575757576,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 8,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930646,
+    "lng": 101.653915,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 9,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930659,
+    "lng": 101.652594,
+    "temp": 0.07575757576,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 10,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930632,
+    "lng": 101.651825,
+    "temp": 0.07575757576,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 11,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930592,
+    "lng": 101.650369,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 12,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930538,
+    "lng": 101.648872,
+    "temp": 0.07575757576,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 13,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930484,
+    "lng": 101.647457,
+    "temp": 0.07575757576,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 14,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.930646,
+    "lng": 101.645569,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 15,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.931765,
+    "lng": 101.644059,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 16,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.933154,
+    "lng": 101.642859,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 17,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.933795,
+    "lng": 101.641169,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 18,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.933902,
+    "lng": 101.639182,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 19,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.932756,
+    "lng": 101.638764,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 20,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.931219,
+    "lng": 101.638305,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 21,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.929763,
+    "lng": 101.637982,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 22,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.928617,
+    "lng": 101.637725,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 23,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.927161,
+    "lng": 101.637523,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 24,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.925799,
+    "lng": 101.63751,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 25,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.924423,
+    "lng": 101.63755,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 26,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.923075,
+    "lng": 101.637537,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 27,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.92174,
+    "lng": 101.637577,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 28,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.920411,
+    "lng": 101.637594,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 29,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.919624,
+    "lng": 101.637574,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 30,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.918993,
+    "lng": 101.637621,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 31,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.917837,
+    "lng": 101.637849,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 32,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.91662,
+    "lng": 101.638487,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 33,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.917548,
+    "lng": 101.639516,
+    "temp": 0.08838383838,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 34,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.918993,
+    "lng": 101.64004,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 35,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.919806,
+    "lng": 101.640228,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 36,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.920552,
+    "lng": 101.640725,
+    "temp": 0.101010101,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 37,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.920128,
+    "lng": 101.641108,
+    "temp": 0.07575757576,
+    "lastUpdate": "30/10/2018 16:40"
+  },
+  {
+    "id": 38,
+    "deviceType": "Sensor",
+    "mapType": "Outdoor",
+    "name": "CBJ2",
+    "lat": 2.920122,
+    "lng": 101.641673,
+    "temp": 0.1136363636,
+    "lastUpdate": "30/10/2018 16:40"
+  }
+]
