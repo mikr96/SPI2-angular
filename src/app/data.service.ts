@@ -1,28 +1,32 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Http, Headers, Response } from '@angular/http';
-import { map, filter, switchMap, catchError, observeOn } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Http, Headers, Response } from "@angular/http";
+import { map, filter, switchMap, catchError, observeOn } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-
 export class DataService {
-
   OIP_ENDPOINT: string = "https://api.oip.tm.com.my/app/t/tmrnd.com.my/";
   DB_ENDPOINT: string = "http://10.44.42.87:1882/";
+  urlPath: string = "src/assets/path.json";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // App login check via LDAP Authentication
   loginOip(credentials: any) {
     let headers = new HttpHeaders({
-      'Authorization': 'Bearer ee07dab5-ec1d-3346-8d6b-9a194d9bbf4e'
+      Authorization: "Bearer ee07dab5-ec1d-3346-8d6b-9a194d9bbf4e"
     });
-    var url = this.OIP_ENDPOINT + 'ldap/1.0/ldapauth?username=' + credentials.username + '&password=' + credentials.password;
-    return this.http.post(url, JSON.stringify(credentials), { headers: headers })
+    var url =
+      this.OIP_ENDPOINT +
+      "ldap/1.0/ldapauth?username=" +
+      credentials.username +
+      "&password=" +
+      credentials.password;
+    return this.http
+      .post(url, JSON.stringify(credentials), { headers: headers })
       .pipe(
         map((response: Response) => response),
         catchError(error => {
@@ -32,17 +36,19 @@ export class DataService {
   }
 
   getDataDate(): any {
-    return this.http.get(this.DB_ENDPOINT + 'spi2/sensor_outdoor_dates')
-      .pipe(
-        map((response: Response) => response),
-        catchError(error => {
-          return Observable.throw(error);
-        })
-      );
+    return this.http.get(this.DB_ENDPOINT + "spi2/sensor_outdoor_dates").pipe(
+      map((response: Response) => response),
+      catchError(error => {
+        return Observable.throw(error);
+      })
+    );
   }
 
   getTimeDate(dateString: string): any {
-    return this.http.get(this.DB_ENDPOINT + 'spi2/sensor_outdoor_time?sensor_date=' + dateString)
+    return this.http
+      .get(
+        this.DB_ENDPOINT + "spi2/sensor_outdoor_time?sensor_date=" + dateString
+      )
       .pipe(
         map((response: Response) => response),
         catchError(error => {
@@ -64,7 +70,14 @@ export class DataService {
 
     // console.log(url);
 
-    return this.http.get(this.DB_ENDPOINT + 'spi2/sensor_list_outdoor_daily?sensor_date=' + dataDate + '&&sensor_time=' + datatime)
+    return this.http
+      .get(
+        this.DB_ENDPOINT +
+          "spi2/sensor_list_outdoor_daily?sensor_date=" +
+          dataDate +
+          "&&sensor_time=" +
+          datatime
+      )
       .pipe(
         map((response: Response) => response),
         catchError(error => {
@@ -83,4 +96,23 @@ export class DataService {
     );
   }
 
+  getPath(): any {
+    return this.http.get(this.urlPath).pipe(
+      map((response: Response) => response),
+      catchError(error => {
+        return Observable.throw(error);
+      })
+    );
+  }
+
+  getPathCoord(path: String): any {
+    return this.http
+      .get(this.DB_ENDPOINT + "spi2/sensor_outdoor_time?path=" + path)
+      .pipe(
+        map((response: Response) => response),
+        catchError(error => {
+          return Observable.throw(error);
+        })
+      );
+  }
 }
