@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DataService } from "src/app/data.service";
+import { Chart } from "src/libs/chart.js/dist/Chart.js";
+import { BuiltinType } from "@angular/compiler";
 
 declare var $: any;
 declare let L;
@@ -10,10 +12,13 @@ declare let L;
   styleUrls: ["./outdoor-map.component.scss"]
 })
 export class OutdoorMapComponent implements OnInit {
+  // @ViewChild("myChart") private chartRef;
+  checked = false;
   sensorList: any = [];
   dataDateArr: any = [];
   dataPathArr: any = [];
   coordArr: any = [];
+  tempArr: any = [];
   dataDate: any = [];
   dataPath: any = [];
   dateSelect: any;
@@ -21,25 +26,33 @@ export class OutdoorMapComponent implements OnInit {
   dataTimeArr: any = [];
   addressPoints: any = [];
   map: any;
+  chart = [];
   statusHeatmap: boolean = false;
-  statusHeatmap2: boolean = false;
-  statusSensorList: boolean = false;
-  alertStatus: boolean = false;
   heat: any;
   featureGroup: any;
   sensorpath: any = [];
-  testLat: any = [];
-  testLng: any = [];
   lat: any = [];
   lng: any = [];
+  temp: any = [];
   marker: any;
   firstpolyline: any;
   markers: any = [];
   coordinates: any = [];
+  pathSelection: any;
+  pathId: any = [];
+
+  //temporary variable
+  temp2: any = [];
+  temp3: any = [];
+  temp4: any = [];
+  temp5: any = [];
+  i = true;
+  k: boolean;
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
+    this.k = true;
     this.map = L.map("map").setView([2.920282, 101.641747], 12);
     var tiles = L.tileLayer(
       "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
@@ -59,58 +72,185 @@ export class OutdoorMapComponent implements OnInit {
       }
     });
 
-    $("#sensorSelect").change(function() {
-      //console.log("hello");
-    });
+    $("#sensorSelect").change(function() {});
 
-    // init date selection data
-    this.dataService.getDataDate().subscribe(res => {
-      this.dataDate = res.data;
+    // // init date selection data
+    // this.dataService.getDataDate().subscribe(res => {
+    //   this.dataDate = res.data;
 
-      this.dataDateArr = this.dataDate;
-      //console.log(this.dataDateArr[0].str_date_updated);
+    //   this.dataDateArr = this.dataDate;
 
-      this.dataService
-        .getTimeDate(this.dataDateArr[0].str_date_updated)
-        .subscribe(res => {
-          this.dataDateTime = res.data;
+    //   this.dataService
+    //     .getTimeDate(this.dataDateArr[0].str_date_updated)
+    //     .subscribe(res => {
+    //       this.dataDateTime = res.data;
 
-          this.dataTimeArr = this.dataDateTime;
-          //console.log(this.dataTimeArr);
-        });
-    });
+    //       this.dataTimeArr = this.dataDateTime;
+    //     });
+    // });
 
     // init path selection
     this.dataService.getPath().subscribe(res => {
       this.dataPath = res.data;
+      //console.log(this.dataPath[0].path);
       var size = Object.keys(this.dataPath).length;
+      //console.log(size);
       for (let i = 0; i < size; i++) {
-        this.dataPathArr[i] = this.dataPath[i].path;
+        this.dataPathArr[i] = this.dataPath[i].path_desc;
       }
-      var testArr = this.dataPath[0].coordinate;
-
-      // var lat: any = ([] = testArr.map(function(x) {
-      //   const pf = n => Number(parseFloat(n).toFixed(6));
-      //   return pf(x.latitude);
-      // }));
-
-      // var lng: any = ([] = testArr.map(function(x) {
-      //   const pf = n => Number(parseFloat(n).toFixed(6));
-      //   return pf(x.longitude);
-      // }));
-
-      this.coordArr = testArr.map(function(x) {
-        const pf = n => Number(parseFloat(n).toFixed(6));
-        return [pf(x.latitude), pf(x.longitude)];
-      });
-
-      //console.log(this.coordArr);
     });
 
-    // alert($("div.main-section").hasClass("draw-in"));
+    $("div").on("click", ".scroll-down-button", function() {
+      //console.log("icad hensem");
+      var elmnt = document.getElementById("canvas");
+      elmnt.scrollIntoView();
+    });
+  }
+
+  onPathChange(value) {
+    this.pathSelection = value;
+
+    //remove layer marker
+    if (!this.k) {
+      this.map.removeLayer(this.marker);
+    }
+
+    if (this.map.getZoom() > 11) {
+      this.map.setZoom(12);
+    }
+    if (
+      $(".leaflet-overlay-pane")
+        .children()
+        .hasClass("leaflet-heatmap-layer")
+    ) {
+      this.map.removeLayer(this.heat);
+      $("#tempScale").hide();
+      $("#tempPointer").hide();
+    }
+    this.dataDateArr = [];
+    this.dataTimeArr = [];
+    this.temp4 = [];
+    this.coordArr = [];
+    $(".absolute").css("display", "block");
+    $("#date_selection").val("");
+    $("#time_selection").val("");
+    $(".leaflet-interactive").css("stroke-opacity", "0");
+    $(".leaflet-marker-pane").css("display", "none");
+    $(".leaflet-popup-content-wrapper").css("display", "none");
+    $(".mat-checkbox-layout").css("display", "none");
+    this.checked = false;
+
+    //path selection
+    if (this.pathSelection == "Test Path") {
+      $(".absolute").css("display", "none");
+      this.pathId = 1;
+      // init date selection data
+      this.dataService.getSensorList(this.pathId).subscribe(res => {
+        this.dataDate = res.data;
+        var size = Object.keys(this.dataDate).length;
+        var j = 0;
+        var k = 0;
+        for (let i = 0; i < size; i++) {
+          if (i > 0) {
+            k = j + i;
+            if (this.dataDate[i].date_updated == this.dataDateArr[k - i]) {
+              //kalau tarikh sama, move to next array
+              continue;
+            } else {
+              j++;
+              this.dataDateArr.push(this.dataDate[i].date_updated);
+            }
+          } else this.dataDateArr.push(this.dataDate[i].date_updated);
+        }
+      });
+    } else if (this.pathSelection == "C026 To DP") {
+      $(".absolute").css("display", "none");
+      this.pathId = 2;
+
+      // init date selection data
+      this.dataService.getSensorList(this.pathId).subscribe(res => {
+        this.dataDate = res.data;
+        var size = Object.keys(this.dataDate).length;
+
+        var j = 0;
+        var k = 0;
+        for (let i = 0; i < size; i++) {
+          if (i > 0) {
+            k = j + i;
+            if (this.dataDate[i].date_updated == this.dataDateArr[k - i]) {
+              //kalau tarikh sama, move to next array
+              continue;
+            } else {
+              j++;
+              this.dataDateArr.push(this.dataDate[i].date_updated);
+            }
+          } else this.dataDateArr.push(this.dataDate[i].date_updated);
+        }
+      });
+    } else if (this.pathSelection == "TM R&D To CBJ2 Exchange") {
+      this.pathId = 3;
+
+      // init date selection data
+      this.dataService.getSensorList(this.pathId).subscribe(res => {
+        this.dataPath = res.data;
+        var size = Object.keys(this.dataPath).length;
+        this.temp4 = this.dataPath[size - 1].sensor_list;
+        var size = Object.keys(this.temp4).length;
+        for (let i = 0; i < size; i++) {
+          if (this.temp4[i].temperature >= 27) {
+            this.coordArr.push([
+              this.temp4[i].latitude,
+              this.temp4[i].longitude
+            ]);
+          }
+        }
+      });
+    } else if (this.pathSelection == "CBJ2 Exchange To FDC") {
+      this.pathId = 4;
+
+      // init date selection data
+      this.dataService.getSensorList(this.pathId).subscribe(res => {
+        this.dataPath = res.data;
+        var size = Object.keys(this.dataPath).length;
+        this.temp4 = this.dataPath[size - 1].sensor_list;
+        var size = Object.keys(this.temp4).length;
+        for (let i = 0; i < size; i++) {
+          if (this.temp4[i].temperature >= 27) {
+            this.coordArr.push([
+              this.temp4[i].latitude,
+              this.temp4[i].longitude
+            ]);
+          }
+        }
+      });
+    } else if (this.pathSelection == "FDC (C007) to DP36 Putra Perdana") {
+      $(".absolute").css("display", "none");
+      this.pathId = 5;
+
+      // init date selection data
+      this.dataService.getSensorList(this.pathId).subscribe(res => {
+        this.dataDate = res.data;
+        var size = Object.keys(this.dataDate).length;
+        var j = 0;
+        var k = 0;
+        for (let i = 0; i < size; i++) {
+          if (i > 0) {
+            k = j + i;
+            if (this.dataDate[i].date_updated == this.dataDateArr[k - i]) {
+              //kalau tarikh sama, move to next array
+              continue;
+            } else {
+              j++;
+              this.dataDateArr.push(this.dataDate[i].date_updated);
+            }
+          } else this.dataDateArr.push(this.dataDate[i].date_updated);
+        }
+      });
+    }
   }
 
   onDateChange(value) {
+    this.dateSelect = [];
     if (
       $(".leaflet-overlay-pane")
         .children()
@@ -121,38 +261,53 @@ export class OutdoorMapComponent implements OnInit {
       $("#tempPointer").hide();
     }
 
-    console.log("date" + value);
-    this.dateSelect = value;
-    this.dataService.getTimeDate(value).subscribe(res => {
-      this.dataDateTime = res.data;
+    $("#time_selection").val("");
+    $(".leaflet-interactive").css("stroke-opacity", "0");
+    $(".leaflet-marker-pane").css("display", "none");
+    $(".leaflet-popup-content-wrapper").css("display", "none");
+    $(".mat-checkbox-layout").css("display", "none");
+    this.checked = false;
 
-      this.dataTimeArr = this.dataDateTime;
-      console.log(this.dataTimeArr);
+    //console.log("date" + value);
+    this.dateSelect = value;
+    this.dataService.getTimeDate(value, this.pathId).subscribe(res => {
+      this.dataDateTime = res.data;
+      var size = Object.keys(this.dataDateTime).length;
+      for (let i = 0; i < size; i++) {
+        this.dataTimeArr.push(this.dataDateTime[i].str_time_updated);
+      }
     });
   }
 
   onTimeChange(value) {
     console.log("time" + value);
     console.log("date" + this.dateSelect);
+    console.log("path" + this.pathId);
+    $(".mat-checkbox-layout").css("display", "none");
+    this.checked = false;
 
-    // var arg;
-    // if (value == '04:35:00') {
-    //   arg = 1;
-    // } else {
-    //   arg = 2;
-    // }
-
-    this.genHeatmap(this.dateSelect, value);
+    this.genHeatmap(this.dateSelect, value, this.pathId);
   }
 
-  onPathChange(value) {
-    this.genPath(value);
+  onSensorChange(value) {
+    if (value) {
+      $(".leaflet-interactive").css("stroke-opacity", "0.8");
+      $(".leaflet-marker-pane").css("display", "block");
+    } else {
+      $(".leaflet-interactive").css("stroke-opacity", "0");
+      $(".leaflet-marker-pane").css("display", "none");
+    }
   }
 
-  genHeatmap(val1, val2) {
+  genHeatmap(val1, val2, val3) {
+    // console.log(this.pathId);
+    // console.log(this.)
+
+    $(".mat-checkbox-layout").css("display", "block");
     this.statusHeatmap = !this.statusHeatmap;
     var valuedate = val1;
     var valuetime = val2;
+    var valuepath = val3;
 
     var tiles = L.tileLayer(
       "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
@@ -171,28 +326,190 @@ export class OutdoorMapComponent implements OnInit {
       this.map.removeLayer(this.heat);
     }
 
+    //re initialize variables
+    this.sensorList = [];
+    this.temp = [];
+    this.temp2 = [];
+    this.temp3 = [];
+    this.lat = [];
+    this.lng = [];
+    this.coordinates = [];
+    this.addressPoints = [];
+    this.firstpolyline = [];
+    this.chart = [];
+    this.featureGroup = [];
+    this.markers = [];
+
+    let time = [];
+    let temp = [];
+    let temp5 = [];
+
     var colorGrad;
 
-    this.dataService.getSensorList(valuedate, valuetime).subscribe(
+    this.dataService.getSensorList(valuepath).subscribe(
       res => {
-        this.sensorList = res.data;
+        var greenIcon = L.icon({
+          iconUrl: "src/assets/images/greenIcon.svg",
+          iconSize: [24, 24], // size of the icon
+          iconAnchor: [10, 20] // point of the icon which will correspond to marker's location
+          //popupAnchor: [12, 0]
+        });
 
-        //console.log(res.data);
-        var g = this.sensorList;
+        var redIcon = L.icon({
+          iconUrl: "src/assets/images/redIcon.svg",
+          iconSize: [24, 24], // size of the icon
+          iconAnchor: [10, 20] // point of the icon which will correspond to marker's location
+          //popupAnchor: [12, 0]
+        });
+
+        this.sensorList = res.data;
+        console.log(this.sensorList);
+        var size = Object.keys(this.sensorList).length;
+        //console.log(size);
+
+        //initialize x-axis graph -> time
+        for (var i = 0; i < size; i++) {
+          if (this.sensorList[i].date_updated == valuedate) {
+            time.push(this.sensorList[i].str_time_updated);
+            temp5.push(this.sensorList[i]);
+          }
+        }
+
+        //console.log(this.temp5);
+
+        for (var i = 0; i < size; i++) {
+          if (
+            this.sensorList[i].date_updated == valuedate &&
+            this.sensorList[i].str_time_updated == valuetime
+          ) {
+            this.temp3.push(this.sensorList[i]);
+          }
+        }
+
+        //console.log(this.temp3);
+
+        // var size = Object.keys(this.temp2).length;
+        // //console.log(size);
+        // for (let i = 0; i < size; i++) {
+        //   if (this.temp2[i].time_updated == valuetime) {
+        //     this.temp3.push(this.temp2[i]);
+        //   }
+        //   temp5.push(this.temp2[i]);
+        // }
+
+        //initialize time for the current day
+        //time = this.temp2.map(e => e.time_updated);
+
+        var g = this.temp3;
         var e = g[0].sensor_list;
-        //console.log(g);
+
+        this.lat = g[0].sensor_list.map(e => e.latitude); //initialize latitude
+
+        this.lng = g[0].sensor_list.map(e => e.longitude); //initialize longitude
+
+        //initialize coordinates
+        this.coordinates = g[0].sensor_list.map(e => {
+          return [e.latitude, e.longitude];
+        });
 
         this.addressPoints = e.map(function(x) {
           const pf = n => Number(parseFloat(n).toFixed(6));
           return [pf(x.latitude), pf(x.longitude), pf(x.temperature / 100)];
         });
 
-        const avgIntensity =
+        var html = "";
+
+        for (let i = 0; i < this.lat.length; i++) {
+          html =
+            "<strong> Latitude:" +
+            this.lat[i] +
+            "</strong><br/><strong> Longitude:" +
+            this.lng[i] +
+            "</strong><br/>" +
+            '<button type="button" class="btn scroll-down-button">Scroll</button>';
+          var marker = L.marker(this.coordinates[i], {
+            icon: greenIcon
+          })
+            .on("mousemove", function(e) {
+              e.target.setIcon(redIcon);
+            })
+            .on("mouseout", function(e) {
+              e.target.setIcon(greenIcon);
+            })
+            .bindPopup(html)
+            .on("mousedown", onClick);
+          this.markers.push(marker);
+        }
+
+        this.firstpolyline = new L.polyline(this.coordinates, {
+          color: "red",
+          weight: 7,
+          opacity: 0.7,
+          lineCap: "square",
+          lineJoin: "round"
+        });
+
+        function onClick(e) {
+          var size = Object.keys(temp5).length;
+          console.log(e.latlng.lat);
+          //console.log(temp5[0].sensor_list[1].latitude);
+          for (let i = 0; i < size; i++) {
+            var size2 = Object.keys(temp5[i].sensor_list).length;
+            for (let j = 0; j < size2; j++) {
+              if (
+                e.latlng.lat == temp5[i].sensor_list[j].latitude &&
+                e.latlng.lng == temp5[i].sensor_list[j].longitude
+              )
+                temp.push(temp5[i].sensor_list[j].temperature);
+            }
+          }
+
+          this.chart = new Chart("canvas", {
+            type: "line",
+            data: {
+              labels: time,
+              datasets: [
+                {
+                  data: temp,
+                  borderColor: "#3e95cd",
+                  fill: false
+                }
+              ]
+            },
+            options: {
+              legend: {
+                display: false
+              },
+              scales: {
+                xAxes: [
+                  {
+                    display: true
+                  }
+                ],
+                yAxes: [
+                  {
+                    display: true
+                  }
+                ]
+              }
+            }
+          });
+
+          // var url = <HTMLCanvasElement>document.getElementById("canvas");
+          // var link = url.toDataURL("image/jpeg");
+          // $("save-btn").attr("href", link);
+        }
+
+        var avgIntensity =
           e.map(x => x.temperature).reduce((a, c) => a + c, 0) /
           (e.length * 100);
         //console.log(avgIntensity);
 
         let arrowPosition;
+
+        // colorGrad = "#A9A9A9";
+        // arrowPosition = 100;
+        // avgIntensity = 0;
 
         if (avgIntensity >= 0.2 && avgIntensity < 0.21) {
           colorGrad = "#48d1cc";
@@ -256,9 +573,10 @@ export class OutdoorMapComponent implements OnInit {
           arrowPosition = 100;
         }
 
+        $(".example-margin").show();
+        $("#tempScale").css("margin-top", "15px");
         $("#tempScale").show();
         $("#tempPointer").show();
-
         $(
           "<style>.arrow:after { left: " +
             arrowPosition +
@@ -272,6 +590,14 @@ export class OutdoorMapComponent implements OnInit {
           "<span> " + (avgIntensity * 100).toFixed(2) + " degC</span>"
         );
 
+        this.firstpolyline.addTo(this.map);
+        this.featureGroup = L.featureGroup(this.markers).addTo(this.map);
+        this.map.fitBounds(this.featureGroup.getBounds(), {
+          padding: [50, 50]
+        });
+
+        $(".leaflet-interactive").css("stroke-opacity", "0");
+        $(".leaflet-marker-pane").css("display", "none");
         this.heat = L.heatLayer(this.addressPoints, {
           radius: 40,
           gradient: {
@@ -288,180 +614,91 @@ export class OutdoorMapComponent implements OnInit {
     );
   }
 
-  genPath(val) {
-    this.statusSensorList = !this.statusSensorList;
-
-    L.tileLayer(
-      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
-      {
-        attribution:
-          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      }
-    ).addTo(this.map);
-
-    if (
-      $(".leaflet-overlay-pane")
-        .children()
-        .hasClass("leaflet-zoom-animated")
-    ) {
-      this.map.removeLayer(this.firstpolyline);
-      this.statusSensorList = true;
-    }
-
-    if (
-      $(".leaflet-marker-pane")
-        .children()
-        .hasClass("leaflet-marker-icon")
-    ) {
-      this.map.removeLayer(this.featureGroup);
-      this.lat = [];
-      this.lng = [];
-      this.coordinates = [];
-      this.markers = [];
-      this.statusSensorList = true;
-    }
-
-    if (this.statusSensorList) {
-      this.dataService.getPath().subscribe(
-        res => {
-          var greenIcon = L.icon({
-            iconUrl: "src/assets/images/greenIcon.svg",
-            iconSize: [24, 24], // size of the icon
-            iconAnchor: [12.5, 12.5] // point of the icon which will correspond to marker's location
-            //popupAnchor: [12, 0]
-          });
-
-          var redIcon = L.icon({
-            iconUrl: "src/assets/images/redIcon.svg",
-            iconSize: [24, 24], // size of the icon
-            iconAnchor: [12.5, 12.5] // point of the icon which will correspond to marker's location
-            //popupAnchor: [12, 0]
-          });
-
-          if (val == "TMRnD to CBJ2") {
-            val = 0;
-          } else if (val == "CBJ2 to FDC") {
-            val = 1;
-          } else if (val == "C026") {
-            val = 2;
-          }
-
-          this.dataPath = res.data;
-          var e = this.dataPath[val].coordinate;
-
-          this.coordArr = e.map(function(x) {
-            const pf = n => Number(parseFloat(n).toFixed(6));
-            return [pf(x.latitude), pf(x.longitude)];
-          });
-
-          this.lat = e.map(function(x) {
-            const pf = n => Number(parseFloat(n).toFixed(6));
-            return pf(x.latitude);
-          });
-
-          this.lng = e.map(function(x) {
-            const pf = n => Number(parseFloat(n).toFixed(6));
-            return pf(x.longitude);
-          });
-
-          for (let i = 0; i < this.lat.length; i++) {
-            this.coordinates.push([this.lat[i], this.lng[i]]);
-          }
-
-          var html = "";
-
-          for (let i = 0; i < this.lat.length; i++) {
-            html =
-              "<strong> Latitude:" +
-              this.lat[i] +
-              "</strong><br/><strong> Longitude:" +
-              this.lng[i] +
-              "</strong><br/>";
-            var marker = L.marker(this.coordinates[i], {
-              icon: greenIcon
-            })
-              .on("mousemove", function(e) {
-                e.target.setIcon(redIcon);
-              })
-              .on("mouseout", function(e) {
-                e.target.setIcon(greenIcon);
-              })
-              .bindPopup(html);
-            this.markers.push(marker);
-          }
-
-          this.firstpolyline = new L.polyline(this.coordArr, {
-            color: "red",
-            weight: 7,
-            opacity: 0.7,
-            lineCap: "square",
-            lineJoin: "round"
-          });
-
-          this.firstpolyline.addTo(this.map);
-          this.featureGroup = L.featureGroup(this.markers).addTo(this.map);
-          this.map.fitBounds(this.featureGroup.getBounds(), {
-            padding: [50, 50]
-          });
-        },
-        err => {
-          console.log(err);
-        }
-      );
-    } else {
-      this.map.removeLayer(this.firstpolyline);
-      this.map.removeLayer(this.featureGroup);
-    }
+  scrollDown() {
+    var elmnt = document.getElementById("canvas");
+    elmnt.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   viewPoint(val1, val2) {
-    if ($(".main-section").hasClass("draw-in")) {
-      console.log("test");
-      $(".absolute").css({
-        width: "calc(100% - 600px)",
-        "margin-left": "300px",
-        transition: "margin-left .5s"
-      });
-    }
+    $(".leaflet-marker-pane").css("display", "block");
+    $(".leaflet-popup-content-wrapper").css("display", "block");
+    var redIcon = L.icon({
+      iconUrl: "src/assets/images/redIcon.svg",
+      iconSize: [24, 24], // size of the icon
+      iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+      popupAnchor: [12, 0]
+    });
 
-    this.alertStatus = !this.alertStatus;
-
-    if (this.alertStatus) {
-      var redIcon = L.icon({
-        iconUrl: "src/assets/images/redIcon.svg",
-        iconSize: [24, 24], // size of the icon
-        iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
-        popupAnchor: [12, 0]
-      });
+    if (this.i) {
+      if (!this.k) {
+        this.map.removeLayer(this.marker);
+      }
+      L.tileLayer(
+        "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+        {
+          maxZoom: 18,
+          attribution:
+            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }
+      ).addTo(this.map);
 
       var html =
         "<strong> Latitude:" +
         val1 +
         "</strong><br/><strong> Longitude:" +
         val2 +
-        "</strong><br/>";
+        "</strong><br/>________<br/>______<br />";
       this.marker = L.marker([val1, val2], {
         icon: redIcon
       })
         .bindPopup(html)
         .addTo(this.map)
         .openPopup();
-
-      // var featureGroup = L.featureGroup(this.marker).addTo(this.map);
-      // this.map.fitBounds(featureGroup.getBounds(), {
-      //   padding: [10, 10]
-      // });
+      this.i = false;
     } else {
       this.map.removeLayer(this.marker);
+      this.marker = [];
+      this.k = false;
+      L.tileLayer(
+        "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+        {
+          maxZoom: 18,
+          attribution:
+            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }
+      ).addTo(this.map);
+
+      var html =
+        "<strong> Latitude:" +
+        val1 +
+        "</strong><br/><strong> Longitude:" +
+        val2 +
+        "</strong><br/><br/><br />";
+      this.marker = L.marker([val1, val2], {
+        icon: redIcon
+      })
+        .bindPopup(html)
+        .addTo(this.map)
+        .openPopup();
+      this.i = true;
     }
   }
 
-  clear() {
-    this.lat = [];
-    this.lng = [];
-    this.coordinates = [];
-    this.markers = [];
-    this.map.removeLayer(this.firstpolyline);
-    this.map.removeLayer(this.featureGroup);
-  }
+  // print() {
+  //   //this.chart.toBase64Image();
+  //   var url = <HTMLCanvasElement>document.getElementById("canvas");
+  //   var link = url.toDataURL();
+  //   $("#save-btn").append()
+
+  //   // $("#save-btn").click(function() {
+  //   //   html2canvas($('#canvas'),{
+  //   //      onrendered: function (canvas) {
+  //   //         var a =document.getElementById("down");
+  //   //             a.setAttribute('href',canvas.toDataURL("image/png") );
+  //   //             a.setAttribute('download', 'download.png');
+  //   //             a.click();
+  //   //         }
+  //   //    });
+  //   // });
+  // }
 }

@@ -10,7 +10,6 @@ import { Observable } from "rxjs";
 export class DataService {
   OIP_ENDPOINT: string = "https://api.oip.tm.com.my/app/t/tmrnd.com.my/";
   DB_ENDPOINT: string = "http://10.44.42.87:1882/";
-  urlPath: string = "src/assets/path.json";
 
   constructor(private http: HttpClient) {}
 
@@ -44,10 +43,14 @@ export class DataService {
     );
   }
 
-  getTimeDate(dateString: string): any {
+  getTimeDate(dateString: string, pathId: any): any {
     return this.http
       .get(
-        this.DB_ENDPOINT + "spi2/sensor_outdoor_time?sensor_date=" + dateString
+        this.DB_ENDPOINT +
+          "spi2/sensor_list_outdoor_daily?path_id=" +
+          pathId +
+          "&sensor_date=" +
+          dateString
       )
       .pipe(
         map((response: Response) => response),
@@ -58,25 +61,10 @@ export class DataService {
   }
 
   // Heatmap data
-  getSensorList(dataDate: any, datatime: any): any {
-    // return this.http.get(this.DB_ENDPOINT + 'spi2/sensor_list')
-    // console.log(dataDate, datatime);
-    // var url;
-    // if (dataapi == 1) {
-    //   url = '../assets/temp_data/data1.json';
-    // } else if (dataapi == 2) {
-    //   url = '../assets/temp_data/data2.json';
-    // }
-
-    // console.log(url);
-
+  getSensorList(pathId: any): any {
     return this.http
       .get(
-        this.DB_ENDPOINT +
-          "spi2/sensor_list_outdoor_daily?sensor_date=" +
-          dataDate +
-          "&&sensor_time=" +
-          datatime
+        this.DB_ENDPOINT + "spi2/sensor_list_outdoor_daily?path_id=" + pathId
       )
       .pipe(
         map((response: Response) => response),
@@ -86,6 +74,20 @@ export class DataService {
       );
   }
 
+  getFullList(dateString: string): any {
+    return this.http
+      .get(
+        this.DB_ENDPOINT +
+          "spi2/sensor_list_outdoor_daily?sensor_date=" +
+          dateString
+      )
+      .pipe(
+        map((response: Response) => response),
+        catchError(error => {
+          return Observable.throw(error);
+        })
+      );
+  }
   // indoor data
   getDataIndoor(): any {
     return this.http.get(this.DB_ENDPOINT + "spi2/sensor_list_indoor_all").pipe(
@@ -97,7 +99,7 @@ export class DataService {
   }
 
   getPath(): any {
-    return this.http.get(this.urlPath).pipe(
+    return this.http.get(this.DB_ENDPOINT + "spi2/path_list").pipe(
       map((response: Response) => response),
       catchError(error => {
         return Observable.throw(error);

@@ -10,11 +10,18 @@ import { PagesRoutingModule } from "./pages-routing.module";
 import { NeedAuthGuard } from "../auth.guard";
 import { MatSliderModule } from "@angular/material/slider";
 import { FormsModule } from "@angular/forms";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 const PAGES_COMPONENTS = [PagesComponent];
 
 @NgModule({
-  imports: [CommonModule, PagesRoutingModule, MatSliderModule, FormsModule],
+  imports: [
+    CommonModule,
+    PagesRoutingModule,
+    MatSliderModule,
+    FormsModule,
+    MatCheckboxModule
+  ],
   declarations: [
     ViewTableComponent,
     OutdoorMapComponent,

@@ -11,6 +11,7 @@ import { NeedAuthGuard } from "./auth.guard";
 import { APP_BASE_HREF } from "@angular/common";
 import { InterceptorModule } from "./interceptor.module";
 import { MatSliderModule } from "@angular/material/slider";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { FormsModule } from "@angular/forms";
 
 @NgModule({
@@ -25,7 +26,8 @@ import { FormsModule } from "@angular/forms";
     PagesModule,
     InterceptorModule,
     MatSliderModule,
-    FormsModule
+    FormsModule,
+    MatCheckboxModule
   ],
   providers: [NeedAuthGuard, { provide: APP_BASE_HREF, useValue: "/" }],
   bootstrap: [AppComponent]
