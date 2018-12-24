@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { DataService } from "src/app/data.service";
 import { Chart } from "src/libs/chart.js/dist/Chart.js";
-import { BuiltinType } from "@angular/compiler";
 
 declare var $: any;
 declare let L;
@@ -12,7 +11,6 @@ declare let L;
   styleUrls: ["./outdoor-map.component.scss"]
 })
 export class OutdoorMapComponent implements OnInit {
-  // @ViewChild("myChart") private chartRef;
   checked = false;
   sensorList: any = [];
   dataDateArr: any = [];
@@ -45,7 +43,6 @@ export class OutdoorMapComponent implements OnInit {
   temp2: any = [];
   temp3: any = [];
   temp4: any = [];
-  temp5: any = [];
   i = true;
   k: boolean;
 
@@ -74,21 +71,6 @@ export class OutdoorMapComponent implements OnInit {
 
     $("#sensorSelect").change(function() {});
 
-    // // init date selection data
-    // this.dataService.getDataDate().subscribe(res => {
-    //   this.dataDate = res.data;
-
-    //   this.dataDateArr = this.dataDate;
-
-    //   this.dataService
-    //     .getTimeDate(this.dataDateArr[0].str_date_updated)
-    //     .subscribe(res => {
-    //       this.dataDateTime = res.data;
-
-    //       this.dataTimeArr = this.dataDateTime;
-    //     });
-    // });
-
     // init path selection
     this.dataService.getPath().subscribe(res => {
       this.dataPath = res.data;
@@ -101,7 +83,6 @@ export class OutdoorMapComponent implements OnInit {
     });
 
     $("div").on("click", ".scroll-down-button", function() {
-      //console.log("icad hensem");
       var elmnt = document.getElementById("canvas");
       elmnt.scrollIntoView();
     });
@@ -110,35 +91,18 @@ export class OutdoorMapComponent implements OnInit {
   onPathChange(value) {
     this.pathSelection = value;
 
-    //remove layer marker
-    if (!this.k) {
-      this.map.removeLayer(this.marker);
-    }
-
     if (this.map.getZoom() > 11) {
       this.map.setZoom(12);
     }
-    if (
-      $(".leaflet-overlay-pane")
-        .children()
-        .hasClass("leaflet-heatmap-layer")
-    ) {
-      this.map.removeLayer(this.heat);
-      $("#tempScale").hide();
-      $("#tempPointer").hide();
-    }
+
     this.dataDateArr = [];
     this.dataTimeArr = [];
     this.temp4 = [];
     this.coordArr = [];
-    $(".absolute").css("display", "block");
+
+    this.clear();
     $("#date_selection").val("");
     $("#time_selection").val("");
-    $(".leaflet-interactive").css("stroke-opacity", "0");
-    $(".leaflet-marker-pane").css("display", "none");
-    $(".leaflet-popup-content-wrapper").css("display", "none");
-    $(".mat-checkbox-layout").css("display", "none");
-    this.checked = false;
 
     //path selection
     if (this.pathSelection == "Test Path") {
@@ -189,7 +153,7 @@ export class OutdoorMapComponent implements OnInit {
       });
     } else if (this.pathSelection == "TM R&D To CBJ2 Exchange") {
       this.pathId = 3;
-
+      $(".absolute").css("display", "block");
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
         this.dataPath = res.data;
@@ -207,7 +171,7 @@ export class OutdoorMapComponent implements OnInit {
       });
     } else if (this.pathSelection == "CBJ2 Exchange To FDC") {
       this.pathId = 4;
-
+      $(".absolute").css("display", "block");
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
         this.dataPath = res.data;
@@ -251,24 +215,10 @@ export class OutdoorMapComponent implements OnInit {
 
   onDateChange(value) {
     this.dateSelect = [];
-    if (
-      $(".leaflet-overlay-pane")
-        .children()
-        .hasClass("leaflet-heatmap-layer")
-    ) {
-      this.map.removeLayer(this.heat);
-      $("#tempScale").hide();
-      $("#tempPointer").hide();
-    }
-
+    this.dataTimeArr = [];
+    this.clear();
     $("#time_selection").val("");
-    $(".leaflet-interactive").css("stroke-opacity", "0");
-    $(".leaflet-marker-pane").css("display", "none");
-    $(".leaflet-popup-content-wrapper").css("display", "none");
-    $(".mat-checkbox-layout").css("display", "none");
-    this.checked = false;
 
-    //console.log("date" + value);
     this.dateSelect = value;
     this.dataService.getTimeDate(value, this.pathId).subscribe(res => {
       this.dataDateTime = res.data;
@@ -280,9 +230,9 @@ export class OutdoorMapComponent implements OnInit {
   }
 
   onTimeChange(value) {
-    console.log("time" + value);
-    console.log("date" + this.dateSelect);
-    console.log("path" + this.pathId);
+    // console.log("time" + value);
+    // console.log("date" + this.dateSelect);
+    // console.log("path" + this.pathId);
     $(".mat-checkbox-layout").css("display", "none");
     this.checked = false;
 
@@ -339,10 +289,10 @@ export class OutdoorMapComponent implements OnInit {
     this.chart = [];
     this.featureGroup = [];
     this.markers = [];
-
     let time = [];
     let temp = [];
     let temp5 = [];
+    //console.log(temp5);
 
     var colorGrad;
 
@@ -374,8 +324,7 @@ export class OutdoorMapComponent implements OnInit {
             temp5.push(this.sensorList[i]);
           }
         }
-
-        //console.log(this.temp5);
+        console.log(this.sensorList);
 
         for (var i = 0; i < size; i++) {
           if (
@@ -386,23 +335,11 @@ export class OutdoorMapComponent implements OnInit {
           }
         }
 
-        //console.log(this.temp3);
-
-        // var size = Object.keys(this.temp2).length;
-        // //console.log(size);
-        // for (let i = 0; i < size; i++) {
-        //   if (this.temp2[i].time_updated == valuetime) {
-        //     this.temp3.push(this.temp2[i]);
-        //   }
-        //   temp5.push(this.temp2[i]);
-        // }
-
-        //initialize time for the current day
-        //time = this.temp2.map(e => e.time_updated);
+        console.log(this.temp3);
 
         var g = this.temp3;
         var e = g[0].sensor_list;
-
+        console.log(e);
         this.lat = g[0].sensor_list.map(e => e.latitude); //initialize latitude
 
         this.lng = g[0].sensor_list.map(e => e.longitude); //initialize longitude
@@ -451,8 +388,6 @@ export class OutdoorMapComponent implements OnInit {
 
         function onClick(e) {
           var size = Object.keys(temp5).length;
-          console.log(e.latlng.lat);
-          //console.log(temp5[0].sensor_list[1].latitude);
           for (let i = 0; i < size; i++) {
             var size2 = Object.keys(temp5[i].sensor_list).length;
             for (let j = 0; j < size2; j++) {
@@ -496,14 +431,14 @@ export class OutdoorMapComponent implements OnInit {
           });
 
           // var url = <HTMLCanvasElement>document.getElementById("canvas");
-          // var link = url.toDataURL("image/jpeg");
-          // $("save-btn").attr("href", link);
+          // var link2 = url.toDataURL("image/png");
+          // this.link.src = link2;
+          //document.write('<img src="' + link2 + '"/>');
         }
 
         var avgIntensity =
           e.map(x => x.temperature).reduce((a, c) => a + c, 0) /
           (e.length * 100);
-        //console.log(avgIntensity);
 
         let arrowPosition;
 
@@ -684,21 +619,53 @@ export class OutdoorMapComponent implements OnInit {
     }
   }
 
-  // print() {
-  //   //this.chart.toBase64Image();
-  //   var url = <HTMLCanvasElement>document.getElementById("canvas");
-  //   var link = url.toDataURL();
-  //   $("#save-btn").append()
+  print() {
+    //this.chart.toBase64Image();
+    var url = <HTMLCanvasElement>document.getElementById("canvas");
+    //var printer = document.getElementById("printer");
+    var link = url
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    $("button").click(function() {
+      $("a").attr("href", link);
+    });
+    console.log(link);
+    //$("#save-btn").append();
 
-  //   // $("#save-btn").click(function() {
-  //   //   html2canvas($('#canvas'),{
-  //   //      onrendered: function (canvas) {
-  //   //         var a =document.getElementById("down");
-  //   //             a.setAttribute('href',canvas.toDataURL("image/png") );
-  //   //             a.setAttribute('download', 'download.png');
-  //   //             a.click();
-  //   //         }
-  //   //    });
-  //   // });
-  // }
+    //   // $("#save-btn").click(function() {
+    //   //   html2canvas($('#canvas'),{
+    //   //      onrendered: function (canvas) {
+    //   //         var a =document.getElementById("down");
+    //   //             a.setAttribute('href',canvas.toDataURL("image/png") );
+    //   //             a.setAttribute('download', 'download.png');
+    //   //             a.click();
+    //   //         }
+    //   //    });
+    //   // });
+  }
+
+  clear() {
+    if (
+      $(".leaflet-overlay-pane")
+        .children()
+        .hasClass("leaflet-heatmap-layer")
+    ) {
+      this.map.removeLayer(this.heat);
+      $("#tempScale").hide();
+      $("#tempPointer").hide();
+    }
+
+    //remove layer marker
+    if (!this.k) {
+      this.map.removeLayer(this.marker);
+    }
+
+    this.chart = [];
+
+    $(".leaflet-interactive").css("stroke-opacity", "0");
+    $(".leaflet-marker-pane").css("display", "none");
+    $(".leaflet-popup-content-wrapper").css("display", "none");
+    $(".mat-checkbox-layout").css("display", "none");
+    this.checked = false;
+  }
 }
