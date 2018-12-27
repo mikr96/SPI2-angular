@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "src/app/data.service";
 import { Chart } from "src/libs/chart.js/dist/Chart.js";
+import { html2canvas } from "src/libs/html2canvas/build/html2canvas.js";
 
 declare var $: any;
 declare let L;
@@ -292,6 +293,7 @@ export class OutdoorMapComponent implements OnInit {
     let time = [];
     let temp = [];
     let temp5 = [];
+    let date = this.dateSelect;
     //console.log(temp5);
 
     var colorGrad;
@@ -399,6 +401,23 @@ export class OutdoorMapComponent implements OnInit {
             }
           }
 
+          const rows = [[date], [time], [temp]];
+          let csvContent = "data:text/csv;charset=utf-8,";
+          rows.forEach(function(rowArray) {
+            let row = rowArray.join(",");
+            csvContent += row + "\r\n";
+          });
+
+          var encodedUri = encodeURI(csvContent);
+          var link = document.getElementById("a");
+          link.setAttribute("href", encodedUri);
+          link.setAttribute("download", "my_data.csv");
+          link.setAttribute("type", "button");
+
+          $(".canvasSize").css("padding-top", "25px");
+          $("#btn").show();
+          $("#a").show();
+
           this.chart = new Chart("canvas", {
             type: "line",
             data: {
@@ -429,11 +448,6 @@ export class OutdoorMapComponent implements OnInit {
               }
             }
           });
-
-          // var url = <HTMLCanvasElement>document.getElementById("canvas");
-          // var link2 = url.toDataURL("image/png");
-          // this.link.src = link2;
-          //document.write('<img src="' + link2 + '"/>');
         }
 
         var avgIntensity =
@@ -619,29 +633,16 @@ export class OutdoorMapComponent implements OnInit {
     }
   }
 
-  print() {
-    //this.chart.toBase64Image();
-    var url = <HTMLCanvasElement>document.getElementById("canvas");
-    //var printer = document.getElementById("printer");
-    var link = url
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    $("button").click(function() {
-      $("a").attr("href", link);
-    });
-    console.log(link);
-    //$("#save-btn").append();
+  printThis() {
+    let canvas = document.getElementById("canvas") as HTMLCanvasElement;
+    var dataURL = canvas
+      .toDataURL("image/jpeg", 1.0)
+      .replace("image/jpeg", "image/octet-stream");
 
-    //   // $("#save-btn").click(function() {
-    //   //   html2canvas($('#canvas'),{
-    //   //      onrendered: function (canvas) {
-    //   //         var a =document.getElementById("down");
-    //   //             a.setAttribute('href',canvas.toDataURL("image/png") );
-    //   //             a.setAttribute('download', 'download.png');
-    //   //             a.click();
-    //   //         }
-    //   //    });
-    //   // });
+    var link = document.createElement("a");
+    link.download = "my-image.png";
+    link.href = dataURL;
+    link.click();
   }
 
   clear() {

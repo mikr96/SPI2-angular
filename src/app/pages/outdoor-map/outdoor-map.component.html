@@ -80,10 +80,17 @@
 
 <div class="col-sm-8"><div id="map"></div></div>
 <div *ngIf="chart">
-  <canvas id="canvas">{{ chart }}</canvas>
+  <canvas id="canvas" class="canvasSize">{{ chart }}</canvas>
   <!-- <a id="save-btn" href="" download>Download</a> -->
-  <!-- <button id="save-btn" (click)="print()">Download</button> -->
-  <a id="download" href="" download="triangle.png"
+  <!-- <a href="#" class="button" id="btn-download" download="my-file-name.png"
+    >Download</a
+  > -->
+  <!-- <a id="download" href="" download="triangle.png"
     ><button type="button" href="" onClick="print()">Download</button></a
-  >
+  > -->
+
+  <!-- <a id="download" download="myImage.jpg" href="" onclick="print(this);"
+    >Download to myImage.jpg</a
+  > -->
+  <button id="btn" (click)="printThis()">JPEG</button> <a id="a">CSV</a>
 </div>
