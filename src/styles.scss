@@ -17,8 +17,8 @@ body {
   @media (min-width: 767px){
     width: calc(100% - 70px);
     margin-left: 70px;
-    padding: 35px 20px;
-    height: 100vh;
+    // padding: 35px 20px;
+    // height: 100vh;
   }
   transition: margin-left .5s;
 
@@ -49,6 +49,15 @@ body {
 .mt{
   &-20{
     margin-top: 20px !important;
+  }
+  &-10{
+    margin-top: 10px !important;
+  }
+}
+
+.mb{
+  &-0{
+    margin-bottom: 0 !important;
   }
 }
 

@@ -47,10 +47,11 @@ export class OutdoorMapComponent implements OnInit {
   i = true;
   k: boolean;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
     this.k = true;
+
     this.map = L.map("map").setView([2.920282, 101.641747], 12);
     var tiles = L.tileLayer(
       "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
@@ -61,35 +62,49 @@ export class OutdoorMapComponent implements OnInit {
       }
     ).addTo(this.map);
 
-    $(".col-sm-6 button").click(function() {
-      if ($(this).hasClass("active")) {
-        $(this).removeClass("active");
-      } else {
-        $(".col-sm-6 button").removeClass("active");
-        $(this).addClass("active");
-      }
-    });
+    // $(".col-sm-6 button").click(function () {
+    //   if ($(this).hasClass("active")) {
+    //     $(this).removeClass("active");
+    //   } else {
+    //     $(".col-sm-6 button").removeClass("active");
+    //     $(this).addClass("active");
+    //   }
+    // });
 
-    $("#sensorSelect").change(function() {});
+    // $("#sensorSelect").change(function () { });
 
     // init path selection
     this.dataService.getPath().subscribe(res => {
       this.dataPath = res.data;
-      //console.log(this.dataPath[0].path);
       var size = Object.keys(this.dataPath).length;
-      //console.log(size);
       for (let i = 0; i < size; i++) {
         this.dataPathArr[i] = this.dataPath[i].path_desc;
       }
     });
 
-    $("div").on("click", ".scroll-down-button", function() {
-      var elmnt = document.getElementById("canvas");
-      elmnt.scrollIntoView();
+    $("div").on("click", ".scroll-down-button", function () {
+      // var elmnt = document.getElementById("canvas");
+      // elmnt.scrollIntoView();
+      $('html, body').animate({
+        scrollTop: $('#section-chart').offset().top
+      }, 800);
     });
+
+    $(window).bind("mousewheel", function () {
+      $("html, body").stop();
+    });
+
+    // $('.scroll-down-button').click(function () {
+
+    //   console.log('scroll');
+    //   $('html, body').animate({
+    //     scrollTop: $('#section-chart').offset().top
+    //   }, 800);
+    // })
   }
 
   onPathChange(value) {
+
     this.pathSelection = value;
 
     if (this.map.getZoom() > 11) {
@@ -102,13 +117,16 @@ export class OutdoorMapComponent implements OnInit {
     this.coordArr = [];
 
     this.clear();
+
     $("#date_selection").val("");
     $("#time_selection").val("");
 
     //path selection
     if (this.pathSelection == "Test Path") {
-      $(".absolute").css("display", "none");
+
+      $('#alert').hide();
       this.pathId = 1;
+
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
         this.dataDate = res.data;
@@ -128,8 +146,10 @@ export class OutdoorMapComponent implements OnInit {
           } else this.dataDateArr.push(this.dataDate[i].date_updated);
         }
       });
+
     } else if (this.pathSelection == "C026 To DP") {
-      $(".absolute").css("display", "none");
+
+      $('#alert').hide();
       this.pathId = 2;
 
       // init date selection data
@@ -153,8 +173,9 @@ export class OutdoorMapComponent implements OnInit {
         }
       });
     } else if (this.pathSelection == "TM R&D To CBJ2 Exchange") {
+
       this.pathId = 3;
-      $(".absolute").css("display", "block");
+      $('#alert').show();
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
         this.dataPath = res.data;
@@ -162,7 +183,7 @@ export class OutdoorMapComponent implements OnInit {
         this.temp4 = this.dataPath[size - 1].sensor_list;
         var size = Object.keys(this.temp4).length;
         for (let i = 0; i < size; i++) {
-          if (this.temp4[i].temperature >= 27) {
+          if (this.temp4[i].temperature >= 0) {
             this.coordArr.push([
               this.temp4[i].latitude,
               this.temp4[i].longitude
@@ -170,9 +191,13 @@ export class OutdoorMapComponent implements OnInit {
           }
         }
       });
+
     } else if (this.pathSelection == "CBJ2 Exchange To FDC") {
+
       this.pathId = 4;
-      $(".absolute").css("display", "block");
+
+      $('#alert').show();
+
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
         this.dataPath = res.data;
@@ -188,8 +213,10 @@ export class OutdoorMapComponent implements OnInit {
           }
         }
       });
+
     } else if (this.pathSelection == "FDC (C007) to DP36 Putra Perdana") {
-      $(".absolute").css("display", "none");
+
+      $('#alert').hide();
       this.pathId = 5;
 
       // init date selection data
@@ -211,6 +238,7 @@ export class OutdoorMapComponent implements OnInit {
           } else this.dataDateArr.push(this.dataDate[i].date_updated);
         }
       });
+
     }
   }
 
@@ -234,7 +262,7 @@ export class OutdoorMapComponent implements OnInit {
     // console.log("time" + value);
     // console.log("date" + this.dateSelect);
     // console.log("path" + this.pathId);
-    $(".mat-checkbox-layout").css("display", "none");
+    // $(".mat-checkbox-layout").css("display", "none");
     this.checked = false;
 
     this.genHeatmap(this.dateSelect, value, this.pathId);
@@ -254,7 +282,7 @@ export class OutdoorMapComponent implements OnInit {
     // console.log(this.pathId);
     // console.log(this.)
 
-    $(".mat-checkbox-layout").css("display", "block");
+    $("#sensor_status").show();
     this.statusHeatmap = !this.statusHeatmap;
     var valuedate = val1;
     var valuetime = val2;
@@ -301,14 +329,14 @@ export class OutdoorMapComponent implements OnInit {
     this.dataService.getSensorList(valuepath).subscribe(
       res => {
         var greenIcon = L.icon({
-          iconUrl: "src/assets/images/greenIcon.svg",
+          iconUrl: "../assets/images/greenIcon.svg",
           iconSize: [24, 24], // size of the icon
           iconAnchor: [10, 20] // point of the icon which will correspond to marker's location
           //popupAnchor: [12, 0]
         });
 
         var redIcon = L.icon({
-          iconUrl: "src/assets/images/redIcon.svg",
+          iconUrl: "../assets/images/redIcon.svg",
           iconSize: [24, 24], // size of the icon
           iconAnchor: [10, 20] // point of the icon which will correspond to marker's location
           //popupAnchor: [12, 0]
@@ -351,7 +379,7 @@ export class OutdoorMapComponent implements OnInit {
           return [e.latitude, e.longitude];
         });
 
-        this.addressPoints = e.map(function(x) {
+        this.addressPoints = e.map(function (x) {
           const pf = n => Number(parseFloat(n).toFixed(6));
           return [pf(x.latitude), pf(x.longitude), pf(x.temperature / 100)];
         });
@@ -369,10 +397,10 @@ export class OutdoorMapComponent implements OnInit {
           var marker = L.marker(this.coordinates[i], {
             icon: greenIcon
           })
-            .on("mousemove", function(e) {
+            .on("mousemove", function (e) {
               e.target.setIcon(redIcon);
             })
-            .on("mouseout", function(e) {
+            .on("mouseout", function (e) {
               e.target.setIcon(greenIcon);
             })
             .bindPopup(html)
@@ -403,7 +431,7 @@ export class OutdoorMapComponent implements OnInit {
 
           const rows = [[date], [time], [temp]];
           let csvContent = "data:text/csv;charset=utf-8,";
-          rows.forEach(function(rowArray) {
+          rows.forEach(function (rowArray) {
             let row = rowArray.join(",");
             csvContent += row + "\r\n";
           });
@@ -414,7 +442,7 @@ export class OutdoorMapComponent implements OnInit {
           link.setAttribute("download", "my_data.csv");
           link.setAttribute("type", "button");
 
-          $(".canvasSize").css("padding-top", "25px");
+          $("#section-chart").show();
           $("#btn").show();
           $("#a").show();
 
@@ -431,6 +459,10 @@ export class OutdoorMapComponent implements OnInit {
               ]
             },
             options: {
+              title: {
+                display: true,
+                text: 'Temperature vs Time'
+              },
               legend: {
                 display: false
               },
@@ -442,7 +474,10 @@ export class OutdoorMapComponent implements OnInit {
                 ],
                 yAxes: [
                   {
-                    display: true
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Temperature (Degree C)'
+                    }
                   }
                 ]
               }
@@ -522,14 +557,13 @@ export class OutdoorMapComponent implements OnInit {
           arrowPosition = 100;
         }
 
-        $(".example-margin").show();
         $("#tempScale").css("margin-top", "15px");
         $("#tempScale").show();
         $("#tempPointer").show();
         $(
           "<style>.arrow:after { left: " +
-            arrowPosition +
-            "% !important; content: ' '; }</style>"
+          arrowPosition +
+          "% !important; content: ' '; }</style>"
         ).appendTo("#tempPointer");
 
         $("#tempPointer p")
@@ -556,6 +590,14 @@ export class OutdoorMapComponent implements OnInit {
         }).addTo(this.map);
 
         $(".leaflet-heatmap-layer").css("opacity", "0.8");
+
+        $('.scroll-down-button').click(function () {
+
+          console.log('scroll');
+          $('html, body').animate({
+            scrollTop: $('#section-chart').offset().top
+          }, 800);
+        })
       },
       err => {
         console.log(err);
@@ -563,10 +605,11 @@ export class OutdoorMapComponent implements OnInit {
     );
   }
 
-  scrollDown() {
-    var elmnt = document.getElementById("canvas");
-    elmnt.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+  // scrollDown() {
+  //   $('html, body').animate({
+  //     scrollTop: $('#section-chart').offset().top
+  //   }, 800);
+  // }
 
   viewPoint(val1, val2) {
     $(".leaflet-marker-pane").css("display", "block");
@@ -666,7 +709,8 @@ export class OutdoorMapComponent implements OnInit {
     $(".leaflet-interactive").css("stroke-opacity", "0");
     $(".leaflet-marker-pane").css("display", "none");
     $(".leaflet-popup-content-wrapper").css("display", "none");
-    $(".mat-checkbox-layout").css("display", "none");
+    $("#sensor_status").hide();
+    // $(".mat-checkbox-layout").css("display", "none");
     this.checked = false;
   }
 }
