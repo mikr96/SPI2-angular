@@ -1,0 +1,34 @@
+<table>
+  <caption>
+    Path Management
+    <br />
+    <button class="btn btn-danger" (click)="addPath()">Add Path</button>
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Path ID</th>
+      <th scope="col">Path Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let path of paths">
+      <td data-label="Path Id">{{ path.path_id }}</td>
+      <td data-label="Path Name">{{ path.path_name }}</td>
+      <td data-label="Path Desc">{{ path.path_desc }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deletePath(path)">
+          Delete
+        </button>
+        <button
+          class="btn btn-danger"
+          (click)="editPath(path)"
+          style="margin-left: 20px;"
+        >
+          Edit
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Http, Headers, Response } from "@angular/http";
 import { map, filter, switchMap, catchError, observeOn } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { Path } from "./pages/path-management/path.model";
 
 @Injectable({
   providedIn: "root"
@@ -116,5 +117,27 @@ export class DataService {
           return Observable.throw(error);
         })
       );
+  }
+
+  getPaths(): any {
+    return this.http.get<Path[]>(this.DB_ENDPOINT + "spi2/path_list");
+  }
+
+  getPathById(id: number) {
+    return this.http.get<Path>(
+      this.DB_ENDPOINT + "spi2/path_list?path_id=" + id
+    );
+  }
+
+  createPath(path: Path) {
+    return this.http.post(this.DB_ENDPOINT + "spi2/path_add", path);
+  }
+
+  updatePath(path: Path) {
+    return this.http.post(this.DB_ENDPOINT + "spi2/path_edit", path);
+  }
+
+  deletePath(path : Path) {
+    return this.http.post(this.DB_ENDPOINT + "spi2/path_delete", path);
   }
 }

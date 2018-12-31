@@ -1,0 +1,28 @@
+<div class="col-md-6">
+  <h2 class="text-center">Add Path</h2>
+  <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="path_name">Path Name:</label>
+      <input
+        formControlName="path_name"
+        placeholder="path_name"
+        name="path_name"
+        class="form-control"
+        id="path_name"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="path_desc">Path Description:</label>
+      <input
+        formControlName="path_desc"
+        placeholder="path_desc"
+        name="path_desc"
+        class="form-control"
+        id="path_desc"
+      />
+    </div>
+
+    <button class="btn btn-success">Update</button>
+  </form>
+</div>

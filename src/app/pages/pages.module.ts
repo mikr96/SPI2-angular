@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { ViewTableComponent } from "./view-table/view-table.component";
 import { OutdoorMapComponent } from "./outdoor-map/outdoor-map.component";
 import { IndoorMapComponent } from "./indoor-map/indoor-map.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
@@ -9,8 +8,11 @@ import { PagesComponent } from "./pages.component";
 import { PagesRoutingModule } from "./pages-routing.module";
 import { NeedAuthGuard } from "../auth.guard";
 import { MatSliderModule } from "@angular/material/slider";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { PathManagementComponent } from "./path-management/path-management.component";
+import { AddPathComponent } from "./path-management/add-path/add-path.component";
+import { EditPathComponent } from './path-management/edit-path/edit-path.component';
 
 const PAGES_COMPONENTS = [PagesComponent];
 
@@ -20,14 +22,17 @@ const PAGES_COMPONENTS = [PagesComponent];
     PagesRoutingModule,
     MatSliderModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ReactiveFormsModule
   ],
   declarations: [
-    ViewTableComponent,
     OutdoorMapComponent,
     IndoorMapComponent,
     SidebarComponent,
-    ...PAGES_COMPONENTS
+    ...PAGES_COMPONENTS,
+    PathManagementComponent,
+    AddPathComponent,
+    EditPathComponent
   ],
   providers: [NeedAuthGuard]
 })

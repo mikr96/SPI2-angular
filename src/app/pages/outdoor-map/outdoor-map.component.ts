@@ -162,11 +162,14 @@ export class OutdoorMapComponent implements OnInit {
         this.temp4 = this.dataPath[size - 1].sensor_list;
         var size = Object.keys(this.temp4).length;
         for (let i = 0; i < size; i++) {
-          if (this.temp4[i].temperature >= 27) {
+          if (this.temp4[i].temperature >= 10) {
             this.coordArr.push([
               this.temp4[i].latitude,
               this.temp4[i].longitude
             ]);
+          }
+          else {
+            this.coordArr = "No Alert";
           }
         }
       });
@@ -180,11 +183,14 @@ export class OutdoorMapComponent implements OnInit {
         this.temp4 = this.dataPath[size - 1].sensor_list;
         var size = Object.keys(this.temp4).length;
         for (let i = 0; i < size; i++) {
-          if (this.temp4[i].temperature >= 27) {
+          if (this.temp4[i].temperature >= 10) {
             this.coordArr.push([
               this.temp4[i].latitude,
               this.temp4[i].longitude
             ]);
+          }
+          else {
+            this.coordArr = "No Alert";
           }
         }
       });

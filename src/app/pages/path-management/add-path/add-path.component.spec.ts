@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewTableComponent } from './view-table.component';
+import { AddPathComponent } from './add-path.component';
 
-describe('ViewTableComponent', () => {
-  let component: ViewTableComponent;
-  let fixture: ComponentFixture<ViewTableComponent>;
+describe('AddPathComponent', () => {
+  let component: AddPathComponent;
+  let fixture: ComponentFixture<AddPathComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewTableComponent ]
+      declarations: [ AddPathComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewTableComponent);
+    fixture = TestBed.createComponent(AddPathComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
