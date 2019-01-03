@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 import { OutdoorMapComponent } from './pages/outdoor-map/outdoor-map.component';
-import { ViewTableComponent } from './pages/view-table/view-table.component';
 import { LoginComponent } from './login/login.component';
 import { NeedAuthGuard } from './auth.guard';
 

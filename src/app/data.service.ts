@@ -119,6 +119,7 @@ export class DataService {
       );
   }
 
+  // path management
   getPaths(): any {
     return this.http.get<Path[]>(this.DB_ENDPOINT + "spi2/path_list");
   }

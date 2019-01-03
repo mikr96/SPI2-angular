@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "src/app/data.service";
-import { Chart } from "src/libs/chart.js/dist/Chart.js";
-import { html2canvas } from "src/libs/html2canvas/build/html2canvas.js";
+import { Chart } from "node_modules/chart.js/dist/Chart.min.js";
+import { html2canvas } from "node_modules/html2canvas/dist/html2canvas.js";
 
 declare var $: any;
 declare let L;

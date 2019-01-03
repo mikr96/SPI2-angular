@@ -30,6 +30,10 @@ export class PathManagementComponent implements OnInit {
   editPath(path: Path): void {
     localStorage.removeItem("editPathId");
     localStorage.setItem("editPathId", path.path_id.toString());
+    localStorage.removeItem("editPathName");
+    localStorage.setItem("editPathName", path.path_name);
+    localStorage.removeItem("editPathDesc");
+    localStorage.setItem("editPathDesc", path.path_desc);
     this.router.navigate(["edit-path"]);
   }
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { first } from "rxjs/operators";
 import { DataService } from "src/app/data.service";
 import { Path } from "../path.model";
 
@@ -13,6 +12,9 @@ import { Path } from "../path.model";
 export class EditPathComponent implements OnInit {
   path: Path;
   editForm: FormGroup;
+  pathName : String;
+  pathDesc : String;
+  pathId : String;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,32 +29,34 @@ export class EditPathComponent implements OnInit {
       this.router.navigate(["path-management"]);
       return;
     }
-    console.log(pathId);
+
+    this.pathId = localStorage.getItem("editPathId");
+    this.pathName = localStorage.getItem("editPathName");
+    this.pathDesc = localStorage.getItem("editPathDesc");
+    let pathDesc;
+    let pathName;
+
+    var inputName = (<HTMLInputElement>document.getElementById('path_name')).value;
+    if(inputName == "") {
+      pathName = this.pathName;}
+      else {
+    pathName = inputName;}
+
+    var inputDesc = (<HTMLInputElement>document.getElementById('path_desc')).value;
+    if(inputDesc == "") {
+      pathDesc = this.pathDesc;}
+      else {
+    pathDesc = inputDesc;}
+
     this.editForm = this.formBuilder.group({
       path_id: [Number(parseInt(pathId))],
-      path_name: ["", Validators.required],
-      path_desc: ["", Validators.required]
+      path_name: [pathName, Validators.required],
+      path_desc: [pathDesc, Validators.required],
     });
   }
 
-  // onSubmit() {
-  //   console.log(this.editForm.value);
-  //   this.dataService
-  //     .updatePath(this.editForm.value)
-  //     .pipe(first())
-  //     .subscribe(
-  //       data => {
-  //         this.router.navigate(["path-management"]);
-  //       },
-  //       error => {
-  //         alert(error);
-  //       }
-  //     );
-  // }
-
   onSubmit() {
     this.dataService.updatePath(this.editForm.value).subscribe(data => {
-      console.log(this.editForm.value);
       this.router.navigate(["path-management"]);
     });
   }

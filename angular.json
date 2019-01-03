@@ -37,7 +37,9 @@
               "src/assets/libs/leaflet/dist/leaflet.js",
               "src/assets/plugins/js/leaflet-heat.js",
               "src/assets/libs/datatables/media/js/jquery.dataTables.min.js",
-              "src/assets/libs/plotly.js/dist/plotly.min.js"
+              "src/assets/libs/plotly.js/dist/plotly.min.js",
+              "node_modules/chart.js/dist/Chart.min.js",
+              "node_modules/html2canvas/dist/html2canvas.min.js"
             ]
           },
           "configurations": {

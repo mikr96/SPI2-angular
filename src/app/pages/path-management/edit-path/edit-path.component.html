@@ -1,12 +1,19 @@
 <div class="col-md-6">
   <h2 class="text-center">Edit Path</h2>
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+          <label>Path ID:</label>
+          <input
+          placeholder = "{{ pathId }}"
+          disabled
+            class="form-control"
+          />
+        </div>
     <div class="form-group">
       <label for="path_name">Path Name:</label>
       <input
         formControlName="path_name"
-        placeholder="path_name"
-        name="path_name"
+        placeholder = "{{ pathName }}"
         class="form-control"
         id="path_name"
       />
@@ -16,13 +23,12 @@
       <label for="path_desc">Path Description:</label>
       <input
         formControlName="path_desc"
-        placeholder="path_desc"
-        name="path_desc"
+        placeholder = "{{ pathDesc }}"
         class="form-control"
         id="path_desc"
       />
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <button class="btn btn-primary">Update</button>
   </form>
 </div>
