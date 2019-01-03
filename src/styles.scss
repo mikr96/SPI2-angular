@@ -7,54 +7,61 @@ $icon-font-path: "../src/assets/libs/bootstrap-sass/assets/fonts/bootstrap/" !de
 
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   height: 100vh;
 }
 
-.main-section{
- 
+.main-section {
   width: 100%;
-  @media (min-width: 767px){
+  @media (min-width: 767px) {
     width: calc(100% - 70px);
     margin-left: 70px;
-    padding: 35px 20px;
-    height: 100vh;
+    // padding: 35px 20px;
+    // height: 100vh;
   }
-  transition: margin-left .5s;
+  transition: margin-left 0.5s;
 
-  &.draw-in{
+  &.draw-in {
     width: calc(100% - 300px);
     margin-left: 300px;
-    transition: margin-left .5s;
+    transition: margin-left 0.5s;
   }
-
 }
 
 // Text color
 
-.text{
-  &-white{
+.text {
+  &-white {
     color: #fff;
   }
 }
 
 // Padding and Margins
 
-.pd{
-  &-20{
+.pd {
+  &-20 {
     padding: 20px !important;
   }
 }
 
-.mt{
-  &-20{
+.mt {
+  &-20 {
     margin-top: 20px !important;
+  }
+  &-10 {
+    margin-top: 10px !important;
+  }
+}
+
+.mb {
+  &-0 {
+    margin-bottom: 0 !important;
   }
 }
 
 // Media Query
 
-@media(max-width: 767px){
+@media (max-width: 767px) {
   [class*="col-sm"] {
     margin-bottom: 20px;
   }
@@ -63,13 +70,25 @@ body {
 // Animation
 
 @keyframes delay-2s {
-  0% { opacity: 0; }
-  99% { opacity: 0; }
-  100% {  opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes delay-invert-2s {
-  0% { opacity: 1; }
-  99% { opacity: 1; }
-  100% {  opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
