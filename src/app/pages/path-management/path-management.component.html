@@ -1,27 +1,49 @@
 <div class="col-md-12 user-container">
-    <br/>
-    <h2 style="margin: auto"> Path Management</h2>
-    <br/>
-    <button class="btn btn-primary" style="width:100px" (click)="addPath()"> Add Path</button>
-    <hr/>
-    <table class="table table-striped" style="text-align: center;">
-      <thead>
+  <br />
+  <h2 style="margin: auto">Path Management</h2>
+  <br />
+  <button class="btn btn-primary" style="width:100px" (click)="addPath()">
+    Add Path
+  </button>
+  <hr />
+  <table class="table table-striped" style="text-align: center;">
+    <thead>
       <tr>
         <th>ID</th>
         <th>Path Name</th>
         <th>Path Description</th>
         <th></th>
       </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
       <tr *ngFor="let path of paths">
-        <td>{{path.path_id}}</td>
-        <td>{{path.path_name}}</td>
-        <td>{{path.path_desc}}</td>
-        <td><button class="btn btn-primary" (click)="editPath(path)" style="margin-left: 20px; width:100px"> Edit</button>
-        <button class="btn btn-primary" (click)="deletePath(path)" style="margin-left: 20px; width:100px"> Delete</button></td>
+        <td>{{ path.path_id }}</td>
+        <td>{{ path.path_name }}</td>
+        <td>{{ path.path_desc }}</td>
+        <td>
+          <button
+            class="btn btn-primary"
+            (click)="editPath(path)"
+            style="margin-left: 20px; width:170px"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-danger"
+            (click)="deletePath(path)"
+            style="margin-left: 20px; width:170px"
+          >
+            Delete
+          </button>
+          <button
+            class="btn btn-success"
+            (click)="goToSensorManagement(path)"
+            style="margin-left: 20px; width:170px"
+          >
+            Sensor Management
+          </button>
+        </td>
       </tr>
-      </tbody>
-    </table>
-  </div>
-  
+    </tbody>
+  </table>
+</div>

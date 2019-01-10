@@ -1,0 +1,55 @@
+<div class="col-md-6">
+  <h2 class="text-center">Add New Sensor</h2>
+  <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Path ID:</label>
+      <input placeholder="{{ pathId }}" disabled class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="latitude">Latitude:</label>
+      <input
+        type="number"
+        formControlName="latitude"
+        name="latitude"
+        class="form-control"
+        id="latitude"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="longitude">Longitude:</label>
+      <input
+        type="number"
+        formControlName="longitude"
+        name="longitude"
+        class="form-control"
+        id="longitude"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="temperature">Temperature:</label>
+      <input
+        type="number"
+        formControlName="temperature"
+        name="temperature"
+        class="form-control"
+        id="temperature"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="updated">Last Updated:</label>
+      <input
+        formControlName="updated"
+        name="updated"
+        class="form-control"
+        id="updated"
+        placeholder="{{ updated }}"
+        disabled
+      />
+    </div>
+
+    <button class="btn btn-primary">Save</button>
+  </form>
+</div>

@@ -1,0 +1,59 @@
+<div class="col-md-12 user-container">
+  <br />
+  <h2 style="display: inline-block;">Sensor Management ({{ pathName }})</h2>
+  <button
+    class="btn btn-info"
+    style="margin-left: 20px; width:100px; border-radius: 100px;"
+    (click)="goBack()"
+  >
+    Go Back
+  </button>
+  <div style="position: absolute; right:5%; bottom: 98.5%;">
+    <span><b>Date:</b> {{ dateSelect }} </span>
+    <span><b>Time:</b> {{ timeSelect }}</span>
+  </div>
+  <br />
+  <br />
+  <table class="table table-striped" style="text-align: center;">
+    <thead>
+      <tr>
+        <th hidden>Id</th>
+        <th style="text-align: center;">Latitude</th>
+        <th style="text-align: center;">Longitude</th>
+        <th style="text-align: center;">Temperature</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sensor of sensors">
+        <td hidden>{{ sensor.id }}</td>
+        <td>{{ sensor.latitude }}</td>
+        <td>{{ sensor.longitude }}</td>
+        <td>{{ sensor.temperature }}</td>
+        <td>
+          <button
+            class="btn btn-success"
+            style="margin-left: 20px; width:120px"
+            (click)="addSensor(sensor)"
+          >
+            Add
+          </button>
+          <button
+            class="btn btn-primary"
+            (click)="editSensor(sensor)"
+            style="margin-left: 20px; width:120px"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-danger"
+            (click)="deleteSensor(sensor)"
+            style="margin-left: 20px; width:120px"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

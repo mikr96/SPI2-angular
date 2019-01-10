@@ -38,6 +38,8 @@ export class OutdoorMapComponent implements OnInit {
   coordinates: any = [];
   pathSelection: any;
   pathId: any = [];
+  alert: boolean = false;
+  show: boolean = false;
 
   //temporary variable
   temp2: any = [];
@@ -61,17 +63,6 @@ export class OutdoorMapComponent implements OnInit {
       }
     ).addTo(this.map);
 
-    // $(".col-sm-6 button").click(function () {
-    //   if ($(this).hasClass("active")) {
-    //     $(this).removeClass("active");
-    //   } else {
-    //     $(".col-sm-6 button").removeClass("active");
-    //     $(this).addClass("active");
-    //   }
-    // });
-
-    // $("#sensorSelect").change(function () { });
-
     // init path selection
     this.dataService.getPath().subscribe(res => {
       this.dataPath = res.data;
@@ -82,8 +73,6 @@ export class OutdoorMapComponent implements OnInit {
     });
 
     $("div").on("click", ".scroll-down-button", function() {
-      // var elmnt = document.getElementById("canvas");
-      // elmnt.scrollIntoView();
       $("html, body").animate(
         {
           scrollTop: $("#section-chart").offset().top
@@ -95,14 +84,6 @@ export class OutdoorMapComponent implements OnInit {
     $(window).bind("mousewheel", function() {
       $("html, body").stop();
     });
-
-    // $('.scroll-down-button').click(function () {
-
-    //   console.log('scroll');
-    //   $('html, body').animate({
-    //     scrollTop: $('#section-chart').offset().top
-    //   }, 800);
-    // })
   }
 
   onPathChange(value) {
@@ -129,22 +110,7 @@ export class OutdoorMapComponent implements OnInit {
 
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
-        this.dataDate = res.data;
-        var size = Object.keys(this.dataDate).length;
-        var j = 0;
-        var k = 0;
-        for (let i = 0; i < size; i++) {
-          if (i > 0) {
-            k = j + i;
-            if (this.dataDate[i].date_updated == this.dataDateArr[k - i]) {
-              //kalau tarikh sama, move to next array
-              continue;
-            } else {
-              j++;
-              this.dataDateArr.push(this.dataDate[i].date_updated);
-            }
-          } else this.dataDateArr.push(this.dataDate[i].date_updated);
-        }
+        this.initializeDate(res);
       });
     } else if (this.pathSelection == "C026 To DP") {
       $("#alert").hide();
@@ -152,41 +118,15 @@ export class OutdoorMapComponent implements OnInit {
 
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
-        this.dataDate = res.data;
-        var size = Object.keys(this.dataDate).length;
-
-        var j = 0;
-        var k = 0;
-        for (let i = 0; i < size; i++) {
-          if (i > 0) {
-            k = j + i;
-            if (this.dataDate[i].date_updated == this.dataDateArr[k - i]) {
-              //kalau tarikh sama, move to next array
-              continue;
-            } else {
-              j++;
-              this.dataDateArr.push(this.dataDate[i].date_updated);
-            }
-          } else this.dataDateArr.push(this.dataDate[i].date_updated);
-        }
+        this.initializeDate(res);
       });
     } else if (this.pathSelection == "TM R&D To CBJ2 Exchange") {
       this.pathId = 3;
       $("#alert").show();
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
-        this.dataPath = res.data;
-        var size = Object.keys(this.dataPath).length;
-        this.temp4 = this.dataPath[size - 1].sensor_list;
-        var size = Object.keys(this.temp4).length;
-        for (let i = 0; i < size; i++) {
-          if (this.temp4[i].temperature >= 0) {
-            this.coordArr.push([
-              this.temp4[i].latitude,
-              this.temp4[i].longitude
-            ]);
-          }
-        }
+        this.initializeDate(res);
+        this.getAlert(res);
       });
     } else if (this.pathSelection == "CBJ2 Exchange To FDC") {
       this.pathId = 4;
@@ -195,18 +135,8 @@ export class OutdoorMapComponent implements OnInit {
 
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
-        this.dataPath = res.data;
-        var size = Object.keys(this.dataPath).length;
-        this.temp4 = this.dataPath[size - 1].sensor_list;
-        var size = Object.keys(this.temp4).length;
-        for (let i = 0; i < size; i++) {
-          if (this.temp4[i].temperature >= 27) {
-            this.coordArr.push([
-              this.temp4[i].latitude,
-              this.temp4[i].longitude
-            ]);
-          }
-        }
+        this.initializeDate(res);
+        this.getAlert(res);
       });
     } else if (this.pathSelection == "FDC (C007) to DP36 Putra Perdana") {
       $("#alert").hide();
@@ -214,23 +144,43 @@ export class OutdoorMapComponent implements OnInit {
 
       // init date selection data
       this.dataService.getSensorList(this.pathId).subscribe(res => {
-        this.dataDate = res.data;
-        var size = Object.keys(this.dataDate).length;
-        var j = 0;
-        var k = 0;
-        for (let i = 0; i < size; i++) {
-          if (i > 0) {
-            k = j + i;
-            if (this.dataDate[i].date_updated == this.dataDateArr[k - i]) {
-              //kalau tarikh sama, move to next array
-              continue;
-            } else {
-              j++;
-              this.dataDateArr.push(this.dataDate[i].date_updated);
-            }
-          } else this.dataDateArr.push(this.dataDate[i].date_updated);
-        }
+        this.initializeDate(res);
       });
+    }
+  }
+
+  initializeDate(res) {
+    this.dataDate = res.data;
+    var size = Object.keys(this.dataDate).length;
+
+    var j = 0;
+    var k = 0;
+    for (let i = 0; i < size; i++) {
+      if (i > 0) {
+        k = j + i;
+        if (this.dataDate[i].date_updated == this.dataDateArr[k - i]) {
+          //kalau tarikh sama, move to next array
+          continue;
+        } else {
+          j++;
+          this.dataDateArr.push(this.dataDate[i].date_updated);
+        }
+      } else this.dataDateArr.push(this.dataDate[i].date_updated);
+    }
+  }
+
+  getAlert(res) {
+    this.dataPath = res.data;
+    var size = Object.keys(this.dataPath).length;
+    this.temp4 = this.dataPath[size - 1].sensor_list;
+    var size = Object.keys(this.temp4).length;
+    for (let i = 0; i < size; i++) {
+      if (this.temp4[i].temperature >= 10) {
+        this.coordArr.push([this.temp4[i].latitude, this.temp4[i].longitude]);
+      }
+    }
+    if (this.coordArr == "") {
+      this.alert = true;
     }
   }
 
@@ -251,13 +201,14 @@ export class OutdoorMapComponent implements OnInit {
   }
 
   onTimeChange(value) {
-    // console.log("time" + value);
-    // console.log("date" + this.dateSelect);
-    // console.log("path" + this.pathId);
-    // $(".mat-checkbox-layout").css("display", "none");
-    this.checked = false;
-
-    this.genHeatmap(this.dateSelect, value, this.pathId);
+    this.show = false;
+    if (this.pathId == 3 || this.pathId == 4) {
+      this.checked = false;
+      this.genMarkers(this.dateSelect, value, this.pathId);
+    } else {
+      this.checked = false;
+      this.genHeatmap(this.dateSelect, value, this.pathId);
+    }
   }
 
   onSensorChange(value) {
@@ -599,6 +550,130 @@ export class OutdoorMapComponent implements OnInit {
     );
   }
 
+  genMarkers(val1, val2, val3) {
+    this.statusHeatmap = !this.statusHeatmap;
+    var valuedate = val1;
+    var valuetime = val2;
+    var valuepath = val3;
+
+    var tiles = L.tileLayer(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      {
+        maxZoom: 18,
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }
+    ).addTo(this.map);
+
+    if (
+      $(".leaflet-overlay-pane")
+        .children()
+        .hasClass("leaflet-heatmap-layer")
+    ) {
+      this.map.removeLayer(this.heat);
+    }
+
+    //re initialize variables
+    this.sensorList = [];
+    this.temp = [];
+    this.temp2 = [];
+    this.temp3 = [];
+    this.lat = [];
+    this.lng = [];
+    this.coordinates = [];
+    this.firstpolyline = [];
+    this.featureGroup = [];
+    this.markers = [];
+
+    this.dataService.getSensorList(valuepath).subscribe(res => {
+      var greenIcon = L.icon({
+        iconUrl: "../assets/images/greenIcon.svg",
+        iconSize: [24, 24], // size of the icon
+        iconAnchor: [10, 20] // point of the icon which will correspond to marker's location
+        //popupAnchor: [12, 0]
+      });
+
+      var redIcon = L.icon({
+        iconUrl: "../assets/images/redIcon.svg",
+        iconSize: [24, 24], // size of the icon
+        iconAnchor: [10, 20] // point of the icon which will correspond to marker's location
+        //popupAnchor: [12, 0]
+      });
+
+      this.sensorList = res.data;
+      var size = Object.keys(this.sensorList).length;
+
+      for (var i = 0; i < size; i++) {
+        if (
+          this.sensorList[i].date_updated == valuedate &&
+          this.sensorList[i].str_time_updated == valuetime
+        ) {
+          this.temp3.push(this.sensorList[i]);
+        }
+      }
+
+      var g = this.temp3;
+      var e = g[0].sensor_list;
+
+      if (e.temperature > 10) {
+        this.lat.push(e.latitude);
+        this.lng.push(e.longitude);
+      }
+
+      this.coordinates = g[0].sensor_list.map(e => {
+        if (e.temperature > 10) {
+          return [e.latitude, e.longitude];
+        }
+      });
+
+      if (this.lat == "") {
+        $("#sensor_status").hide();
+        this.show = true;
+      } else {
+        $("#sensor_status").show();
+      }
+
+      var html = "";
+
+      for (let i = 0; i < this.lat.length; i++) {
+        html =
+          "<strong> Latitude:" +
+          this.lat[i] +
+          "</strong><br/><strong> Longitude:" +
+          this.lng[i] +
+          "</strong><br/>";
+        var marker = L.marker(this.coordinates[i], {
+          icon: greenIcon
+        })
+          .on("mousemove", function(e) {
+            e.target.setIcon(redIcon);
+          })
+          .on("mouseout", function(e) {
+            e.target.setIcon(greenIcon);
+          })
+          .bindPopup(html);
+        this.markers.push(marker);
+      }
+
+      this.firstpolyline = new L.polyline(this.coordinates, {
+        color: "red",
+        weight: 7,
+        opacity: 0.7,
+        lineCap: "square",
+        lineJoin: "round"
+      });
+
+      this.firstpolyline.addTo(this.map);
+      this.featureGroup = L.featureGroup(this.markers).addTo(this.map);
+      this.map.fitBounds(this.featureGroup.getBounds(), {
+        padding: [50, 50]
+      });
+
+      $(".leaflet-interactive").css("stroke-opacity", "0");
+      $(".leaflet-marker-pane").css("display", "none");
+    });
+  }
+
   viewPoint(val1, val2) {
     $(".leaflet-marker-pane").css("display", "block");
     $(".leaflet-popup-content-wrapper").css("display", "block");
@@ -699,5 +774,6 @@ export class OutdoorMapComponent implements OnInit {
     $(".leaflet-popup-content-wrapper").css("display", "none");
     $("#sensor_status").hide();
     this.checked = false;
+    this.show = false;
   }
 }

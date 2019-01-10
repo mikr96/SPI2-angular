@@ -40,4 +40,12 @@ export class PathManagementComponent implements OnInit {
   addPath(): void {
     this.router.navigate(["add-path"]);
   }
+
+  goToSensorManagement(path: Path) {
+    localStorage.removeItem("editPathName");
+    localStorage.setItem("editPathName", path.path_name);
+    localStorage.removeItem("editPathId");
+    localStorage.setItem("editPathId", path.path_id);
+    this.router.navigate(["sensor-management"]);
+  }
 }

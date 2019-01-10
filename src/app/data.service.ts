@@ -4,6 +4,7 @@ import { Http, Headers, Response } from "@angular/http";
 import { map, filter, switchMap, catchError, observeOn } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { Path } from "./pages/path-management/path.model";
+import { Sensor } from "./pages/sensor-management/sensor.model";
 
 @Injectable({
   providedIn: "root"
@@ -124,12 +125,6 @@ export class DataService {
     return this.http.get<Path[]>(this.DB_ENDPOINT + "spi2/path_list");
   }
 
-  getPathById(id: number) {
-    return this.http.get<Path>(
-      this.DB_ENDPOINT + "spi2/path_list?path_id=" + id
-    );
-  }
-
   createPath(path: Path) {
     return this.http.post(this.DB_ENDPOINT + "spi2/path_add", path);
   }
@@ -138,7 +133,19 @@ export class DataService {
     return this.http.post(this.DB_ENDPOINT + "spi2/path_edit", path);
   }
 
-  deletePath(path : Path) {
+  deletePath(path: Path) {
     return this.http.post(this.DB_ENDPOINT + "spi2/path_delete", path);
+  }
+
+  createSensor(sensor: Sensor) {
+    return this.http.post(this.DB_ENDPOINT + "spi2/sensor_add", sensor);
+  }
+
+  updateSensor(sensor: Sensor) {
+    return this.http.post(this.DB_ENDPOINT + "spi2/sensor_edit", sensor);
+  }
+
+  deleteSensor(sensor: Sensor) {
+    return this.http.post(this.DB_ENDPOINT + "spi2/sensor_delete", sensor);
   }
 }

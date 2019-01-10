@@ -1,0 +1,30 @@
+.custom-select {
+  background-color: #eee;
+  position: relative;
+  width: 20%;
+  margin-right: 10px;
+  display: inline-block;
+}
+.custom-select select {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.custom-select:after {
+  content: "\f078";
+  font-family: "FontAwesome";
+  font-weight: bold;
+  position: absolute;
+  display: block;
+  background: #333;
+  color: #fff;
+  padding: 3px 8px;
+  top: 5px;
+  right: 10px;
+  z-index: 1;
+}

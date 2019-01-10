@@ -1,5 +1,5 @@
 export class Path {
-  path_id: number;
-  path_name: string;
-  path_desc: string;
+  path_id: any;
+  path_name: any;
+  path_desc: any;
 }

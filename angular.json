@@ -26,7 +26,8 @@
             "styles": [
               "src/assets/libs/leaflet/dist/leaflet.css",
               "src/assets/libs/datatables/media/css/jquery.dataTables.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/jquery-datetimepicker/jquery.datetimepicker.css"
             ],
             "scripts": [
               "src/assets/plugins/js/jquery.min.js",
@@ -35,7 +36,9 @@
               "src/assets/plugins/js/leaflet-heat.js",
               "src/assets/libs/datatables/media/js/jquery.dataTables.min.js",
               "src/assets/libs/plotly.js/dist/plotly.min.js",
-              "src/assets/libs/chart.js/dist/Chart.min.js"
+              "src/assets/libs/chart.js/dist/Chart.min.js",
+              "./node_modules/jquery-datetimepicker/jquery.js",
+              "./node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"
             ]
           },
           "configurations": {

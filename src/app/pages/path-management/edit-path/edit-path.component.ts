@@ -10,6 +10,7 @@ import { Path } from "../path.model";
   styleUrls: ["./edit-path.component.scss"]
 })
 export class EditPathComponent implements OnInit {
+  
   path: Path;
   editForm: FormGroup;
   pathName : String;

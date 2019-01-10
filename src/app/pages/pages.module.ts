@@ -12,7 +12,11 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { PathManagementComponent } from "./path-management/path-management.component";
 import { AddPathComponent } from "./path-management/add-path/add-path.component";
-import { EditPathComponent } from './path-management/edit-path/edit-path.component';
+import { EditPathComponent } from "./path-management/edit-path/edit-path.component";
+import { SensorManagementComponent } from "./sensor-management/sensor-management.component";
+import { EditSensorComponent } from "./sensor-management/edit-sensor/edit-sensor.component";
+import { AddSensorComponent } from "./sensor-management/add-sensor/add-sensor.component";
+import { ViewSensorComponent } from './sensor-management/view-sensor/view-sensor.component';
 
 const PAGES_COMPONENTS = [PagesComponent];
 
@@ -32,7 +36,11 @@ const PAGES_COMPONENTS = [PagesComponent];
     ...PAGES_COMPONENTS,
     PathManagementComponent,
     AddPathComponent,
-    EditPathComponent
+    EditPathComponent,
+    SensorManagementComponent,
+    EditSensorComponent,
+    AddSensorComponent,
+    ViewSensorComponent
   ],
   providers: [NeedAuthGuard]
 })

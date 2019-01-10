@@ -46,7 +46,9 @@
               data
             }}</option>
           </select>
-
+          <div style="font-weight: bold;" *ngIf="show">
+            <span>No alert on time selection</span>
+          </div>
           <div id="sensor_status" class="mt-10 text-right">
             <mat-checkbox
               [(ngModel)]="checked"
@@ -69,6 +71,9 @@
           >warning
         </i>
       </p>
+      <div style="text-align: center; font-weight: bold;" *ngIf="alert">
+        <span>No changes above threshold</span>
+      </div>
       <div *ngFor="let data of coordArr">
         <div class="alert-content">
           <div class="text">

@@ -1,0 +1,37 @@
+<div class="col-md-12 user-container">
+  <br />
+  <h2 style="display: inline-block;">Sensor Management ({{ pathName }})</h2>
+  <button
+    class="btn btn-info"
+    style="margin-left: 20px; width:100px; border-radius: 100px;"
+    (click)="goBack()"
+  >
+    Go Back
+  </button>
+  <br />
+
+  <div class="custom-select">
+    <select (change)="onDateChange($event.target.value)">
+      <option disabled selected value> -- Select Date -- </option>
+      <option *ngFor="let data of dataDateArr" [value]="data">{{
+        data
+      }}</option>
+    </select>
+  </div>
+  <div class="custom-select mt-10">
+    <select (change)="onTimeChange($event.target.value)">
+      <option disabled selected value> -- Select Time -- </option>
+      <option *ngFor="let data of dataTimeArr" [value]="data">{{
+        data
+      }}</option>
+    </select>
+  </div>
+  <br />
+  <button
+    class="btn btn-primary mt-10"
+    style="width:200px"
+    (click)="goToViewTable()"
+  >
+    Search
+  </button>
+</div>

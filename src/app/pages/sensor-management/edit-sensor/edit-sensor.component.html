@@ -1,0 +1,44 @@
+<div class="col-md-6">
+  <h2 class="text-center">Edit Sensor</h2>
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit($event.target.value)">
+    <div class="form-group">
+      <label>Sensor ID :</label>
+      <input placeholder="{{ sensorId }}" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+      <label for="latitude">Latitude :</label>
+      <input
+        formControlName="latitude"
+        placeholder="{{ lat }}"
+        class="form-control"
+        id="latitude"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="longitude">Longitude :</label>
+      <input
+        formControlName="longitude"
+        placeholder="{{ lng }}"
+        class="form-control"
+        id="longitude"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="temperature">Temperature :</label>
+      <input
+        formControlName="temperature"
+        placeholder="{{ temp }}"
+        class="form-control"
+        id="temperature"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="updated">Last Updated :</label>
+      <input placeholder="{{ updated }}" class="form-control" disabled />
+    </div>
+    <button class="btn btn-primary">Update</button>
+  </form>
+</div>
