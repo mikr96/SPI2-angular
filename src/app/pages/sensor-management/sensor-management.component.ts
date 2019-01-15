@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DataService } from "src/app/data.service";
 import { Sensor } from "./Sensor.model";
 import { Router } from "@angular/router";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-sensor-management",
@@ -10,21 +10,24 @@ import { FormBuilder, FormGroup } from "@angular/forms";
   styleUrls: ["./sensor-management.component.scss"]
 })
 export class SensorManagementComponent implements OnInit {
+  /* Variable declaration */
   editForm: FormGroup;
   pathId: any;
   pathName: any;
   sensorId: any;
-  dataDate: any = [];
-  dataDateArr: any = [];
-  dateSelect: any = [];
-  timeSelect: any = [];
-  dataTimeArr: any = [];
-  dataDateTime: any = [];
   sensors: Sensor[];
+  dataDate: any = []; //Store object date
+  dataDateArr: any = []; //Store date in array
+  dateSelect: any = []; //Store user date selection
+  timeSelect: any = []; //Store user time selection
+  dataTimeArr: any = []; //Store time in array
+  dataTime: any = []; //Store object time
 
   constructor(private dataService: DataService, private router: Router) {}
 
+  /* Runs on page initialize */
   ngOnInit() {
+    /* Get Item from Storage */
     this.pathId = localStorage.getItem("editPathId");
     this.pathName = localStorage.getItem("editPathName");
 
@@ -33,6 +36,7 @@ export class SensorManagementComponent implements OnInit {
     });
   }
 
+  /* Initializing date into variable dataDateArr */
   initializeDate(res) {
     this.dataDate = res.data;
     var size = Object.keys(this.dataDate).length;
@@ -51,40 +55,43 @@ export class SensorManagementComponent implements OnInit {
         }
       } else this.dataDateArr.push(this.dataDate[i].date_updated);
     }
-    console.log(this.dataDateArr);
   }
 
+  /* Function triggers after user select date */
   onDateChange(value) {
     this.dateSelect = [];
     this.dataTimeArr = [];
 
     this.dateSelect = value;
     this.dataService.getTimeDate(value, this.pathId).subscribe(res => {
-      this.dataDateTime = res.data;
-      var size = Object.keys(this.dataDateTime).length;
+      this.dataTime = res.data;
+      var size = Object.keys(this.dataTime).length;
       for (let i = 0; i < size; i++) {
-        this.dataTimeArr.push(this.dataDateTime[i].str_time_updated);
+        this.dataTimeArr.push(this.dataTime[i].str_time_updated);
       }
     });
   }
 
+  /* Function triggers after user select time */
   onTimeChange(value) {
-    this.timeSelect = value;
+    this.timeSelect = value; //store value time into a variable, so that it can be reusable for other functions or components
   }
 
+  /* Functions trigger after user click button 'search' */
   goToViewTable() {
-    localStorage.removeItem("editPathName");
-    localStorage.setItem("editPathName", this.pathName);
-    localStorage.removeItem("editPathId");
-    localStorage.setItem("editPathId", this.pathId);
-    localStorage.removeItem("editDateSelect");
-    localStorage.setItem("editDateSelect", this.dateSelect);
-    localStorage.removeItem("editTimeSelect");
-    localStorage.setItem("editTimeSelect", this.timeSelect);
-    this.router.navigate(["view-sensor"]);
+    localStorage.removeItem("editPathName"); //Create storage editpathname
+    localStorage.setItem("editPathName", this.pathName); //Set storage editpathname
+    localStorage.removeItem("editPathId"); //Create storage editpathid
+    localStorage.setItem("editPathId", this.pathId); //Set storage editpathid
+    localStorage.removeItem("editDateSelect"); //Create storage editDateSelect
+    localStorage.setItem("editDateSelect", this.dateSelect); //Set storage editDateSelect
+    localStorage.removeItem("editTimeSelect"); //Create storage editTimeSelect
+    localStorage.setItem("editTimeSelect", this.timeSelect); //Set storage editTimeSelect
+    this.router.navigate(["view-sensor"]); //Redirect page to View Sensor page
   }
 
+  /* Functions trigger after user click button 'go back' */
   goBack() {
-    this.router.navigate(["path-management"]);
+    this.router.navigate(["path-management"]); //Redirect page to Path Management page
   }
 }

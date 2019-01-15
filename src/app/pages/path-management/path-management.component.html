@@ -1,11 +1,14 @@
 <div class="col-md-12 user-container">
   <br />
+  <!-- PAGE TITLE -->
   <h2 style="margin: auto">Path Management</h2>
   <br />
+  <!-- ADD NEW PATH BUTTON-->
   <button class="btn btn-primary" style="width:100px" (click)="addPath()">
     Add Path
   </button>
   <hr />
+  <!-- TABLE PATH -->
   <table class="table table-striped" style="text-align: center;">
     <thead>
       <tr>
@@ -21,6 +24,7 @@
         <td>{{ path.path_name }}</td>
         <td>{{ path.path_desc }}</td>
         <td>
+          <!-- EDIT PATH BUTTON-->
           <button
             class="btn btn-primary"
             (click)="editPath(path)"
@@ -28,6 +32,7 @@
           >
             Edit
           </button>
+          <!-- DELETE PATH BUTTON-->
           <button
             class="btn btn-danger"
             (click)="deletePath(path)"
@@ -35,6 +40,7 @@
           >
             Delete
           </button>
+          <!-- GO TO SENSOR MANAGEMENT BUTTON-->
           <button
             class="btn btn-success"
             (click)="goToSensorManagement(path)"

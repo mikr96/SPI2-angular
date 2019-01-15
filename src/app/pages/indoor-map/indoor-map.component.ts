@@ -1,9 +1,9 @@
+//In delivering the indoor map component, Plotly library have been used to create the graph for heat distribution along with a dynamic slider that triggers heat visualization
+
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "src/app/data.service";
-import * as Plotly from "src/assets/libs/plotly.js/dist/plotly.min.js";
-import { coerceNumberProperty } from "@angular/cdk/coercion";
-
-declare let $;
+import * as Plotly from "src/assets/libs/plotly.js/dist/plotly.min.js"; //Plotly library
+import { coerceNumberProperty } from "@angular/cdk/coercion"; //Slider property
 
 @Component({
   selector: "app-indoor-map",
@@ -11,18 +11,21 @@ declare let $;
   styleUrls: ["./indoor-map.component.scss"]
 })
 export class IndoorMapComponent implements OnInit {
-  HEATMAP_MAX: number = 40;
-  HEATMAP_MIN: number = 12;
-  coordinates: any = [];
-  temp: any = [];
-  coorx: any = [];
-  coory: any = [];
-  dates: any = [];
-  cs: any;
-  layout: any;
-  kord: any;
+  HEATMAP_MAX: number = 40; //initializing max heat scale
+  HEATMAP_MIN: number = 12; //initializing min heat scale
+
+  /* CREATE VARIABLES */
+  coordinates: any = []; //
+  coorx: any = []; //X-axis coordinates
+  coory: any = []; //Y-axis coordinates
+  temp: any = []; //Z-axis coordinates
+  dates: any = []; //dates for each slider interval
+  cs: any; //Heat colour scheme
+  layout: any; //Graph layout variable
+  graph: any; //Graph data
   test: any;
 
+  /* SLIDER PROPERTIES */
   autoTicks = false;
   disabled = false;
   invert = false;
@@ -34,6 +37,7 @@ export class IndoorMapComponent implements OnInit {
   value = 0;
   vertical = false;
 
+  /* Getting input for slider */
   get tickInterval(): number | "auto" {
     return this.showTicks ? (this.autoTicks ? "auto" : this._tickInterval) : 0;
   }
@@ -42,23 +46,24 @@ export class IndoorMapComponent implements OnInit {
   }
   private _tickInterval = 1;
 
-  constructor(private data: DataService) { }
+  constructor(private data: DataService) {}
 
+  /* Runs When Page Initialize */
   ngOnInit() {
     this.data.getDataIndoor().subscribe(data => {
-      var size = Object.keys(data.data).length;
-      console.log(data);
-      this.max = size;
-      this.test = data.data[0].date_updated;
+      this.max = Object.keys(data.data).length; //sets max interval
+      this.test = data.data[0].date_updated; //display dates
       data = data.data[0];
-      this.coordinates = data.sensor_list;
+      this.coordinates = data.sensor_list; //setting the coordinates at the right path in the API
+      //console.log(this.coordinates) for more understanding
 
       for (let i = 0; i <= 143; i++) {
-        this.coorx.push(this.coordinates[i].x_pos);
-        this.coory.push(this.coordinates[i].y_pos);
-        this.temp.push(this.coordinates[i].temp);
+        this.coorx.push(this.coordinates[i].x_pos); //pushing the x-axis data from the coordinates into the coorx
+        this.coory.push(this.coordinates[i].y_pos); //pushing the y-axis data from the coordinates into the coory
+        this.temp.push(this.coordinates[i].temp); //pushing the Z-axis data from the coordinates into the temp
       }
 
+      /* Initializing Colour Scale */
       this.cs = [
         [0, "rgba(255,255,255,0)"],
         [0.125, "rgb(0,60,170)"],
@@ -68,7 +73,8 @@ export class IndoorMapComponent implements OnInit {
         [1, "rgb(128,0,0)"]
       ];
 
-      this.kord = {
+      /* Creating graph */
+      this.graph = {
         x: this.coorx,
         y: this.coory,
         z: this.temp,
@@ -81,6 +87,7 @@ export class IndoorMapComponent implements OnInit {
         opacity: 0.9
       };
 
+      /* Creating layout */
       this.layout = {
         height: 800,
         images: [
@@ -109,21 +116,22 @@ export class IndoorMapComponent implements OnInit {
         titlefont: { size: 35 },
         margin: { l: 10, r: 10, b: 10 }
       };
-      Plotly.plot("map", [this.kord], this.layout);
+
+      /* Graph plotted */
+      Plotly.plot("map", [this.graph], this.layout);
     });
   }
 
+  /* This function only triggers when slider's value changed */
+  /* It is mainly on re-draw the graph with a different time value */
+
   update(value) {
     this.data.getDataIndoor().subscribe(data => {
-
       var size = Object.keys(data.data).length;
-      console.log(size);
       for (let i = 0; i < size; i++) {
         this.dates[i] = data.data[i].date_updated;
-        // console.log(data.data[i].date_updated);
       }
       this.test = this.dates[value];
-
 
       data = data.data[value];
       this.coordinates = data.sensor_list;
@@ -133,7 +141,7 @@ export class IndoorMapComponent implements OnInit {
         this.temp.push(this.coordinates[i].temp);
       }
 
-      this.kord = {
+      this.graph = {
         x: this.coorx,
         y: this.coory,
         z: this.temp,
@@ -145,7 +153,7 @@ export class IndoorMapComponent implements OnInit {
         showscale: true,
         opacity: 0.9
       };
-      Plotly.redraw("map", [this.kord], [0]);
+      Plotly.redraw("map", [this.graph], [0]);
     });
   }
 }

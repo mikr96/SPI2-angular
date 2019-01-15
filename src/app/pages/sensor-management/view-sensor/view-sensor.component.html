@@ -1,6 +1,8 @@
 <div class="col-md-12 user-container">
   <br />
+  <!-- PAGE TITLE with PATH NAME -->
   <h2 style="display: inline-block;">Sensor Management ({{ pathName }})</h2>
+  <!-- BUTTON BACK -->
   <button
     class="btn btn-info"
     style="margin-left: 20px; width:100px; border-radius: 100px;"
@@ -8,12 +10,15 @@
   >
     Go Back
   </button>
-  <div style="position: absolute; right:5%; bottom: 98.5%;">
+  <!-- DISPLAY DATE & TIME -->
+  <div style="position: absolute; right:5%; bottom: 98%;">
+    <!-- P/S: this is not the right way using styles. Absolute position are not responsive -->
     <span><b>Date:</b> {{ dateSelect }} </span>
     <span><b>Time:</b> {{ timeSelect }}</span>
   </div>
   <br />
   <br />
+  <!-- TABLE SENSOR MANAGEMENT -->
   <table class="table table-striped" style="text-align: center;">
     <thead>
       <tr>
@@ -25,12 +30,14 @@
       </tr>
     </thead>
     <tbody>
+      <!-- DISPLAY SENSOR DATA -->
       <tr *ngFor="let sensor of sensors">
         <td hidden>{{ sensor.id }}</td>
         <td>{{ sensor.latitude }}</td>
         <td>{{ sensor.longitude }}</td>
         <td>{{ sensor.temperature }}</td>
         <td>
+          <!-- ADD BUTTON -->
           <button
             class="btn btn-success"
             style="margin-left: 20px; width:120px"
@@ -38,6 +45,7 @@
           >
             Add
           </button>
+          <!-- EDIT BUTTON -->
           <button
             class="btn btn-primary"
             (click)="editSensor(sensor)"
@@ -45,6 +53,7 @@
           >
             Edit
           </button>
+          <!-- DELETE BUTTON -->
           <button
             class="btn btn-danger"
             (click)="deleteSensor(sensor)"

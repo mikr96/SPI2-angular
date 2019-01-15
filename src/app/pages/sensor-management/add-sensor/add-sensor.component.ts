@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DataService } from "src/app/data.service";
-import { first } from "rxjs/operators";
 import { Router } from "@angular/router";
 
 @Component({
@@ -14,19 +13,22 @@ export class AddSensorComponent implements OnInit {
   addForm: FormGroup;
   time: any;
   updated: any;
-
+  A;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private dataService: DataService
   ) {}
 
+  /* Runs on page initialize */
   ngOnInit() {
+    /* Get Item from Storage */
     this.pathId = localStorage.getItem("editPathId");
     this.updated = localStorage.getItem("editSensorUpdated");
 
     this.updated = this.reformDateTime(this.updated);
 
+    /* This form builder will generate json file format with input parameters */
     this.addForm = this.formBuilder.group({
       path_id: [this.pathId],
       latitude: ["", Validators.required],
@@ -34,16 +36,18 @@ export class AddSensorComponent implements OnInit {
       temperature: ["", Validators.required],
       updated: [this.updated]
     });
-    console.log(this.addForm.value);
   }
 
+  /* Function triggers after user click button 'save' */
   onSubmit() {
     this.dataService.createSensor(this.addForm.value).subscribe(data => {
-      console.log(this.addForm.value);
-      this.router.navigate(["view-sensor"]);
+      this.router.navigate(["view-sensor"]); //Redirect page to View Sensor page
     });
   }
 
+  /* This function will combine the date and time collected into a string */
+  /* The string must be in form of "24/11/96 14:42:00" */
+  /* Feel free to clean the codes */
   reformDateTime(val): String {
     var fields = val.split("-");
     var years = fields[0];

@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
   styleUrls: ["./view-sensor.component.scss"]
 })
 export class ViewSensorComponent implements OnInit {
+  /* VARIABLE DECLARATION */
   editForm: FormGroup;
   pathId: any;
   pathName: any;
@@ -24,7 +25,9 @@ export class ViewSensorComponent implements OnInit {
     private router: Router
   ) {}
 
+  /* Runs on page initialize */
   ngOnInit() {
+    /* Get Item from Storage */
     this.pathId = localStorage.getItem("editPathId");
     this.pathName = localStorage.getItem("editPathName");
     this.dateSelect = localStorage.getItem("editDateSelect");
@@ -44,6 +47,7 @@ export class ViewSensorComponent implements OnInit {
     });
   }
 
+  /* Function triggers after user click button 'delete' */
   deleteSensor(sensors: Sensor): void {
     localStorage.removeItem("editSensorId");
     localStorage.setItem("editSensorId", sensors.id);
@@ -55,6 +59,7 @@ export class ViewSensorComponent implements OnInit {
     });
   }
 
+  /* Function triggers after user click button 'edit' */
   editSensor(sensor: Sensor): void {
     localStorage.setItem("editPathId", this.pathId.toString());
     localStorage.removeItem("editSensorId");
@@ -70,6 +75,7 @@ export class ViewSensorComponent implements OnInit {
     this.router.navigate(["edit-sensor"]);
   }
 
+  /* Function triggers after user click button 'add' */
   addSensor(sensor: Sensor): void {
     localStorage.setItem("editPathId", this.pathId);
     localStorage.removeItem("editSensorUpdated");
@@ -77,6 +83,7 @@ export class ViewSensorComponent implements OnInit {
     this.router.navigate(["add-sensor"]);
   }
 
+  /* Function triggers after user click button 'go back' */
   goBack() {
     this.router.navigate(["sensor-management"]);
   }

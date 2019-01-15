@@ -36,6 +36,7 @@ export class DataService {
       );
   }
 
+  /* DISPLAY LIST OF DATES */
   getDataDate(): any {
     return this.http.get(this.DB_ENDPOINT + "spi2/sensor_outdoor_dates").pipe(
       map((response: Response) => response),
@@ -45,6 +46,7 @@ export class DataService {
     );
   }
 
+  /* FILTER API, ONLY DISPLAY TIME FOR THAT PATH AND WITHIN THE DATE */
   getTimeDate(dateString: string, pathId: any): any {
     return this.http
       .get(
@@ -62,7 +64,7 @@ export class DataService {
       );
   }
 
-  // Heatmap data
+  /* FILTER API, ONLY DISPLAY DATA FOR THAT PATH ID */
   getSensorList(pathId: any): any {
     return this.http
       .get(
@@ -76,6 +78,7 @@ export class DataService {
       );
   }
 
+  /* DISPLAY DATA FOR THAT DATE */
   getFullList(dateString: string): any {
     return this.http
       .get(
@@ -90,7 +93,8 @@ export class DataService {
         })
       );
   }
-  // indoor data
+
+  /* DISPLAY INDOOR DATA */
   getDataIndoor(): any {
     return this.http.get(this.DB_ENDPOINT + "spi2/sensor_list_indoor_all").pipe(
       map((response: Response) => response),
@@ -100,6 +104,7 @@ export class DataService {
     );
   }
 
+  /* DISPLAY LIST OF PATH */
   getPath(): any {
     return this.http.get(this.DB_ENDPOINT + "spi2/path_list").pipe(
       map((response: Response) => response),
@@ -109,6 +114,7 @@ export class DataService {
     );
   }
 
+  /* DISPLAY TIME FOR THAT PATH ID */
   getPathCoord(path: String): any {
     return this.http
       .get(this.DB_ENDPOINT + "spi2/sensor_outdoor_time?path=" + path)
@@ -120,7 +126,8 @@ export class DataService {
       );
   }
 
-  // path management
+  /* CRUD FUNCTIONS */
+  /* PATH MANAGEMENT */
   getPaths(): any {
     return this.http.get<Path[]>(this.DB_ENDPOINT + "spi2/path_list");
   }
@@ -137,6 +144,7 @@ export class DataService {
     return this.http.post(this.DB_ENDPOINT + "spi2/path_delete", path);
   }
 
+  /* SENSOR MANAGEMENT */
   createSensor(sensor: Sensor) {
     return this.http.post(this.DB_ENDPOINT + "spi2/sensor_add", sensor);
   }

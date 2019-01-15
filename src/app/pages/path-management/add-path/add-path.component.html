@@ -1,6 +1,8 @@
 <div class="col-md-6">
+  <!-- PAGE TITLE -->
   <h2 class="text-center">Add New Path</h2>
   <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <!-- PATH NAME -->
     <div class="form-group">
       <label for="path_name">Path Name:</label>
       <input
@@ -10,7 +12,7 @@
         id="path_name"
       />
     </div>
-
+    <!-- PATH DESCRIPTION -->
     <div class="form-group">
       <label for="path_desc">Path Description:</label>
       <input
@@ -20,6 +22,8 @@
         id="path_desc"
       />
     </div>
+
+    <!-- BUTTON SAVE -->
     <button class="btn btn-primary">Save</button>
   </form>
 </div>

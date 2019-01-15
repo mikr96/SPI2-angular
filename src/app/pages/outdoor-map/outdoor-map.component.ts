@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "src/app/data.service";
-import { Chart } from "src/assets/libs/chart.js/dist/Chart.min.js";
+import { Chart } from "src/assets/libs/chart.js/dist/Chart.min.js"; //import chart library
 
-declare var $: any;
-declare let L;
+declare var $: any; //Enable JQuery-ing
+declare let L; //Enable map declaration
 
 @Component({
   selector: "app-outdoor-map",
@@ -11,48 +11,52 @@ declare let L;
   styleUrls: ["./outdoor-map.component.scss"]
 })
 export class OutdoorMapComponent implements OnInit {
-  checked = false;
+  checked = false; //unchecked checkbox
+  /* VARIABLE DECLARATION */
   sensorList: any = [];
-  dataDateArr: any = [];
-  dataPathArr: any = [];
-  coordArr: any = [];
-  tempArr: any = [];
-  dataDate: any = [];
-  dataPath: any = [];
-  dateSelect: any;
-  dataDateTime: any = [];
-  dataTimeArr: any = [];
+  dataDateArr: any = []; //Store dates in array
+  dataPathArr: any = []; //Store path in array
+  coordArr: any = []; //Store coordinates in array
+  tempArr: any = []; //Store temperature in array
+  dataTimeArr: any = []; //Store time in array
+  dataDate: any = []; //Store object date
+  dataPath: any = []; //Store object path
+  dataTime: any = []; //Store object time
+  dateSelect: any; //Store user's date selection
   addressPoints: any = [];
-  map: any;
-  chart = [];
+  map: any; //map declaration
+  chart = []; //chart declaration
   statusHeatmap: boolean = false;
   heat: any;
   featureGroup: any;
   sensorpath: any = [];
-  lat: any = [];
-  lng: any = [];
-  temp: any = [];
-  marker: any;
-  firstpolyline: any;
-  markers: any = [];
+  lat: any = []; //latitude
+  lng: any = []; //longitude
+  temp: any = []; //temperature
+  marker: any; //1 marker
+  firstpolyline: any; //path line
+  markers: any = []; //markers
   coordinates: any = [];
-  pathSelection: any;
-  pathId: any = [];
+  pathSelection: any; //Store user's path selection
+  pathId: any = []; //Path id
   alert: boolean = false;
   show: boolean = false;
-
-  //temporary variable
-  temp2: any = [];
-  temp3: any = [];
-  temp4: any = [];
   i = true;
   k: boolean;
 
+  //temporary variable
+  //the final data will not be stored in these variables. They are just temporaries
+  temp2: any = [];
+  temp3: any = [];
+  temp4: any = [];
+
   constructor(private dataService: DataService) {}
 
+  /* Runs on page initialize */
   ngOnInit() {
     this.k = true;
 
+    //map initialization
     this.map = L.map("map").setView([2.920282, 101.641747], 12);
     var tiles = L.tileLayer(
       "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
@@ -72,6 +76,7 @@ export class OutdoorMapComponent implements OnInit {
       }
     });
 
+    //scroll down animation, triggers after user click button 'scroll'
     $("div").on("click", ".scroll-down-button", function() {
       $("html, body").animate(
         {
@@ -86,20 +91,23 @@ export class OutdoorMapComponent implements OnInit {
     });
   }
 
+  /* Function triggers after user select path */
   onPathChange(value) {
     this.pathSelection = value;
 
+    //Zoom out map
     if (this.map.getZoom() > 11) {
       this.map.setZoom(12);
     }
 
+    //Re-initialize variables to avoid any data redundance
     this.dataDateArr = [];
     this.dataTimeArr = [];
     this.temp4 = [];
     this.coordArr = [];
-
     this.clear();
 
+    //reset date and time selection
     $("#date_selection").val("");
     $("#time_selection").val("");
 
@@ -149,10 +157,12 @@ export class OutdoorMapComponent implements OnInit {
     }
   }
 
+  //init date list
   initializeDate(res) {
     this.dataDate = res.data;
-    var size = Object.keys(this.dataDate).length;
+    var size = Object.keys(this.dataDate).length; //getting size of the object
 
+    /* This line of codes are mainly to ignore any date redundance */
     var j = 0;
     var k = 0;
     for (let i = 0; i < size; i++) {
@@ -169,6 +179,7 @@ export class OutdoorMapComponent implements OnInit {
     }
   }
 
+  //get latest alert
   getAlert(res) {
     this.dataPath = res.data;
     var size = Object.keys(this.dataPath).length;
@@ -184,33 +195,40 @@ export class OutdoorMapComponent implements OnInit {
     }
   }
 
+  /* Function triggers after user select date */
   onDateChange(value) {
+    //reinitialize variables to avoid any data redundance
     this.dateSelect = [];
     this.dataTimeArr = [];
     this.clear();
+    //reset time selection
     $("#time_selection").val("");
 
     this.dateSelect = value;
     this.dataService.getTimeDate(value, this.pathId).subscribe(res => {
-      this.dataDateTime = res.data;
-      var size = Object.keys(this.dataDateTime).length;
+      this.dataTime = res.data;
+      var size = Object.keys(this.dataTime).length;
+      //list out time
       for (let i = 0; i < size; i++) {
-        this.dataTimeArr.push(this.dataDateTime[i].str_time_updated);
+        this.dataTimeArr.push(this.dataTime[i].str_time_updated);
       }
     });
   }
 
+  /* Function triggers after user select time */
   onTimeChange(value) {
     this.show = false;
     if (this.pathId == 3 || this.pathId == 4) {
       this.checked = false;
-      this.genMarkers(this.dateSelect, value, this.pathId);
+      this.genAlert(this.dateSelect, value, this.pathId); //alert function
     } else {
       this.checked = false;
-      this.genHeatmap(this.dateSelect, value, this.pathId);
+      this.genHeatmap(this.dateSelect, value, this.pathId); //heatmap function
     }
   }
 
+  /* Function triggers after user checked show sensor checkbox */
+  //Markers display
   onSensorChange(value) {
     if (value) {
       $(".leaflet-interactive").css("stroke-opacity", "0.8");
@@ -222,15 +240,13 @@ export class OutdoorMapComponent implements OnInit {
   }
 
   genHeatmap(val1, val2, val3) {
-    // console.log(this.pathId);
-    // console.log(this.)
-
-    $("#sensor_status").show();
+    $("#sensor_status").show(); //display checkbox
     this.statusHeatmap = !this.statusHeatmap;
     var valuedate = val1;
     var valuetime = val2;
     var valuepath = val3;
 
+    //map re-initialize
     var tiles = L.tileLayer(
       "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
       {
@@ -240,6 +256,7 @@ export class OutdoorMapComponent implements OnInit {
       }
     ).addTo(this.map);
 
+    //Reset map by removing any heat layer
     if (
       $(".leaflet-overlay-pane")
         .children()
@@ -248,7 +265,7 @@ export class OutdoorMapComponent implements OnInit {
       this.map.removeLayer(this.heat);
     }
 
-    //re initialize variables
+    //re initialize variables to avoid data redundance
     this.sensorList = [];
     this.temp = [];
     this.temp2 = [];
@@ -265,19 +282,19 @@ export class OutdoorMapComponent implements OnInit {
     let temp = [];
     let temp5 = [];
     let date = this.dateSelect;
-    //console.log(temp5);
 
     var colorGrad;
 
     this.dataService.getSensorList(valuepath).subscribe(
       res => {
+        //set icon markers
         var greenIcon = L.icon({
           iconUrl: "../assets/images/greenIcon.svg",
           iconSize: [24, 24], // size of the icon
           iconAnchor: [10, 20] // point of the icon which will correspond to marker's location
           //popupAnchor: [12, 0]
         });
-
+        //set icon markers
         var redIcon = L.icon({
           iconUrl: "../assets/images/redIcon.svg",
           iconSize: [24, 24], // size of the icon
@@ -286,9 +303,7 @@ export class OutdoorMapComponent implements OnInit {
         });
 
         this.sensorList = res.data;
-        console.log(this.sensorList);
-        var size = Object.keys(this.sensorList).length;
-        //console.log(size);
+        var size = Object.keys(this.sensorList).length; //getting size of the object
 
         //initialize x-axis graph -> time
         for (var i = 0; i < size; i++) {
@@ -297,8 +312,8 @@ export class OutdoorMapComponent implements OnInit {
             temp5.push(this.sensorList[i]);
           }
         }
-        console.log(this.sensorList);
 
+        //filter date and time
         for (var i = 0; i < size; i++) {
           if (
             this.sensorList[i].date_updated == valuedate &&
@@ -308,11 +323,8 @@ export class OutdoorMapComponent implements OnInit {
           }
         }
 
-        console.log(this.temp3);
-
         var g = this.temp3;
         var e = g[0].sensor_list;
-        console.log(e);
         this.lat = g[0].sensor_list.map(e => e.latitude); //initialize latitude
 
         this.lng = g[0].sensor_list.map(e => e.longitude); //initialize longitude
@@ -327,8 +339,8 @@ export class OutdoorMapComponent implements OnInit {
           return [pf(x.latitude), pf(x.longitude), pf(x.temperature / 100)];
         });
 
+        /* Marker Popup Content */
         var html = "";
-
         for (let i = 0; i < this.lat.length; i++) {
           html =
             "<strong> Latitude:" +
@@ -351,6 +363,7 @@ export class OutdoorMapComponent implements OnInit {
           this.markers.push(marker);
         }
 
+        /* Generate path line */
         this.firstpolyline = new L.polyline(this.coordinates, {
           color: "red",
           weight: 7,
@@ -359,6 +372,7 @@ export class OutdoorMapComponent implements OnInit {
           lineJoin: "round"
         });
 
+        /* Function triggers after user click any markers */
         function onClick(e) {
           var size = Object.keys(temp5).length;
           for (let i = 0; i < size; i++) {
@@ -372,6 +386,7 @@ export class OutdoorMapComponent implements OnInit {
             }
           }
 
+          //Setting CSV file content
           const rows = [[date], [time], [temp]];
           let csvContent = "data:text/csv;charset=utf-8,";
           rows.forEach(function(rowArray) {
@@ -379,16 +394,19 @@ export class OutdoorMapComponent implements OnInit {
             csvContent += row + "\r\n";
           });
 
+          //Appending CSV download link to the button
           var encodedUri = encodeURI(csvContent);
           var link = document.getElementById("a");
           link.setAttribute("href", encodedUri);
           link.setAttribute("download", "my_data.csv");
           link.setAttribute("type", "button");
 
+          //Display chart and download buttons
           $("#section-chart").show();
           $("#btn").show();
           $("#a").show();
 
+          //init chart
           this.chart = new Chart("canvas", {
             type: "line",
             data: {
@@ -434,10 +452,7 @@ export class OutdoorMapComponent implements OnInit {
 
         let arrowPosition;
 
-        // colorGrad = "#A9A9A9";
-        // arrowPosition = 100;
-        // avgIntensity = 0;
-
+        //setting pointer's position at every average temperature
         if (avgIntensity >= 0.2 && avgIntensity < 0.21) {
           colorGrad = "#48d1cc";
           arrowPosition = 0;
@@ -500,7 +515,9 @@ export class OutdoorMapComponent implements OnInit {
           arrowPosition = 100;
         }
 
+        //append css
         $("#tempScale").css("margin-top", "15px");
+        //display div
         $("#tempScale").show();
         $("#tempPointer").show();
         $(
@@ -516,14 +533,18 @@ export class OutdoorMapComponent implements OnInit {
           "<span> " + (avgIntensity * 100).toFixed(1) + " degC</span>"
         );
 
+        //add path line
         this.firstpolyline.addTo(this.map);
+        //add markers
         this.featureGroup = L.featureGroup(this.markers).addTo(this.map);
+        //zoom in map
         this.map.fitBounds(this.featureGroup.getBounds(), {
           padding: [50, 50]
         });
 
         $(".leaflet-interactive").css("stroke-opacity", "0");
         $(".leaflet-marker-pane").css("display", "none");
+        //display heatmap
         this.heat = L.heatLayer(this.addressPoints, {
           radius: 40,
           gradient: {
@@ -550,12 +571,13 @@ export class OutdoorMapComponent implements OnInit {
     );
   }
 
-  genMarkers(val1, val2, val3) {
+  genAlert(val1, val2, val3) {
     this.statusHeatmap = !this.statusHeatmap;
     var valuedate = val1;
     var valuetime = val2;
     var valuepath = val3;
 
+    //re-initialize map
     var tiles = L.tileLayer(
       "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
       {
@@ -586,13 +608,14 @@ export class OutdoorMapComponent implements OnInit {
     this.markers = [];
 
     this.dataService.getSensorList(valuepath).subscribe(res => {
+      //set marker icons
       var greenIcon = L.icon({
         iconUrl: "../assets/images/greenIcon.svg",
         iconSize: [24, 24], // size of the icon
         iconAnchor: [10, 20] // point of the icon which will correspond to marker's location
         //popupAnchor: [12, 0]
       });
-
+      //set marker icons
       var redIcon = L.icon({
         iconUrl: "../assets/images/redIcon.svg",
         iconSize: [24, 24], // size of the icon
@@ -603,6 +626,7 @@ export class OutdoorMapComponent implements OnInit {
       this.sensorList = res.data;
       var size = Object.keys(this.sensorList).length;
 
+      //filter data with date and time selection
       for (var i = 0; i < size; i++) {
         if (
           this.sensorList[i].date_updated == valuedate &&
@@ -614,66 +638,74 @@ export class OutdoorMapComponent implements OnInit {
 
       var g = this.temp3;
       var e = g[0].sensor_list;
+      var size = Object.keys(e).length;
 
-      if (e.temperature > 10) {
-        this.lat.push(e.latitude);
-        this.lng.push(e.longitude);
+      //filter latitude and longitude if temperature above 10 degree
+      for (var i = 0; i < size; i++) {
+        if (e[i].temperature > 10) {
+          this.lat.push(e[i].latitude);
+          this.lng.push(e[i].longitude);
+        }
       }
 
-      this.coordinates = g[0].sensor_list.map(e => {
-        if (e.temperature > 10) {
-          return [e.latitude, e.longitude];
+      //filter coordinates if temperature above 10 degree
+      for (var i = 0; i < size; i++) {
+        if (e[i].temperature > 10) {
+          this.coordinates.push([e[i].latitude, e[i].longitude]);
         }
-      });
+      }
 
+      //Marker Popup Content
+      var html = "";
       if (this.lat == "") {
         $("#sensor_status").hide();
         this.show = true;
       } else {
+        for (let i = 0; i < this.lat.length; i++) {
+          html =
+            "<strong> Latitude:" +
+            this.lat[i] +
+            "</strong><br/><strong> Longitude:" +
+            this.lng[i] +
+            "</strong><br/>";
+          var marker = L.marker(this.coordinates[i], {
+            icon: greenIcon
+          })
+            .on("mousemove", function(e) {
+              e.target.setIcon(redIcon);
+            })
+            .on("mouseout", function(e) {
+              e.target.setIcon(greenIcon);
+            })
+            .bindPopup(html);
+          this.markers.push(marker);
+        }
+
+        //create path line
+        this.firstpolyline = new L.polyline(this.coordinates, {
+          color: "red",
+          weight: 7,
+          opacity: 0.7,
+          lineCap: "square",
+          lineJoin: "round"
+        });
+
+        //add path line
+        this.firstpolyline.addTo(this.map);
+        //add markers
+        this.featureGroup = L.featureGroup(this.markers).addTo(this.map);
+        //zoom in markers
+        this.map.fitBounds(this.featureGroup.getBounds(), {
+          padding: [50, 50]
+        });
         $("#sensor_status").show();
+        $(".leaflet-interactive").css("stroke-opacity", "0");
+        $(".leaflet-marker-pane").css("display", "none");
       }
-
-      var html = "";
-
-      for (let i = 0; i < this.lat.length; i++) {
-        html =
-          "<strong> Latitude:" +
-          this.lat[i] +
-          "</strong><br/><strong> Longitude:" +
-          this.lng[i] +
-          "</strong><br/>";
-        var marker = L.marker(this.coordinates[i], {
-          icon: greenIcon
-        })
-          .on("mousemove", function(e) {
-            e.target.setIcon(redIcon);
-          })
-          .on("mouseout", function(e) {
-            e.target.setIcon(greenIcon);
-          })
-          .bindPopup(html);
-        this.markers.push(marker);
-      }
-
-      this.firstpolyline = new L.polyline(this.coordinates, {
-        color: "red",
-        weight: 7,
-        opacity: 0.7,
-        lineCap: "square",
-        lineJoin: "round"
-      });
-
-      this.firstpolyline.addTo(this.map);
-      this.featureGroup = L.featureGroup(this.markers).addTo(this.map);
-      this.map.fitBounds(this.featureGroup.getBounds(), {
-        padding: [50, 50]
-      });
-
-      $(".leaflet-interactive").css("stroke-opacity", "0");
-      $(".leaflet-marker-pane").css("display", "none");
     });
   }
 
+  /* Function triggers after user click button 'view' */
   viewPoint(val1, val2) {
     $(".leaflet-marker-pane").css("display", "block");
     $(".leaflet-popup-content-wrapper").css("display", "block");
@@ -685,6 +717,7 @@ export class OutdoorMapComponent implements OnInit {
     });
 
     if (this.i) {
+      //remove any layer on top of the map
       if (!this.k) {
         this.map.removeLayer(this.marker);
       }
@@ -697,6 +730,7 @@ export class OutdoorMapComponent implements OnInit {
         }
       ).addTo(this.map);
 
+      //Marker popup content
       var html =
         "<strong> Latitude:" +
         val1 +
@@ -714,6 +748,7 @@ export class OutdoorMapComponent implements OnInit {
       this.map.removeLayer(this.marker);
       this.marker = [];
       this.k = false;
+      //map re initialize
       L.tileLayer(
         "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
         {
@@ -722,13 +757,14 @@ export class OutdoorMapComponent implements OnInit {
             '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }
       ).addTo(this.map);
-
+      //Marker popup content
       var html =
         "<strong> Latitude:" +
         val1 +
         "</strong><br/><strong> Longitude:" +
         val2 +
         "</strong><br/><br/><br />";
+      //create marker
       this.marker = L.marker([val1, val2], {
         icon: redIcon
       })
@@ -739,6 +775,7 @@ export class OutdoorMapComponent implements OnInit {
     }
   }
 
+  /* Function triggers after user click button 'jpeg' */
   printThis() {
     let canvas = document.getElementById("canvas") as HTMLCanvasElement;
     var dataURL = canvas
@@ -751,6 +788,9 @@ export class OutdoorMapComponent implements OnInit {
     link.click();
   }
 
+  /* CLEAR FUNCTIONS */
+  // Reset all variable
+  // Reset everything
   clear() {
     if (
       $(".leaflet-overlay-pane")

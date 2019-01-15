@@ -17,6 +17,7 @@ const routes: Routes = [
     path: "",
     component: PagesComponent,
     children: [
+      //add new page here
       {
         path: "dashboard",
         component: OutdoorMapComponent

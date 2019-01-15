@@ -1,10 +1,13 @@
 <div class="col-md-6">
+  <!-- PAGE TITLE -->
   <h2 class="text-center">Add New Sensor</h2>
   <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <!-- PATH ID -->
     <div class="form-group">
       <label>Path ID:</label>
       <input placeholder="{{ pathId }}" disabled class="form-control" />
     </div>
+    <!-- LATITUDE -->
     <div class="form-group">
       <label for="latitude">Latitude:</label>
       <input
@@ -15,7 +18,7 @@
         id="latitude"
       />
     </div>
-
+    <!-- LONGITUDE -->
     <div class="form-group">
       <label for="longitude">Longitude:</label>
       <input
@@ -26,7 +29,7 @@
         id="longitude"
       />
     </div>
-
+    <!-- TEMPERATURE -->
     <div class="form-group">
       <label for="temperature">Temperature:</label>
       <input
@@ -37,7 +40,7 @@
         id="temperature"
       />
     </div>
-
+    <!-- LAST UPDATED -->
     <div class="form-group">
       <label for="updated">Last Updated:</label>
       <input
@@ -49,7 +52,7 @@
         disabled
       />
     </div>
-
+    <!-- BUTTON SAVE -->
     <button class="btn btn-primary">Save</button>
   </form>
 </div>
